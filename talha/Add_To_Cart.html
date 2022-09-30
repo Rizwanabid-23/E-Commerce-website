@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Add to Cart</title>
+</head>
+<body>
+
+  <div class="container mt-3 ml-5 mr-5">
+      <div class="row">
+
+        <!--Left Column Start From here-->
+        <!------------------------------->
+        <!------------------------------->
+
+        <div class="col-lg-8 " >
+          <div class="row m-2" style="background-color: whitesmoke;">
+            <p>Delivery Option</p>
+          </div>
+
+          <!--Row start for select all or unselect option-->
+          <div class="row m-2 py-2" style="background-color: whitesmoke;">
+            <div class="col-lg-11">
+              <div class="form-check">
+                <input class="form-check-input p-2  my-2" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label mx-2 my-1 " for="flexCheckDefault">
+                  Select All
+                </label>
+              </div>
+            </div>
+              <div class="col-lg-1">
+                <button class="btn" type="button"> <img src="Images/delete_image.jpg" height ="25" width="25" /></button>
+              </div>
+          </div>
+          <!--Row ends for select all or unselect option-->
+
+          <!--Row start for Product Detail --------------->
+          <div class="row m-2" style="background-color: whitesmoke;">
+            
+            <div class="col-lg-1 ">
+              <div class="form-check mt-5">
+                <input class="form-check-input p-2  my-2" type="checkbox" value="" id="flexCheckDefault">
+
+              </div>
+            </div>
+            <!--------Image of Product Starts--------------->
+            <div class="col-lg-2">
+              <div class=" mt-3 mb-4">
+                <img src="Images/headphone.jpg"/>
+              </div>
+            </div>
+            <!--------Image of Product ends----------------->
+
+            <!-------Description of Product Starts---------->
+            <div class="col-lg-4 mt-3">
+              <p class="m-0">Imported High Quality HeadPhones</p>
+              <p class="small m-0"> No Brand to Show</p>
+            </div>
+            <!-------Description of Product ends------------>
+
+            <!-------Price of Product Starts---------------->
+            <div class="col-lg-2">
+              <p class="mt-3 text-danger mb-0" >RS. 200</p>
+              <p class="small m-0"><s>RS. 400</s></p>
+              <p class="small">Discount 40%</p>
+            </div>
+            <!-------Price of Product ends------------------>
+
+            <!-------Plus and minus Sign for upgrading Product Starts------->
+            <div class="col-lg-1 mt-3">
+              <button class="border border-dark btn" type="button"> <img src="Images/minus.png" height ="20" width="20" /></button>
+            </div>
+            <div class="col-lg-1 mt-2 p-2" >
+              <h3 class="border border-dark">1</h3>
+            </div>
+            <div class="col-lg-1 mt-3  mr-2">
+              <button class="border border-dark btn" type="button"> <img src="Images/Plus.png" height ="20" width="20" /></button>
+            </div>
+            <!-------Plus and minus Sign for upgrading Product ends------->
+
+          </div>
+          <!--Row ends for Product Detail ---------------->
+
+        </div>
+        <!--Left Column ends here-------->
+        <!------------------------------->
+        <!------------------------------->
+
+
+        <!--Right Column Start From here---->
+        <!---------------------------------->
+        <!---------------------------------->
+        <div class="col-lg-4">
+
+          <div class="row my-2" style="background-color: whitesmoke;">
+            <div class="d-grid gap-2">
+                <button class="btn btn-secondary m-2 mt-3" type="button">Proceed to Pay</button>
+            </div>
+
+            <h5 class="m-2">Order Summary</h5>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <p class="mx-2">Items Total (1 Items)</p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mx-2">
+                        <input type="text" class="form-control no-border" id="hjds" placeholder="200">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <p class="mx-2">Delivery Fee</p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mx-2">
+                        <input type="text" class="form-control no-border" id="hjds" placeholder="`120">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-2">
+                <div class="col-lg-8">
+                        <input class="form-control" type="text" placeholder="Enter Voucher Code" aria-label="default input example">
+                </div>
+                <div class="col-lg-4 d-grid">
+                        <button class="btn btn-primary" type="button">Apply</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <p class="mx-2 mt-1">Total</p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="mx-2">
+                        <input type="text" class="form-control no-border" id="hjds" placeholder="320">
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button class="btn btn-secondary m-2 mt-3" type="button">Place Order</button>
+            </div>
+
+          </div>
+            
+        </div>
+        <!--Right Column ends From here----->
+        <!---------------------------------->
+        <!---------------------------------->
+
+          
+      </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</body>
+
+</html>
