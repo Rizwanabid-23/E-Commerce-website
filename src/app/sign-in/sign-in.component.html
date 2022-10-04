@@ -1,1 +1,40 @@
-<h2>{{title}}</h2>
+<div class="container-fluid mt-5">
+
+    <div class="row d-flex justify-content-center">
+
+      <div class="col-lg-8">
+        <div class="row">
+          <h3 class="col-md-6">Welcome to E-commerce! Please Login</h3>
+          <div class="float-right col-md-5">
+            <h6 class="float-right mt-3" style="font-size: 12px;">New Member? <a style="color: blue;" routerLink="/SignUp"
+                class="outline">Register</a> here.</h6>
+          </div>
+        </div>
+        <!-- <form> -->
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group">
+                <label class="label" for="exampleInputEmail1">Phone Number or Email*</label>
+                <input type="email" class="form-control w-100" id="exampleInputEmail1"
+                  aria-describedby="emailHelp" placeholder="Please enter your phone number or email" required>
+                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+              </div>
+              <div class="form-group">
+                <label class="label" for="exampleInputPassword1">Password*</label>
+                <input type="password" class="form-control w-100" id="exampleInputPassword1"
+                  placeholder="Please neter your password" required>
+              </div>
+              <div class="container w-100">
+                <a href="SignUp.html" class="float-right outline" style="font-size: 15px;">Forget Password?</a>
+              </div>
+              <!-- <button type="submit" class="btn btn-primary float-right" style="width:320px;">Submit</button> -->
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary w-100 mt-4" style="background-color: orange;">Login</button>
+                <h6>or, login with</h6>
+                <button type="button" class="btn btn-primary w-100 my-2">Facebook</button>
+                <button type="button" class="btn btn-danger w-100 my-2">Google</button>
+        <!-- </form> -->
+      </div>
+    </div>
+  </div>
