@@ -9,43 +9,86 @@ import { Inject }  from '@angular/core';
 })
 export class MainPageComponent implements OnInit {
 
-  constructor() { }
+  constructor() { 
+
+  }
 
   ngOnInit(): void {
-
+    
+    
   }
+  // slideIndex = 1;
+
+
+  // plusDivs(n: any): void {
+  //   this.showDivs(this.slideIndex += n);
+  //   console.log("plusdiv");
+  // }
+  
+  // currentDiv(n: any) {
+  //   this.showDivs(this.slideIndex = n);
+  // }
+  
+  // showDivs(n:any) {
+  //   var i;
+  //   var x = document.getElementsByClassName("mySlides");
+  //   var dots = document.getElementsByClassName("demo");
+  //   if (n > x.length) { this.slideIndex = 1 }
+  //   if (n < 1) { this.slideIndex = x.length }
+  //   for (i = 0; i < x.length; i++) {
+  //     // x[i].style.display = "none";
+  //     x[i].setAttribute("style","display:none");
+  //   }
+  //   for (i = 0; i < dots.length; i++) {
+  //     dots[i].className = dots[i].className.replace(" w3-white", "");
+  //   }
+  //   // x[this.slideIndex - 1].style.display = "block";
+  //   x[this.slideIndex - 1].setAttribute("style","display:block");
+    
+  //   dots[this.slideIndex - 1].className += " w3-white";
+  // }
+  
+  
+
+
+
+
+
+
+
   slideIndex = 1;
-
-
-  plusDivs(n: any): void {
-    this.showDivs(this.slideIndex += n);
-    console.log("plusdiv");
+  // showSlides(this.slideIndex);
+  
+  // Next/previous controls
+  plusSlides(n:any) {
+    this.showSlides(this.slideIndex += n);
   }
   
-  currentDiv(n: any) {
-    this.showDivs(this.slideIndex = n);
+  // Thumbnail image controls
+  currentSlide(n:any) {
+    this.showSlides(this.slideIndex = n);
   }
   
-  showDivs(n:any) {
-    var i;
-    var x = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("demo");
-    if (n > x.length) { this.slideIndex = 1 }
-    if (n < 1) { this.slideIndex = x.length }
-    for (i = 0; i < x.length; i++) {
-      // x[i].style.display = "none";
-      x[i].setAttribute("style","display:none");
+  showSlides(n:any) {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {this.slideIndex = 1}
+    if (n < 1) {this.slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+      slides[i].setAttribute("style","display:none");
+      // slides[i].style.display = "none";
     }
     for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" w3-white", "");
+      dots[i].className = dots[i].className.replace(" active", "");
     }
-    // x[this.slideIndex - 1].style.display = "block";
-    x[this.slideIndex - 1].setAttribute("style","display:block");
-    
-    dots[this.slideIndex - 1].className += " w3-white";
+    // slides[this.slideIndex-1].style.display = "block";
+    slides[this.slideIndex-1].setAttribute("style","display:block");
+    dots[this.slideIndex-1].className += " active";
   }
-  
-  
+
+
+
   
   
   

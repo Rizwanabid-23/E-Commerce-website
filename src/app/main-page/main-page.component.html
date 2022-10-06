@@ -6,7 +6,8 @@
             <nav id="sidebarMenu">
                 <div class="col-5 list-group ">
                     <a routerLink="#" (click)="myFunctiondrop1()" class="dropbtn" aria-current="true">
-                        <button class="btn btn-outline-secondary" id="electric-button"><img src="assets/electronics.png" style="width: 20px;">
+                        <button class="btn btn-outline-secondary" id="electric-button"><img src="assets/electronics.png"
+                                style="width: 20px;">
                             <span>Electronics</span></button>
                     </a>
                     <div id="myDropdown" class="dropdown-content"><a href="#" onclick="myFunctiondrop()" class="dropbtn"
@@ -17,8 +18,9 @@
                     </div>
 
                     <a href="#" (click)="myFunctiondrop1()" class="dropbtn" aria-current="true">
-                        
-                        <button id="cloth-button" class="btn btn-outline-secondary"><img src="assets/clothes-hanger.png" style="width: 25px;">
+
+                        <button id="cloth-button" class="btn btn-outline-secondary"><img src="assets/clothes-hanger.png"
+                                style="width: 25px;">
                             <span>Clothing</span></button>
                     </a>
                     <div id="myDropdown1" class="dropdown-content"><a href="#" onclick="myFunctiondrop1()"
@@ -32,9 +34,9 @@
                     <a href="#" onclick="myFunctiondrop2()" class="dropbtn" aria-current="true">
                         <button id="home-button" class="btn btn-outline-secondary">
                             <img src="assets/home.png" style="width: 25px;">
-                        <span>Home</span>
+                            <span>Home</span>
                         </button>
-                        
+
                     </a>
                     <div id="myDropdown2" class="dropdown-content"><a href="#" onclick="myFunctiondrop2()"
                             class="dropbtn" aria-current="true">
@@ -48,9 +50,9 @@
                     <a href="#" onclick="myFunctiondrop3()" class="dropbtn" aria-current="true">
                         <button id="sport-button" class="btn btn-outline-secondary">
                             <img src="assets/sports.png" style="width: 25px;">
-                        <span>Sports</span>
+                            <span>Sports</span>
                         </button>
-                        
+
                     </a>
                     <div id="myDropdown3" class="dropdown-content"><a href="#" onclick="myFunctiondrop3()"
                             class="dropbtn" aria-current="true">
@@ -65,7 +67,7 @@
                             <img src="assets/automotive.png" style="width: 25px;">
                             <span>Automative</span>
                         </button>
-                        
+
                     </a>
                     <div id="myDropdown4" class="dropdown-content"><a href="#" onclick="myFunctiondrop4()"
                             class="dropbtn" aria-current="true">
@@ -79,7 +81,7 @@
                             <img src="assets/electronics.png" style="width: 25px;">
                             <span>Electronics</span>
                         </button>
-                        
+
                     </a>
                     <div id="myDropdown5" class="dropdown-content"><a href="#" onclick="myFunctiondrop5()"
                             class="dropbtn" aria-current="true">
@@ -94,7 +96,7 @@
                             <img src="assets/home.png" style="width: 25px;">
                             <span>Home</span>
                         </button>
-                        
+
                     </a>
                     <div id="myDropdown" class="dropdown-content"><a href="#" onclick="myFunctiondrop()" class="dropbtn"
                             aria-current="true">
@@ -110,7 +112,7 @@
                             <img src="assets/sports.png" style="width: 25px;">
                             <span>Sports</span>
                         </button>
-                        
+
                     </a>
                     <div id="myDropdown" class="dropdown-content"><a href="#" onclick="myFunctiondrop()" class="dropbtn"
                             aria-current="true">
@@ -121,11 +123,11 @@
 
 
                     <a href="#" onclick="myFunctiondrop()" class="dropbtn" aria-current="true">
-                        <button id="sport-button" class="btn btn-outline-secondary" >
+                        <button id="sport-button" class="btn btn-outline-secondary">
                             <img src="assets/automotive.png" style="width: 25px;">
                             <span>Automative</span>
                         </button>
-                        
+
                     </a>
                     <div id="myDropdown" class="dropdown-content"><a href="#" onclick="myFunctiondrop()" class="dropbtn"
                             aria-current="true">
@@ -138,9 +140,9 @@
             </nav>
         </div>
     </div>
-    <div class="col-md-8" style="margin-top: 50px;">
-        <div class="col-10 w3-content w3-display-container " style="max-width:1000px;float:right;margin-right: 30px;">
-            <img class="mySlides" src="assets/img1.jpg" style="width: 100%; display: block;">
+    <div class="col-md-7" style="margin-top: 50px;">
+        <!-- <div class="col-10 w3-content w3-display-container " style="float:right;margin-right: 30px;">
+            <img class="mySlides" src="assets/img1.jpg" style="width: 100%; display:inline-block;">
             <img class="mySlides" src="assets/img2.jpg" style="width: 100%; display: none;">
             <img class="mySlides" src="assets/img3.jpg" style="width: 100%; display: none;">
             <img class="mySlides" src="assets/img2.jpg" style="width: 100%; display: none;">
@@ -156,7 +158,46 @@
                 <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(3)"></span>
                 <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(4)"></span>
             </div>
+        </div> -->
+        <div class="slideshow-container">
+
+            <div class="mySlides fade">
+                <div class="numbertext">1 / 3</div>
+                <img src="assets/img1.jpg" alt="image1" style="width:100%">
+                <div class="text">Caption Text</div>
+            </div>
+
+            <div class="mySlides fade">
+                <div class="numbertext">2 / 3</div>
+                <img src="assets/img2.jpg" alt="image1" style="width:100%">
+                <div class="text">Caption Two</div>
+            </div>
+
+            <div class="mySlides fade">
+                <div class="numbertext">3 / 3</div>
+                <img src="assets/img3.jpg" alt="image1" style="width:100%">
+                <div class="text">Caption Three</div>
+            </div>
+
+            <a class="prev" (click)="plusSlides(-1)">❮</a>
+            <a class="next" (click)="plusSlides(1)">❯</a>
+
         </div>
+        <br>
+
+        <div style="text-align:center">
+            <span class="dot" (click)="currentSlide(1)"></span>
+            <span class="dot" (click)="currentSlide(2)"></span>
+            <span class="dot" (click)="currentSlide(3)"></span>
+        </div>
+        <br>
+
+        <!-- The dots/circles -->
+        <!-- <div style="text-align:center">
+            <span class="dot" (click)="currentSlide(1)"></span>
+            <span class="dot" (click)="currentSlide(2)"></span>
+            <span class="dot" (click)="currentSlide(3)"></span>
+        </div> -->
     </div>
 
 </div>
@@ -215,8 +256,7 @@
                 <div class="card-body">
                     <div class="card-img-actions">
 
-                        <img src="assets/p2.jpg"
-                            class="card-img img-fluid" width="96" height="350" alt="">
+                        <img src="assets/p2.jpg" class="card-img img-fluid" width="96" height="350" alt="">
                     </div>
                 </div>
 
@@ -566,11 +606,3 @@
 
 
 <script src="assts/script.js"></script>
-
-
-
-
-
-
-
-
