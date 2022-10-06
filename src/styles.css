@@ -126,7 +126,7 @@ body {
 }
 
 body {
-    background-color: whitesmoke;
+    background-color: rgba(245, 245, 245, 0);
 }
 
 @media (min-width: 991.98px) {
