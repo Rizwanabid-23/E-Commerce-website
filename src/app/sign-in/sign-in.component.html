@@ -10,31 +10,34 @@
                 class="outline">Register</a> here.</h6>
           </div>
         </div>
-        <!-- <form> -->
+        <form [formGroup]="signInForm" (ngSubmit)="checkSignInFormData()" ngNativeValidate>
           <div class="row">
             <div class="col-md-8">
               <div class="form-group">
                 <label class="label" for="exampleInputEmail1">Phone Number or Email*</label>
-                <input type="email" class="form-control w-100" id="exampleInputEmail1"
+                <input type="email" class="form-control w-100" id="exampleInputEmail1" formControlName="email"
                   aria-describedby="emailHelp" placeholder="Please enter your phone number or email" required>
-                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
               </div>
               <div class="form-group">
                 <label class="label" for="exampleInputPassword1">Password*</label>
-                <input type="password" class="form-control w-100" id="exampleInputPassword1"
+                <input type="password" class="form-control w-100" id="exampleInputPassword1" formControlName="password"
                   placeholder="Please neter your password" required>
               </div>
               <div class="container w-100">
-                <a href="SignUp.html" class="float-right outline" style="font-size: 15px;">Forget Password?</a>
+                <a routerLink="/SignUp" class="float-right outline" style="font-size: 15px;">Forget Password?</a>
               </div>
-              <!-- <button type="submit" class="btn btn-primary float-right" style="width:320px;">Submit</button> -->
             </div>
             <div class="col-md-4">
-                <button type="button" class="btn btn-primary w-100 mt-4" style="background-color: orange;">Login</button>
+                <button type="submit" class="btn btn-primary w-100 mt-4" style="background-color: orange;">Login</button>
                 <h6>or, login with</h6>
                 <button type="button" class="btn btn-primary w-100 my-2">Facebook</button>
                 <button type="button" class="btn btn-danger w-100 my-2">Google</button>
-        <!-- </form> -->
+            </div>
+          </div>
+        </form>
+        <div *ngIf="showMsg" class="alert alert-success">
+          <strong>{{showMsg}}</strong>
+      </div>
       </div>
     </div>
   </div>
