@@ -1,0 +1,40 @@
+<div class="marginFromNavbar"></div>
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="float-right col-md-12">
+                    <div class="float-right simpleText">New Member? <a routerLink="/SignUpSeller"
+                            class="Links">Register</a> here.</div>
+                </div>
+            </div>
+            <br>
+            <form  [formGroup]="sellerSignInForm" (ngSubmit)="checkSignInFormData()" ngNativeValidate>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="label inputBoxHeadingColor" for="exampleInputEmail1">Email Or Phone Number</label>
+                            <input type="email" class="form-control w-100" id="exampleInputEmail1" formControlName="email"
+                                aria-describedby="emailHelp" placeholder="Please enter your phone number or email"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="label inputBoxHeadingColor" for="exampleInputPassword1">Password*</label>
+                            <input type="password" class="form-control w-100" id="exampleInputPassword1" formControlName="password"
+                                placeholder="Please enter your password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-danger w-100 my-2 mx-3"
+                    style="height: 50px;">Log In</button>
+                </div>
+            </form>
+            <div *ngIf="showMsg" class="alert alert-success">
+                <strong>{{showMsg}}</strong>
+            </div>
+        </div>
+    </div>
+</div>

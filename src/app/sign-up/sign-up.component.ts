@@ -28,42 +28,30 @@ export class SignUpComponent implements OnInit {
 
   })
 
-
-  checkDetailValidSignUpForm() {
-    if (this.signUpForm.valid) {
-      let isExistAlready = false;
-      this.service.checkValidSignUpUser(this.signUpForm.value).subscribe(res => {
-        this.readData = res.data;
-        isExistAlready = true;
-        //console.log(this.readData.lenghth());
-        console.log('No ', isExistAlready);
-
-        this.showMsg = 'Account With This Email Id Already Exist';
-      });
-      if (!isExistAlready) {
-
-        console.log('yes', isExistAlready);
+  // This function check that if account with this email id is already exist then show message 
+  // that 'Account With This Email Id Already Exist' other wise create account.
+  async checkDetailValidSignUpForm(){
+    await this.service.checkValidSignUpUser(this.signUpForm.value).subscribe(res => {
+      this.readData = res.data;
+      console.log(this.readData);
+      if (this.readData == null){
         this.submitSignUpForm();
       }
+      else{
+        this.showMsg = 'Account With This Email Id Already Exist';
+      }
 
-    }
-    else {
-      this.showMsg = 'Fill All Fields';
-    }
+    });
 
   }
 
+  // This function will submit form
   submitSignUpForm() {
-    if (this.signUpForm.valid) {
-      this.service.insertUserData(this.signUpForm.value).subscribe((res) => {
-        this.showMsg = 'Account Successfully Created';
-        this.signUpForm.reset();
+    this.service.insertUserData(this.signUpForm.value).subscribe((res) => {
+      this.showMsg = 'Account Successfully Created';
+      this.signUpForm.reset();
 
-      });
-    }
-    else {
-      this.showMsg = 'Fill All Fields';
-    }
+    });
 
   }
 

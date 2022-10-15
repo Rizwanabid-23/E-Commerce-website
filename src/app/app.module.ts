@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignInSellerComponent } from './SellerRegistration/sign-in-seller/sign-in-seller.component';
+import { SignUpSellerComponent } from './SellerRegistration/sign-up-seller/sign-up-seller.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     SignInComponent,
     MainPageComponent,
     SignUpComponent,
+    SignInSellerComponent,
+    SignUpSellerComponent,
   ],
   imports: [
     BrowserModule,

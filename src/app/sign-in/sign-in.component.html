@@ -1,25 +1,26 @@
-<div class="container-fluid mt-5">
+<div class="marginFromNavbar"></div>
 
+<div class="container-fluid">
     <div class="row d-flex justify-content-center">
 
       <div class="col-lg-8">
         <div class="row">
-          <h3 class="col-md-6">Welcome to E-commerce! Please Login</h3>
+          <h3 class="col-md-6 pageMainHeading">Welcome to E-commerce! Please Login</h3>
           <div class="float-right col-md-5">
-            <h6 class="float-right mt-3" style="font-size: 12px;">New Member? <a style="color: blue;" routerLink="/SignUp"
-                class="outline">Register</a> here.</h6>
+            <div class="float-right mt-3 simpleText">New Member? <a style="color: blue;" routerLink="/SignUp"
+                class="Links">Register</a> here.</div>
           </div>
         </div>
         <form [formGroup]="signInForm" (ngSubmit)="checkSignInFormData()" ngNativeValidate>
           <div class="row">
             <div class="col-md-8">
               <div class="form-group">
-                <label class="label" for="exampleInputEmail1">Phone Number or Email*</label>
+                <label class="label inputBoxHeadingColor" for="exampleInputEmail1">Phone Number or Email*</label>
                 <input type="email" class="form-control w-100" id="exampleInputEmail1" formControlName="email"
                   aria-describedby="emailHelp" placeholder="Please enter your phone number or email" required>
               </div>
               <div class="form-group">
-                <label class="label" for="exampleInputPassword1">Password*</label>
+                <label class="label inputBoxHeadingColor" for="exampleInputPassword1">Password*</label>
                 <input type="password" class="form-control w-100" id="exampleInputPassword1" formControlName="password"
                   placeholder="Please neter your password" required>
               </div>

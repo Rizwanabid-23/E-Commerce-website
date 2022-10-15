@@ -1,5 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* This claas will set heading of input boxes*/
+.inputBoxHeadingColor
+{
+    color:black;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* This claas will set page main headings*/
+.pageMainHeading
+{
+    color:black;
+    font-size: 28x;
+    font-weight: bold;
+
+}
+
+/* This claas will set sixe of simple text on pages*/
+.simpleText{
+    font-size: 15px;
+}
+
+/*This will set margin of pages from navbar*/
+.marginFromNavbar
+{
+    margin-top: 25px;
+}
+
+/*This will set color and size of links*/
+.Links
+{
+    color:#2b81e4;
+    font-size: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;

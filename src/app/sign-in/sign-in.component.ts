@@ -14,7 +14,6 @@ export class SignInComponent implements OnInit {
 
 
   showMsg:any;
-  re:any;
   readData:any;
   ngOnInit(): void {
     // this.service.getUserData().subscribe((res) =>{
@@ -28,19 +27,20 @@ export class SignInComponent implements OnInit {
     'password':new FormControl('',Validators.required),
   })
 
+  // This function check email id from and password from server and check that user is right or not
   checkSignInFormData(){
-    if(this.signInForm.valid){
-      let isExist:boolean = false;
-      this.service.checkValidSignInUser(this.signInForm.value).subscribe(res =>{
-        this.readData = res.data;
+    this.service.checkValidSignInUser(this.signInForm.value).subscribe(res =>{
+      this.readData = res.data;
+      if (this.readData == null){
+        this.showMsg = 'Enter Right Email Id And Password';
+      }
+      else{
         this.showMsg = 'Successfully Login';
-        isExist = true;
         this.signInForm.reset();
-      });
-    }
-    else{
-      this.showMsg ='Fill All Fields';
-    }
+      }
+
+    });
+
   }
 
 }
