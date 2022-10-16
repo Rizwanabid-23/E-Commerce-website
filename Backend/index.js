@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const mysql = require('mysql2');
 const e = require('cors');
-const { Component } = require('@angular/core');
+// const { Component } = require('@angular/core');
 
 app.use(cors());
 app.use(bodyparser.json());
@@ -180,7 +180,6 @@ app.post('/insertSellerUser', (req, res) => {
 
     })
 })
-
 
 // This will check that sign in user is valid or not not
 app.post('/sellerSignInUserValid', (req, res) => {
