@@ -30,7 +30,7 @@ export class SignInSellerComponent implements OnInit {
       this.readData = res.data;
       console.log(this.readData);
       if (this.readData == null){
-        this.showMsg = 'Enter Right Email Id And Password';
+        this.showMsg = 'Enter correct Email Id and Password';
       }
       else{
         this.showMsg = 'Successfully Login';
