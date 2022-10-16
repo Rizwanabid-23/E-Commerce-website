@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const mysql = require('mysql2');
 const e = require('cors');
+const { Component } = require('@angular/core');
 
 app.use(cors());
 app.use(bodyparser.json());
@@ -193,6 +194,7 @@ app.post('/sellerSignInUserValid', (req, res) => {
                 message:'Data',
                 data:result
             });
+            
         }
         else{
             res.send({

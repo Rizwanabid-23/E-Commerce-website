@@ -13,6 +13,7 @@ import { SignInSellerComponent } from './SellerRegistration/sign-in-seller/sign-
 import { SignUpSellerComponent } from './SellerRegistration/sign-up-seller/sign-up-seller.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SignUpComponent,
     SignInSellerComponent,
     SignUpSellerComponent,
+    SellerDashboardComponent,
   ],
   imports: [ 
     BrowserModule,
