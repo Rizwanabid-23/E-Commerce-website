@@ -1,13 +1,36 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit,ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Inject }  from '@angular/core';
+import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css']
 })
+
+
 export class MainPageComponent implements OnInit {
+
+  @ViewChild('carousel', { static: true }) carousel: NgbCarousel | any;
+
+
+
+  prevSlide() {
+    this.carousel.prev();
+    this,this.carousel.play();
+  }
+
+  nextSlide() {
+    this.carousel.next();
+    this.carousel.play();
+  }
+
+  stopSlider() {
+    this.carousel.pause();
+  }
 
   constructor() { 
 

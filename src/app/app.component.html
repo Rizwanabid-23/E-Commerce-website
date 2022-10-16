@@ -1,28 +1,51 @@
-<div style="background-color: white;  height: 90px;" class=" mb-2">
+<div style="background-color: whitesmoke;  height: 170px;" class=" mb-2">
     <nav class="navbar topnav" style="background-color: rgba(255, 255, 255, 0);color: black;" id="navbar">
-        <a routerLink="/"  style="color: black;"><h2>E-Commerce</h2></a>
-        <a href="Add_To_Cart.html"><img src="cart.jpg" alt="" style="width: 40px;"></a>
-        <a routerLink="/SignIn" class=" btn-pill">Sign In</a>
-        <a routerLink="/SignUp">Sign Up</a>
-        <a href="customerHelp.html">Customer Support</a>
-        <a routerLink="/SignInSeller">Become a seller</a>
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()"></a>
-        <div class="search-form">
-            <form action="index.html" method="get" >
-                
-                <div class="container h-300" >
-                    <div class="d-flex justify-content-center h-20 ">
-                        <div class="searchbar">
-                            <input class="search_input" type="text" name="" placeholder="Search...">
-                            <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+        <div class="row container">
+            <div class="col-3">
+                <a routerLink="/" style="color: black;">
+                    <h2>E-Commerce</h2>
+                </a>
+            </div>
+           
+            <div class="col-1">
+                <a href="Add_To_Cart.html"><img src="assets/cart.jpg" alt="" style="width: 40px;"></a>
+            </div>
+            <div class="col-2">
+                <a routerLink="/SignIn" class=" btn-pill">Sign In</a>
+            </div>
+            <div class="col-2">
+                <a routerLink="/SignUp">Sign Up</a>
+            </div>
+            <div class="col-2">
+                <a href="customerHelp.html">Customer Support</a>
+            </div>
+            <div class="col-2">
+                <a routerLink="/SignInSeller">Become a seller</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()"></a>
+            </div>
+
+        </div>
+        <br>
+        <div class="row container">
+            <div class="col-4">
+            </div>
+            <div class="col-7">
+                <div class="search-form">
+                    <div class="container h-100">
+                        <div class="d-flex justify-content-center h-20 ">
+                            <div class="searchbar">
+                                <input class="search_input" type="text" name="" placeholder="Search...">
+                                <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
+            <div class="col-2">
+            </div>
         </div>
     </nav>
 </div>
-
 
 
 <router-outlet></router-outlet>

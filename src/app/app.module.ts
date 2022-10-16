@@ -12,6 +12,9 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInSellerComponent } from './SellerRegistration/sign-in-seller/sign-in-seller.component';
 import { SignUpSellerComponent } from './SellerRegistration/sign-up-seller/sign-up-seller.component';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,14 +24,20 @@ import { SignUpSellerComponent } from './SellerRegistration/sign-up-seller/sign-
     SignInSellerComponent,
     SignUpSellerComponent,
   ],
-  imports: [
+  imports: [ 
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule 
   ],
   providers: [APIService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+
+
+

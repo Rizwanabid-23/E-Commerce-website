@@ -1,212 +1,152 @@
+<div class="row" style="background-color:beige;">
+    <div class="col-sm-3 ">
+        <div class="container" style="border: black;margin-left: 10px;padding:inherit;">
 
+            <nav class="sidebar card py-2 mb-4">
+                <ul class="nav flex-column" id="nav_accordion">
 
-<div class="row">
-    <div class="col-md-4">
-        <div class="container" style="border: black;margin-left: -1px;">
-            <nav id="sidebarMenu">
-                <div class="col-5 list-group ">
-                    <a routerLink="#" (click)="myFunctiondrop1()" class="dropbtn" aria-current="true">
-                        <button class="btn btn-outline-secondary" id="electric-button"><img src="assets/electronics.png"
-                                style="width: 20px;">
-                            <span>Electronics</span></button>
-                    </a>
-                    <div id="myDropdown" class="dropdown-content"><a href="#" onclick="myFunctiondrop()" class="dropbtn"
-                            aria-current="true">
-                        </a><a href="#home">Phone</a>
-                        <a href="#about">Computer</a>
-                        <a href="#contact">Acessories</a>
-                    </div>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#menu_item1" href="#"> <img
+                                src="assets/electronics.png" style="width: 20px;"> Electronics <i
+                                class="bi small bi-caret-down-fill"></i> </a>
+                        <ul id="menu_item1" class="submenu collapse" data-bs-parent="#nav_accordion">
+                            <li><a class="nav-link" href="#">Computer & accessories </a></li>
+                            <li><a class="nav-link" href="#">Home appliances </a></li>
+                            <li><a class="nav-link" href="#">Power generators</a> </li>
+                        </ul>
 
-                    <a href="#" (click)="myFunctiondrop1()" class="dropbtn" aria-current="true">
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#menu_item2" href="#"><img
+                                src="assets/clothes-hanger.png" style="width: 20px;"> Clothing <i
+                                class="bi small bi-caret-down-fill"></i> </a>
+                        <ul id="menu_item2" class="submenu collapse" data-bs-parent="#nav_accordion">
+                            <li><a class="nav-link" href="#">Men's garments </a></li>
+                            <li><a class="nav-link" href="#">Female garments </a></li>
+                            <li><a class="nav-link" href="#">Kids garments </a></li>
+                        </ul>
+                    </li>
 
-                        <button id="cloth-button" class="btn btn-outline-secondary"><img src="assets/clothes-hanger.png"
-                                style="width: 25px;">
-                            <span>Clothing</span></button>
-                    </a>
-                    <div id="myDropdown1" class="dropdown-content"><a href="#" onclick="myFunctiondrop1()"
-                            class="dropbtn" aria-current="true">
-                        </a><a href="#home">Shits</a>
-                        <a href="#about">Trousers</a>
-                        <a href="#contact">Otthers</a>
-                    </div>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#menu_item3" href="#"><img
+                                src="assets/automotive.png" style="width: 20px;"> Automotive <i
+                                class="bi small bi-caret-down-fill"></i> </a>
+                        <ul id="menu_item3" class="submenu collapse" data-bs-parent="#nav_accordion">
+                            <li><a class="nav-link" href="#">Car's accessories </a></li>
+                            <li><a class="nav-link" href="#">Car spare parts </a></li>
+                            <li><a class="nav-link" href="#">Bike accessories </a></li>
+                            <li><a class="nav-link" href="#">Bike spare parts </a></li>
+                        </ul>
+                    </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#menu_item4" href="#"> <img
+                                src="assets/electronics.png" style="width: 20px;"> Electronics <i
+                                class="bi small bi-caret-down-fill"></i> </a>
+                        <ul id="menu_item4" class="submenu collapse" data-bs-parent="#nav_accordion">
+                            <li><a class="nav-link" href="#">Computer & accessories </a></li>
+                            <li><a class="nav-link" href="#">Home appliances </a></li>
+                            <li><a class="nav-link" href="#">Power generators</a> </li>
+                        </ul>
 
-                    <a href="#" onclick="myFunctiondrop2()" class="dropbtn" aria-current="true">
-                        <button id="home-button" class="btn btn-outline-secondary">
-                            <img src="assets/home.png" style="width: 25px;">
-                            <span>Home</span>
-                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#menu_item5" href="#"><img
+                                src="assets/clothes-hanger.png" style="width: 20px;"> Clothing <i
+                                class="bi small bi-caret-down-fill"></i> </a>
+                        <ul id="menu_item5" class="submenu collapse" data-bs-parent="#nav_accordion">
+                            <li><a class="nav-link" href="#">Men's garments </a></li>
+                            <li><a class="nav-link" href="#">Female garments </a></li>
+                            <li><a class="nav-link" href="#">Kids garments </a></li>
+                        </ul>
+                    </li>
 
-                    </a>
-                    <div id="myDropdown2" class="dropdown-content"><a href="#" onclick="myFunctiondrop2()"
-                            class="dropbtn" aria-current="true">
-                        </a><a href="#home">Decor</a>
-                        <a href="#about">Furniture</a>
-                        <a href="#contact">Acessories</a>
-                    </div>
-
-
-
-                    <a href="#" onclick="myFunctiondrop3()" class="dropbtn" aria-current="true">
-                        <button id="sport-button" class="btn btn-outline-secondary">
-                            <img src="assets/sports.png" style="width: 25px;">
-                            <span>Sports</span>
-                        </button>
-
-                    </a>
-                    <div id="myDropdown3" class="dropdown-content"><a href="#" onclick="myFunctiondrop3()"
-                            class="dropbtn" aria-current="true">
-                        </a><a href="#home">Phone</a>
-                        <a href="#about">Computer</a>
-                        <a href="#contact">Acessories</a>
-                    </div>
-
-
-                    <a href="#" onclick="myFunctiondrop4()" class="dropbtn" aria-current="true">
-                        <button id="automative-button" class="btn btn-outline-secondary">
-                            <img src="assets/automotive.png" style="width: 25px;">
-                            <span>Automative</span>
-                        </button>
-
-                    </a>
-                    <div id="myDropdown4" class="dropdown-content"><a href="#" onclick="myFunctiondrop4()"
-                            class="dropbtn" aria-current="true">
-                        </a><a href="#home">Phone</a>
-                        <a href="#about">Computer</a>
-                        <a href="#contact">Acessories</a>
-                    </div>
-
-                    <a href="#" onclick="myFunctiondrop5()" class="dropbtn" aria-current="true">
-                        <button id="electric-button" class="btn btn-outline-secondary">
-                            <img src="assets/electronics.png" style="width: 25px;">
-                            <span>Electronics</span>
-                        </button>
-
-                    </a>
-                    <div id="myDropdown5" class="dropdown-content"><a href="#" onclick="myFunctiondrop5()"
-                            class="dropbtn" aria-current="true">
-                        </a><a href="#home">Phone</a>
-                        <a href="#about">Computer</a>
-                        <a href="#contact">Acessories</a>
-                    </div>
-
-
-                    <a href="#" onclick="myFunctiondrop()" class="dropbtn" aria-current="true">
-                        <button id="home-button" class="btn btn-outline-secondary">
-                            <img src="assets/home.png" style="width: 25px;">
-                            <span>Home</span>
-                        </button>
-
-                    </a>
-                    <div id="myDropdown" class="dropdown-content"><a href="#" onclick="myFunctiondrop()" class="dropbtn"
-                            aria-current="true">
-                        </a><a href="#home">Phone</a>
-                        <a href="#about">Computer</a>
-                        <a href="#contact">Acessories</a>
-                    </div>
-
-
-
-                    <a href="#" onclick="myFunctiondrop()" class="dropbtn" aria-current="true">
-                        <button id="sport-button" class="btn btn-outline-secondary">
-                            <img src="assets/sports.png" style="width: 25px;">
-                            <span>Sports</span>
-                        </button>
-
-                    </a>
-                    <div id="myDropdown" class="dropdown-content"><a href="#" onclick="myFunctiondrop()" class="dropbtn"
-                            aria-current="true">
-                        </a><a href="#home">Phone</a>
-                        <a href="#about">Computer</a>
-                        <a href="#contact">Acessories</a>
-                    </div>
-
-
-                    <a href="#" onclick="myFunctiondrop()" class="dropbtn" aria-current="true">
-                        <button id="sport-button" class="btn btn-outline-secondary">
-                            <img src="assets/automotive.png" style="width: 25px;">
-                            <span>Automative</span>
-                        </button>
-
-                    </a>
-                    <div id="myDropdown" class="dropdown-content"><a href="#" onclick="myFunctiondrop()" class="dropbtn"
-                            aria-current="true">
-                        </a><a href="#home">Phone</a>
-                        <a href="#about">Computer</a>
-                        <a href="#contact">Acessories</a>
-                    </div>
-
-                </div>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#menu_item6" href="#"><img
+                                src="assets/automotive.png" style="width: 20px;"> Automotive <i
+                                class="bi small bi-caret-down-fill"></i> </a>
+                        <ul id="menu_item6" class="submenu collapse" data-bs-parent="#nav_accordion">
+                            <li><a class="nav-link" href="#">Car's accessories </a></li>
+                            <li><a class="nav-link" href="#">Car spare parts </a></li>
+                            <li><a class="nav-link" href="#">Bike accessories </a></li>
+                            <li><a class="nav-link" href="#">Bike spare parts </a></li>
+                        </ul>
+                    </li>                </ul>
             </nav>
         </div>
     </div>
-    <div class="col-md-7" style="margin-top: 50px;">
-        <!-- <div class="col-10 w3-content w3-display-container " style="float:right;margin-right: 30px;">
-            <img class="mySlides" src="assets/img1.jpg" style="width: 100%; display:inline-block;">
-            <img class="mySlides" src="assets/img2.jpg" style="width: 100%; display: none;">
-            <img class="mySlides" src="assets/img3.jpg" style="width: 100%; display: none;">
-            <img class="mySlides" src="assets/img2.jpg" style="width: 100%; display: none;">
-            <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
-                style="width:100%">
-                <div class="w3-left w3-hover-text-black" style="background-color: black;" (click)="plusDivs(-1)">
-                    ❮</div>
-                <div class="w3-right w3-hover-text-black" (click)="plusDivs(+1)" style="background-color: black;">
-                    ❯</div>
-                <span class="w3-badge demo w3-border w3-transparent w3-hover-white w3-white"
-                    onclick="currentDiv(1)"></span>
-                <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(2)"></span>
-                <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(3)"></span>
-                <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(4)"></span>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.sidebar .nav-link').forEach(function (element) {
+
+                element.addEventListener('click', function (e) {
+
+                    let nextEl = element.nextElementSibling;
+                    let parentEl = element.parentElement;
+
+                    if (nextEl) {
+                        e.preventDefault();
+                        let mycollapse = new bootstrap.Collapse(nextEl);
+
+                        if (nextEl.classList.contains('show')) {
+                            mycollapse.hide();
+                        } else {
+                            mycollapse.show();
+                            // find other submenus with class=show
+                            var opened_submenu = parentEl.parentElement.querySelector('.submenu.show');
+                            // if it exists, then close all of them
+                            if (opened_submenu) {
+                                new bootstrap.Collapse(opened_submenu);
+                            }
+                        }
+                    }
+                }); // addEventListener
+            }) // forEach
+        }); 
+    </script>
+
+
+    <div class="col-md-8" style="margin-top: 0px;">
+        <div class="container mt-3">
+            <ngb-carousel #carousel>
+                <ng-template ngbSlide>
+                    <div class="img-block">
+                        <img src="assets/img1.jpg" width="100%" alt="Img 1">
+                    </div>
+                    <div class="carousel-caption">
+
+                    </div>
+                </ng-template>
+                <ng-template ngbSlide>
+                    <div class="img-block">
+                        <img src="assets/img2.jpg" width="100%" alt="Img 2">
+                    </div>
+                    <div class="carousel-caption">
+
+                    </div>
+                </ng-template>
+                <ng-template ngbSlide>
+                    <div class="img-block">
+                        <img src="assets/img3.jpg" width="100%" alt="Img 3">
+                    </div>
+                    <div class="carousel-caption">
+
+                    </div>
+                </ng-template>
+            </ngb-carousel>
+
+            <div class="text-center">
+                <button class="btn btn-outline-secondary" (click)="prevSlide()">Prev</button>
+                <button class="btn btn-outline-secondary" (click)="nextSlide()">Next</button>
+                <button class="btn btn-outline-secondary" (click)="stopSlider()">Stop</button>
             </div>
-        </div> -->
-        <div class="slideshow-container">
-
-            <div class="mySlides fade">
-                <div class="numbertext">1 / 3</div>
-                <img src="assets/img1.jpg" alt="image1" style="width:100%">
-                <div class="text">Caption Text</div>
-            </div>
-
-            <div class="mySlides fade">
-                <div class="numbertext">2 / 3</div>
-                <img src="assets/img2.jpg" alt="image1" style="width:100%">
-                <div class="text">Caption Two</div>
-            </div>
-
-            <div class="mySlides fade">
-                <div class="numbertext">3 / 3</div>
-                <img src="assets/img3.jpg" alt="image1" style="width:100%">
-                <div class="text">Caption Three</div>
-            </div>
-
-            <a class="prev" (click)="plusSlides(-1)">❮</a>
-            <a class="next" (click)="plusSlides(1)">❯</a>
-
         </div>
-        <br>
-
-        <div style="text-align:center">
-            <span class="dot" (click)="currentSlide(1)"></span>
-            <span class="dot" (click)="currentSlide(2)"></span>
-            <span class="dot" (click)="currentSlide(3)"></span>
-        </div>
-        <br>
-
-        <!-- The dots/circles -->
-        <!-- <div style="text-align:center">
-            <span class="dot" (click)="currentSlide(1)"></span>
-            <span class="dot" (click)="currentSlide(2)"></span>
-            <span class="dot" (click)="currentSlide(3)"></span>
-        </div> -->
     </div>
-
 </div>
-
 
 <br>
 
-
-<div class="container d-flex justify-content-center mt-50 mb-50">
+<div class="container d-flex justify-content-center mt-50 mb-50" style="background-color: beige;">
     <div class="row" style="background-color: royalblue;">
         <div class="col-md-3 mt-2">
             <a href="Product_Details.html">
@@ -596,8 +536,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
 
