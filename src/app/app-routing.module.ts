@@ -5,6 +5,7 @@ import { SignInSellerComponent } from './SellerRegistration/sign-in-seller/sign-
 import { SignUpSellerComponent } from './SellerRegistration/sign-up-seller/sign-up-seller.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 
 
 
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'SignUp', component: SignUpComponent },
   { path: 'SignInSeller', component: SignInSellerComponent },
   { path: 'SignUpSeller', component: SignUpSellerComponent },
+  { path: 'SellerDashboard', component: SellerDashboardComponent },
 ];
 
 @NgModule({

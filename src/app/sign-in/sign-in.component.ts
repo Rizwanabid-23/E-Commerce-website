@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AppComponent } from '../app.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -10,11 +12,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export class SignInComponent implements OnInit {
 
-  constructor(private service:APIService) { }
+  constructor(private service:APIService, private router:Router, private ap:AppComponent) { }
 
 
   showMsg:any;
   readData:any;
+  successfullyLogIn:Boolean = false;
+  uLogin:Boolean;
   ngOnInit(): void {
     // this.service.getUserData().subscribe((res) =>{
     //   console.log('User Data');
@@ -35,7 +39,10 @@ export class SignInComponent implements OnInit {
         this.showMsg = 'Enter Right Email Id And Password';
       }
       else{
-        this.showMsg = 'Successfully Login';
+        this.ap.appOpen = false;
+        this.ap.sellerLogin = false;
+        this.ap.buyerLogin = true;
+        this.router.navigate(['/']);
         this.signInForm.reset();
       }
 

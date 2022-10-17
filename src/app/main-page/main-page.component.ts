@@ -16,8 +16,6 @@ export class MainPageComponent implements OnInit {
 
   @ViewChild('carousel', { static: true }) carousel: NgbCarousel | any;
 
-
-
   prevSlide() {
     this.carousel.prev();
     this,this.carousel.play();

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApisellerregistrationService } from '../apisellerregistration.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-sign-up-seller',
@@ -9,10 +11,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class SignUpSellerComponent implements OnInit {
 
-  constructor(private service:ApisellerregistrationService) { }
+  constructor(private service:ApisellerregistrationService, private router:Router, private ap:AppComponent) { }
 
   showMsg:any;
   readData:any;
+  accountCreated:Boolean = false;
+  uLogin:Boolean;
   ngOnInit(): void {
   }
   sellerSignUpForm = new FormGroup({
@@ -50,7 +54,10 @@ export class SignUpSellerComponent implements OnInit {
     this.service.insertSellerData(this.sellerSignUpForm.value).subscribe((res) => {
 
     });
-    this.showMsg = 'Account Successfully Created';
+    this.ap.appOpen = false;
+    this.ap.sellerLogin = true;
+    this.ap.buyerLogin = false;
+    this.router.navigate(['/SellerDashboard']);
     this.sellerSignUpForm.reset();
   }  
 

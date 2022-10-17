@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApisellerregistrationService } from '../apisellerregistration.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-sign-in-seller',
@@ -9,13 +11,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class SignInSellerComponent implements OnInit {
 
-  constructor(private service:ApisellerregistrationService) { }
+  constructor(private service:ApisellerregistrationService,  private router:Router, private ap:AppComponent) { }
 
   ngOnInit(): void {
   }
 
   showMsg:any;
   readData:any;
+  uL:Boolean
+  // successfullyLogIn:Boolean = false;
 
   sellerSignInForm = new FormGroup({
 
@@ -33,8 +37,11 @@ export class SignInSellerComponent implements OnInit {
         this.showMsg = 'Enter correct Email Id and Password';
       }
       else{
-        this.showMsg = 'Successfully Login';
         this.sellerSignInForm.reset();
+        this.ap.appOpen = false;
+        this.ap.sellerLogin = true;
+        this.ap.buyerLogin = false;
+        this.router.navigate(['/SellerDashboard']);
       }
 
     });

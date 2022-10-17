@@ -8,10 +8,11 @@ import { Inject }  from '@angular/core';
 })
 export class AppComponent {
 
-
   title = 'ecommerce-website';
+  public appOpen = true;
+  public buyerLogin = false;
+  public sellerLogin = false;
 
- 
 
 }
 
