@@ -37,4 +37,17 @@ export class APIService {
       return this._http.post('http://localhost:3000/buyerUserSignUpValid', userData);
     }
 
+        // This will insert data in table
+    checkProductStock(userData:any):Observable<any>
+    {
+      return this._http.post('http://localhost:3000/addProductValid', userData);
+
+    }
+    insertProductStock(userData:any):Observable<any>
+    {
+      return this._http.post('http://localhost:3000/addProduct', userData);
+
+    }
+    
+
 }

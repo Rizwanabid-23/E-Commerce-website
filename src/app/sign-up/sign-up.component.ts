@@ -17,7 +17,7 @@ export class SignUpComponent implements OnInit {
   readData: any;
   accountCreated:Boolean = false;
   uLogin:Boolean;
-  ngOnInit(): void {
+  ngOnInit(): void { 
     // this.service.getUserData().subscribe((res) =>{
     //   console.log('User Data');
     //   this.readData = res.data;
