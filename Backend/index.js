@@ -246,6 +246,32 @@ app.get('/getProduct/:Id', (req, res) => {
             });
         }
 
+app.post('/addProductValid', (req, res) => {
+
+    let pname=req.body.pname;
+
+
+
+
+    let postQuery = "SELECT Id from product WHERE Name='"+pname+"' ";
+    con.query(postQuery, (err, result) =>{
+        if (result!=null)
+        {
+            res.send({
+                message:'Data Inserted',
+                // data:result[0].Id
+                data:result.insertId
+
+            })
+        }
+        else{
+            res.send({
+                message:'Data Inserted',
+                data:null
+            })
+        }
+
+        console.log("insert",result.length());
     })
 })
 
@@ -255,3 +281,31 @@ app.get('/getProduct/:Id', (req, res) => {
 /*------------------------------------------ */
 /*------------------------------------------ */
 /*   For  Product  code  ends  from  here    */
+app.post('/addProduct', (req, res) => {
+
+    let pname=req.body.pname;
+    let pdescription=req.body.description;
+    let pimage=req.body.pimage;
+    let sellerid=req.body.sellerid;
+    let categoryid=req.body.categoryid;
+    let brandid=req.body.brandid;
+
+    let buyPrice=10;
+    let sellPrice=15;
+    let discount=5;
+    let quantity=7;
+    let stockDate='20200502';
+
+
+
+    let postQuery = "INSERT INTO product (Name, Description,BuyPrice,SellPrice,Discount,Quantity,AddStockDate ,Picture,Seller_Id,Category_Id,Brand_Id) VALUES ('"+pname+"', '"+pdescription+"','"+buyPrice+"','"+sellPrice+"','"+discount+"','"+quantity+"','"+stockDate+"', '"+pimage+"','"+sellerid+"','"+categoryid+"','"+brandid+"')";
+    con.query(postQuery, (err, result) =>{
+        if (err){
+            res.send({
+                message:'Data Inserted',
+                data:null
+            })
+            
+        }
+    })
+})

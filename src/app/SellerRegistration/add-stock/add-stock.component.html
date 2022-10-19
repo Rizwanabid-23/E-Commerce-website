@@ -1,5 +1,5 @@
-<app-root></app-root>
-<form style="margin: 50px;" (ngSubmit)="addProductStock()" formGroup="pstockForm">
+
+<form style="margin: 50px;" (ngSubmit)="checkProduct()" [formGroup]="pstockForm">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label>Product Name</label>
@@ -36,6 +36,6 @@
     </div>
     
     <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+  </form> 
 
 

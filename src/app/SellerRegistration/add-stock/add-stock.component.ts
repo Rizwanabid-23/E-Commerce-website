@@ -10,7 +10,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-stock.component.css']
 })
 export class AddStockComponent implements OnInit {
-
+  showMsg: any;
+  readData: any;
+  accountCreated:Boolean = false;
+  uLogin:Boolean;
   constructor(private service: APIService, private router: Router, private ap: AppComponent) { }
   ngOnInit(): void {
 
@@ -26,11 +29,35 @@ export class AddStockComponent implements OnInit {
     'pimage': new FormControl('', Validators.required)
 
   })
+  async checkProduct(){
+    this.service.checkProductStock(this.pstockForm.value).subscribe(res => {
+      this.readData = res.data;
+      console.log(this.readData);
+      if (this.readData == null) {
+        this.addProductStock();
+        console.log("line36");
+      }
+      else {
+        this.showMsg = 'This Product Already Exist';
+      }
 
+    });
+
+  }
 
 
   addProductStock() {
     this.userid = this.ap.loginSellerId;
     
+    console.log("function");
+    this.service.insertProductStock(this.pstockForm.value).subscribe((res) => {
+
+    });
+    this.ap.appOpen = false;
+    this.ap.sellerLogin = false;
+    this.ap.buyerLogin = true;
+
+    this.router.navigate(['/SellerDashboard']);
+    this.pstockForm.reset();
   }
 }

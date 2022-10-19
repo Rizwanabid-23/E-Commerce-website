@@ -16,7 +16,7 @@
                 <strong>{{showMsg}}</strong>
             </div>
             <div *ngIf="accountCreated" >
-                <div routerLink="/SellerDashboard"></div>
+                <div routerLink="/SellerDashboard"></div> 
             </div>
             <form [formGroup]="sellerSignUpForm" (ngSubmit)="checkValidUserDetail()" ngNativeValidate>
                 <div class="row">
