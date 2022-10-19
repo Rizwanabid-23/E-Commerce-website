@@ -22,7 +22,7 @@ export class SignUpComponent implements OnInit {
     //   console.log('User Data');
     //   this.readData = res.data;
     // })
-  }
+  } 
 
 
   signUpForm = new FormGroup({

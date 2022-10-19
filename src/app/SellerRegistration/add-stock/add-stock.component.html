@@ -1,0 +1,41 @@
+<app-root></app-root>
+<form style="margin: 50px;" (ngSubmit)="addProductStock()" formGroup="pstockForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Product Name</label>
+        <input type="text" formControlName="pname" class="form-control">
+      </div>
+      
+    </div>
+    <div class="form-group">
+      <label >Description</label>
+      <input type="text" formControlName="description" class="form-control">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+          <label>Seller ID</label>
+          <input type="number" formControlName="sellerid" class="form-control">
+        </div>
+        <div class="form-group col-md-4">
+          <label >Brand ID</label>
+          <input type="number" formControlName="brandid" class="form-control" >
+        </div>
+        <div class="form-group col-md-4">
+            <label >Category ID</label>
+            <input type="number" formControlName="categoryid" class="form-control" >
+          </div>
+      </div>
+    
+    <div class="form-row">
+      
+      <div class="form-group col-md-4">
+        <label>Add Image</label>
+        <input type="file" formControlName="pimage" class="form-control" id="customFile" />
+      </div>
+      
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+
