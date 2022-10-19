@@ -61,6 +61,7 @@ body {
   color: #8a909d;
   text-align: left;
   background-color: #f0f1f5;
+  overflow: hidden;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -11896,7 +11897,7 @@ button {
 }
 @media (min-width: 992px) {
   .card-mini {
-    margin-bottom: 115px;
+    margin-bottom: 25px;
   }
 }
 .card-mini .card-header h2 {
