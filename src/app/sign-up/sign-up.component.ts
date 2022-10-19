@@ -52,13 +52,16 @@ export class SignUpComponent implements OnInit {
   // This function will submit form
   submitSignUpForm() {
     this.service.insertUserData(this.signUpForm.value).subscribe((res) => {
-
+      this.readData = res.data;
+        this.ap.appOpen = false;
+        this.ap.sellerLogin = false;
+        this.ap.buyerLogin = true;
+        this.ap.loginBuyerId = this.readData;
+        console.log(this.ap.loginBuyerId);
+        this.router.navigate(['/']);
+        this.signUpForm.reset();
     });
-    this.ap.appOpen = false;
-    this.ap.sellerLogin = false;
-    this.ap.buyerLogin = true;
-    this.router.navigate(['/']);
-    this.signUpForm.reset();
+
 
   }
 
