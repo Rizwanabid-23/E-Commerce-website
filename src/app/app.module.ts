@@ -15,6 +15,7 @@ import { SignUpSellerComponent } from './SellerRegistration/sign-up-seller/sign-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 import { AddStockComponent } from './SellerRegistration/add-stock/add-stock.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { AddStockComponent } from './SellerRegistration/add-stock/add-stock.comp
     SignUpSellerComponent,
     SellerDashboardComponent,
     AddStockComponent,
+    DashboardComponent,
   ],
   imports: [ 
     BrowserModule,
