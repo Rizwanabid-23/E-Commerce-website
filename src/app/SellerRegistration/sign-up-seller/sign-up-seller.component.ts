@@ -37,7 +37,6 @@ export class SignUpSellerComponent implements OnInit {
   async checkValidUserDetail(){
     await this.service.checkValidSellerSignUp(this.sellerSignUpForm.value).subscribe(res => {
       this.readData = res.data;
-      console.log(this.readData);
       if (this.readData == null){
         this.submitSellerSignUpForm();
       }
@@ -46,19 +45,23 @@ export class SignUpSellerComponent implements OnInit {
       }
 
     });
-
   }
 
   // This function will submit form
   submitSellerSignUpForm() {
     this.service.insertSellerData(this.sellerSignUpForm.value).subscribe((res) => {
+      this.readData = res.data;
+      console.log(this.readData);
+      this.ap.appOpen = false;
+      this.ap.sellerLogin = true;
+      this.ap.buyerLogin = false;
+      this.ap.loginSellerId = this.readData;
+      this.router.navigate(['/SellerDashboard']);
+      this.sellerSignUpForm.reset();
+      
 
     });
-    this.ap.appOpen = false;
-    this.ap.sellerLogin = true;
-    this.ap.buyerLogin = false;
-    this.router.navigate(['/SellerDashboard']);
-    this.sellerSignUpForm.reset();
+
   }  
 
 

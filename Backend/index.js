@@ -4,7 +4,6 @@ const cors = require('cors');
 const app = express();
 const mysql = require('mysql2');
 const e = require('cors');
-// const { Component } = require('@angular/core');
 
 app.use(cors());
 app.use(bodyparser.json());
@@ -49,12 +48,13 @@ app.get('/buyerUser', (req, res) => {
             console.log("Error");
             res.send('Error')
         }
-        if(result.length > 0){
+        else{
             res.send({
                 message:'Data',
                 data:result
             });
-        }    
+        }
+
     })
 })
 
@@ -62,12 +62,12 @@ app.get('/buyerUser', (req, res) => {
 app.post('/buyerUserSignInValid', (req, res) => {
     let check_buyer_email = req.body.email;
     let check_buyer_pin = req.body.password;
-    let getQuery = "Select * From buyer_user WHERE Email = '"+check_buyer_email+"' And Password = '"+check_buyer_pin+"'";
+    let getQuery = "Select Id From buyer_user WHERE Email = '"+check_buyer_email+"' And Password = '"+check_buyer_pin+"'";
     con.query(getQuery, (err, userResult) =>{
         if (userResult.length > 0){
             res.send({
                 message:'Data',
-                data:userResult
+                data:userResult[0].Id
             });
         }
         else{
@@ -84,20 +84,21 @@ app.post('/buyerUserSignInValid', (req, res) => {
 // This will check that same email id with new creating account exist or not
 app.post('/buyerUserSignUpValid', (req, res) => {
     let check_buyer_email = req.body.email;
-    let getQuery = "Select * From buyer_user WHERE Email = '"+check_buyer_email+"'";
+    let getQuery = "Select Id From buyer_user WHERE Email = '"+check_buyer_email+"'";
     con.query(getQuery, (err, userResult) =>{
-        if (userResult.length > 0){
+        if(userResult != null){
             res.send({
                 message:'Data',
                 data:userResult
             });
+        
         }
         else{
             res.send({
                 message:'Data',
                 data:null
             });
-        }    
+        }
     })
 
 })
@@ -114,7 +115,12 @@ app.post('/buyerUser', (req, res) => {
                 message:'Data Inserted',
                 data:null
             })
-            
+        }
+        else{
+            res.send({
+                message:'Data Inserted',
+                data:result.insertId
+            })
         }
     })
 })
@@ -129,9 +135,9 @@ app.post('/buyerUser', (req, res) => {
 app.post('/sellerSignUpUserValid', (req, res) => {
 
     let email = req.body.email;
-    let getQuery = "Select * From seller_user WHERE Email = '"+email+"'";
+    let getQuery = "Select Id From seller_user WHERE Email = '"+email+"'";
     con.query(getQuery, (err, result) =>{
-        if (result.length > 0){
+        if (result != null){
             res.send({
                 message:'Data',
                 data:result
@@ -149,16 +155,11 @@ app.post('/sellerSignUpUserValid', (req, res) => {
 
 // This function will insert data into seller_user table
 app.post('/insertSellerUser', (req, res) => {
-    // current date
     let dateObj = new Date();
-    // adjust 0 before single digit date
-    let date = ("0" + dateObj.getDate()).slice(-2);
-    // current month
-    let month = ("0" + (dateObj.getMonth() + 1)).slice(-2);
-    // current year
-    let year = dateObj.getFullYear();
-    let currentDate = new Date();
-    console.log("Date   ", currentDate);
+    let date = ("0" + dateObj.getDate()).slice(-2); // current date
+    let month = ("0" + (dateObj.getMonth() + 1)).slice(-2);  // current month
+    let year = dateObj.getFullYear(); // current year
+    currentDate = year+":"+month+":"+date;
 
     let fName = req.body.fName;
     let lName = req.body.lName;
@@ -171,12 +172,11 @@ app.post('/insertSellerUser', (req, res) => {
 
     let postQuery = "INSERT INTO seller_user (FirstName, LastName, Email, PhoneNo, CnicNo, City, Address, Password, JoiningDate) VALUES ('"+fName+"', '"+lName+"', '"+email+"', '"+phoneNo+"', '"+cnicNo+"', '"+city+"', '"+address+"', '"+password+"', '"+currentDate+"')";
     con.query(postQuery, (err, result) =>{
-        if (err){
-            res.send({
-                message:'Data Inser',
-                data:null
-            })
-        }
+        res.send({
+            message:'Data Inserted',
+            data:result.insertId
+        })
+        console.log(result.insertId)
 
     })
 })
@@ -186,31 +186,65 @@ app.post('/sellerSignInUserValid', (req, res) => {
 
     let email = req.body.email;
     let password = req.body.password;
-    let getQuery = "Select * From seller_user WHERE Email = '"+email+"' And Password = '"+password+"' ";
+    let getQuery = "Select Id From seller_user WHERE Email = '"+email+"' And Password = '"+password+"' ";
     con.query(getQuery, (err, result) =>{
         if (result.length > 0){
             res.send({
                 message:'Data',
-                data:result
+                data:result[0].Id
             });
             
         }
         else{
             res.send({
-                message:'Data',
+                message:'Null',
                 data:null
             });
         }    
     })
 })
 
-
-
-
 /*For Seller Registration code ends      here*/
 /*------------------------------------------- */
 /*------------------------------------------- */
 
+
+
+/*   For  Product  code  start  from  here   */
+/*------------------------------------------ */
+/*------------------------------------------ */
+app.get('/getProduct', (req, res) => {
+    console.log("In get Product");
+    let getQuery = 'Select * From product';
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            console.log("Error");
+            res.send('Error')
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
+
+    })
+})
+
+app.get('/getProduct/:Id', (req, res) => {
+    let id = req.params.Id;
+    let getQuery = "SELECT prdBrand.Br As Brand, prdBrand.Id As Id, prdBrand.Sellprice As SellPrice, prdBrand.Description As Description, prdBrand.Discount As Discount, prdBrand.Quantity As Quantity, prdBrand.Name As Name, prdBrand.Picture As Picture, seller_user.FirstName As FName, seller_user.LastName As LName, seller_user.City As SellerCity FROM (SELECT product_brand.Brand As Br, Pr.Id As Id, Pr.SellPrice As SellPrice, Pr.Description As  Description, Pr.Discount As Discount, Pr.Quantity As Quantity, Pr.Name As Name, 		  Pr.Picture As       Picture, Pr.Seller_Id As SellerId FROM (SELECT Id, Brand_Id, SellPrice, Description, Discount, Quantity, Name, Picture, Seller_Id FROM product WHERE Id = '"+id+"') As Pr, product_brand WHERE Pr.Brand_Id = product_brand.Id) As prdBrand, seller_user WHERE prdBrand.SellerId = seller_user.Id ";
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            console.log("Error");
+            res.send('Error')
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
 
 app.post('/addProductValid', (req, res) => {
 
@@ -242,6 +276,11 @@ app.post('/addProductValid', (req, res) => {
 })
 
 
+
+
+/*------------------------------------------ */
+/*------------------------------------------ */
+/*   For  Product  code  ends  from  here    */
 app.post('/addProduct', (req, res) => {
 
     let pname=req.body.pname;

@@ -19,6 +19,7 @@ export class AddStockComponent implements OnInit {
 
   }
 
+  userid = -10;
   pstockForm = new FormGroup({
     'pname': new FormControl('', Validators.required),
     'description': new FormControl('', Validators.required),
@@ -46,6 +47,8 @@ export class AddStockComponent implements OnInit {
 
 
   addProductStock() {
+    this.userid = this.ap.loginSellerId;
+    
     console.log("function");
     this.service.insertProductStock(this.pstockForm.value).subscribe((res) => {
 

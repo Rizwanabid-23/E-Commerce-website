@@ -22,7 +22,8 @@
                         <div class="form-group">
                             <label class="label inputBoxHeadingColor" for="exampleInputPassword1">Password*</label>
                             <input type="password" class="form-control w-100" id="exampleInputPassword1" formControlName="password"
-                                placeholder="Please enter your password" required>
+                                placeholder="Please enter your password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$"
+                                 title="Password Must contain Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character" required>
                         </div>
                     </div>
                     
@@ -30,7 +31,8 @@
                         <div class="form-group">
                             <label class="label inputBoxHeadingColor" for="forFName">FullName*</label>
                             <input type="text" class="form-control w-100" id="forFName" formControlName="fullname"
-                                placeholder="Please enter your name" required>
+                                placeholder="Please enter your name" pattern="^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$" minlength="3" maxlength="20"
+                                title="Enter Name in Right Format" required>
                         </div>
 
                         <button type="submit" class="btn btn-danger w-100 my-2"

@@ -39,6 +39,7 @@ export class SignInComponent implements OnInit {
         this.showMsg = 'Enter Right Email Id And Password';
       }
       else{
+        this.ap.loginBuyerId = this.readData;
         this.ap.appOpen = false;
         this.ap.sellerLogin = false;
         this.ap.buyerLogin = true;

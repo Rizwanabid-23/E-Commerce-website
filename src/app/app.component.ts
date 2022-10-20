@@ -9,9 +9,13 @@ import { Inject }  from '@angular/core';
 export class AppComponent {
 
   title = 'ecommerce-website';
-  public appOpen = true;
-  public buyerLogin = false;
-  public sellerLogin = false;
+  // globalVariables
+  public appOpen = true; // This will true when app will open
+  public buyerLogin = false; // This will true when buyer will login
+  public sellerLogin = false; // This will true when seller will login
+  public loginBuyerId = -10; // This will store login buyer Id
+  public loginSellerId = -10; // This will store login seller Id
+  public clickedProductPictureId = 0;
 
 
 }

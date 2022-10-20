@@ -7,6 +7,8 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 import { AddStockComponent } from './SellerRegistration/add-stock/add-stock.component';
+import { ProdAndSellerDescriptionComponent } from './Buyer/prod-and-seller-description/prod-and-seller-description.component';
+import { ProductCartComponent } from './Buyer/product-cart/product-cart.component';
 
 
 const routes: Routes = [
@@ -16,7 +18,9 @@ const routes: Routes = [
   { path: 'SignInSeller', component: SignInSellerComponent },
   { path: 'SignUpSeller', component: SignUpSellerComponent },
   { path: 'SellerDashboard', component: SellerDashboardComponent },
-  {path: 'addStock',component:AddStockComponent}
+  {path: 'addStock',component:AddStockComponent},
+  {path: 'productAndSellerDetails',component:ProdAndSellerDescriptionComponent},
+  {path: 'productCart', component:ProductCartComponent}
 ];
 
 @NgModule({

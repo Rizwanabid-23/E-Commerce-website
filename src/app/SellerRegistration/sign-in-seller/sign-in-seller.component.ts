@@ -32,16 +32,16 @@ export class SignInSellerComponent implements OnInit {
   checkSignInFormData(){
     this.service.checkValidSellerSignIn(this.sellerSignInForm.value).subscribe(res =>{
       this.readData = res.data;
-      console.log(this.readData);
       if (this.readData == null){
         this.showMsg = 'Enter correct Email Id and Password';
       }
       else{
-        this.sellerSignInForm.reset();
+        this.ap.loginSellerId = this.readData;
         this.ap.appOpen = false;
         this.ap.sellerLogin = true;
         this.ap.buyerLogin = false;
         this.router.navigate(['/SellerDashboard']);
+        this.sellerSignInForm.reset();
       }
 
     });
