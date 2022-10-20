@@ -17,34 +17,37 @@ import { AddStockComponent } from './SellerRegistration/add-stock/add-stock.comp
 import { ProductCartComponent } from './Buyer/product-cart/product-cart.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { ProductApiService } from './Buyer/Services/product-api.service';
+import { ApisellerregistrationService } from './SellerRegistration/apisellerregistration.service';
 
 
+
+@NgModule({
   declarations: [
     AppComponent,
+    SignInComponent,
     MainPageComponent,
     SignUpComponent,
     SignInSellerComponent,
     SignUpSellerComponent,
     SellerDashboardComponent,
     AddStockComponent,
-    DashboardComponent,
     ProdAndSellerDescriptionComponent,
     ProductCartComponent,
   ],
   imports: [ 
     BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
+    NgbModule 
+  ],
   providers: [
     APIService,
+    ProductApiService,
     ApisellerregistrationService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
-
-
-
-
-
+export class AppModule { }
