@@ -20,6 +20,9 @@
 /* This claas will set sixe of simple text on pages*/
 .simpleText{
     font-size: 15px;
+    color: black;
+    float: left;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 /*This will set margin of pages from navbar*/
@@ -37,7 +40,30 @@
 
 .backgroundColor
 {
-    background-color: whitesmoke;
+    background-color: #F5F5F5;
+}
+
+.prdTotalPrice
+{
+    font-size: 13px;
+    float: left;
+    color: gray;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* .prdDiscounted
+{
+    font-size: 13px;
+    float: left;
+    color: gray;
+    font-family: Arial, Helvetica, sans-serif;
+} */
+.prdDiscountedPrice
+{
+    font-size: 23px;
+    float: left;
+    color: #FF7F50;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 

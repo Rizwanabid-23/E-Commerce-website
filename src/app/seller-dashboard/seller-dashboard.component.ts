@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-seller-dashboard',
@@ -8,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SellerDashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private ap:AppComponent) { }
 
+  sellerName:any;
   ngOnInit(): void {
+    this.sellerName = this.ap.loginSellerName;
   }
 
 }

@@ -28,6 +28,16 @@ export class SignInSellerComponent implements OnInit {
 
   })
 
+  getLoginSellerName(){
+    this.service.getLoginSellerFNameLName(this.ap.loginSellerId).subscribe(res =>{
+      this.readData = res.data;
+      if (this.readData != null){
+        this.ap.loginSellerName = this.readData[0].FirstName+" "+this.readData[0].LastName
+      }
+
+    });
+  }
+
   // This function check email id from and password from server and check that user is right or not
   checkSignInFormData(){
     this.service.checkValidSellerSignIn(this.sellerSignInForm.value).subscribe(res =>{
@@ -37,6 +47,7 @@ export class SignInSellerComponent implements OnInit {
       }
       else{
         this.ap.loginSellerId = this.readData;
+        this.getLoginSellerName();
         this.ap.appOpen = false;
         this.ap.sellerLogin = true;
         this.ap.buyerLogin = false;

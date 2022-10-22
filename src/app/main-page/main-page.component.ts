@@ -3,6 +3,9 @@ import { DOCUMENT } from '@angular/common';
 import { Inject }  from '@angular/core';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AppComponent } from '../app.component';
+import { ProductApiService } from '../Buyer/Services/product-api.service';
+import { ProdAndSellerDescriptionComponent } from '../Buyer/prod-and-seller-description/prod-and-seller-description.component';
 
 
 @Component({
@@ -30,53 +33,37 @@ export class MainPageComponent implements OnInit {
     this.carousel.pause();
   }
 
-  constructor() { 
+  constructor(private ap:AppComponent, private service:ProductApiService) { 
 
   }
 
+  prdData:any;
   ngOnInit(): void {
-    
-    
+    this.getProductData();
   }
-  // slideIndex = 1;
 
-
-  // plusDivs(n: any): void {
-  //   this.showDivs(this.slideIndex += n);
-  //   console.log("plusdiv");
-  // }
+  // This function will get all product categories data
+  getProductData(){
+    console.log("In Get");
+    this.service.getAllProductData().subscribe((res) =>{
+      this.prdData = res.data;
+      console.log("In Res");
   
-  // currentDiv(n: any) {
-  //   this.showDivs(this.slideIndex = n);
-  // }
-  
-  // showDivs(n:any) {
-  //   var i;
-  //   var x = document.getElementsByClassName("mySlides");
-  //   var dots = document.getElementsByClassName("demo");
-  //   if (n > x.length) { this.slideIndex = 1 }
-  //   if (n < 1) { this.slideIndex = x.length }
-  //   for (i = 0; i < x.length; i++) {
-  //     // x[i].style.display = "none";
-  //     x[i].setAttribute("style","display:none");
-  //   }
-  //   for (i = 0; i < dots.length; i++) {
-  //     dots[i].className = dots[i].className.replace(" w3-white", "");
-  //   }
-  //   // x[this.slideIndex - 1].style.display = "block";
-  //   x[this.slideIndex - 1].setAttribute("style","display:block");
-    
-  //   dots[this.slideIndex - 1].className += " w3-white";
-  // }
-  
-  
+    })
+  }
 
+  // This will load data of selected picture in product and seller description page by calling
+  // function of that page
+  setSelctedProductGlobal(selected_prd_id)
+  {
+    console.log("in global");
+    this.ap.clickedProductPictureId = selected_prd_id;
+  }
 
-
-
-
-
-
+  // calculate product price with calculating discount
+  calculatediscountedPrice(price, discountPercentage){
+    return price - (price*discountPercentage/100)
+  }
   slideIndex = 1;
   // showSlides(this.slideIndex);
   
@@ -108,28 +95,11 @@ export class MainPageComponent implements OnInit {
     dots[this.slideIndex-1].className += " active";
   }
 
-
-
-  
-  
   
   myFunctiondrop(@Inject(DOCUMENT) document: Document) {
     document.getElementById("myDropdown")?.classList.toggle("show");
   }
-  
-  // Close the dropdown if the user clicks outside of it
-  // window.onclick = function (event) {
-  //   if (!event.target.matches('.dropbtn')) {
-  //       var dropdowns = document.getElementsByClassName("dropdown-content");
-  //       var i;
-  //       for (i = 0; i < dropdowns.length; i++) {
-  //           var openDropdown = dropdowns[i];
-  //           if (openDropdown.classList.contains('show')) {
-  //               openDropdown.classList.remove('show');
-  //           }
-  //       }
-  //   }
-  // }
+
   
   myFunctiondrop1() {
     document.getElementById("myDropdown1")?.classList.toggle("show");
@@ -148,94 +118,11 @@ export class MainPageComponent implements OnInit {
         }
       }
     }
-  
-  
-  
-  // // Close the dropdown if the user clicks outside of it
-  // window.onclick = function (event) {
-  //   if (!event.target.matches('.dropbtn')) {
-  //       var dropdowns = document.getElementsByClassName("dropdown-content");
-  //       var i;
-  //       for (i = 0; i < dropdowns.length; i++) {
-  //           var openDropdown = dropdowns[i];
-  //           if (openDropdown.classList.contains('show')) {
-  //               openDropdown.classList.remove('show');
-  //           }
-  //       }
-  //   }
-  // }
-  
+
   myFunctiondrop2() {
     document.getElementById("myDropdown2")?.classList.toggle("show");
   }
   
-  // // Close the dropdown if the user clicks outside of it
-  // window.onclick = function (event) {
-  //   if (!event.target.matches('.dropbtn')) {
-  //       var dropdowns = document.getElementsByClassName("dropdown-content");
-  //       var i;
-  //       for (i = 0; i < dropdowns.length; i++) {
-  //           var openDropdown = dropdowns[i];
-  //           if (openDropdown.classList.contains('show')) {
-  //               openDropdown.classList.remove('show');
-  //           }
-  //       }
-  //   }
-  // }
-  
-  // myFunctiondrop3() {
-  //   document.getElementById("myDropdown3").classList.toggle("show");
-  // }
-  
-  // // Close the dropdown if the user clicks outside of it
-  // window.onclick = function (event) {
-  //   if (!event.target.matches('.dropbtn')) {
-  //       var dropdowns = document.getElementsByClassName("dropdown-content");
-  //       var i;
-  //       for (i = 0; i < dropdowns.length; i++) {
-  //           var openDropdown = dropdowns[i];
-  //           if (openDropdown.classList.contains('show')) {
-  //               openDropdown.classList.remove('show');
-  //           }
-  //       }
-  //   }
-  // }
-  
-  // myFunctiondrop4() {
-  //   document.getElementById("myDropdown4").classList.toggle("show");
-  // }
-  
-  // // Close the dropdown if the user clicks outside of it
-  // window.onclick = function (event) {
-  //   if (!event.target.matches('.dropbtn')) {
-  //       var dropdowns = document.getElementsByClassName("dropdown-content");
-  //       var i;
-  //       for (i = 0; i < dropdowns.length; i++) {
-  //           var openDropdown = dropdowns[i];
-  //           if (openDropdown.classList.contains('show')) {
-  //               openDropdown.classList.remove('show');
-  //           }
-  //       }
-  //   }
-  // }
-  
-  // myFunctiondrop5() {
-  //   document.getElementById("myDropdown5").classList.toggle("show");
-  // }
-  
-  // // Close the dropdown if the user clicks outside of it
-  // window.onclick = function (event) {
-  //   if (!event.target.matches('.dropbtn')) {
-  //       var dropdowns = document.getElementsByClassName("dropdown-content");
-  //       var i;
-  //       for (i = 0; i < dropdowns.length; i++) {
-  //           var openDropdown = dropdowns[i];
-  //           if (openDropdown.classList.contains('show')) {
-  //               openDropdown.classList.remove('show');
-  //           }
-  //       }
-  //   }
-  // }
   
   myFunction() {
     var x = document.getElementById("myTopnav");

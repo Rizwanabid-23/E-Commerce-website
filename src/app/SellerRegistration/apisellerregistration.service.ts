@@ -26,6 +26,10 @@ export class ApisellerregistrationService {
     return this._http.post('http://localhost:3000/sellerSignInUserValid', sellerData);
   }
 
+  getLoginSellerFNameLName(sId:any):Observable<any>
+  {
+    return this._http.get('http://localhost:3000/getLoginSellerName/"'+sId+'"');
+  }
 
 
 }

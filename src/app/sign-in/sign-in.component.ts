@@ -24,6 +24,7 @@ export class SignInComponent implements OnInit {
     //   console.log('User Data');
     //   this.readData = res.data;
     // })
+
   }
 
   signInForm = new FormGroup({

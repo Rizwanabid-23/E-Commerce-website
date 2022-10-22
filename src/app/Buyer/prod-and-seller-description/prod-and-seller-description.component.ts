@@ -10,7 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ProdAndSellerDescriptionComponent implements OnInit {
 
-  constructor(private service:ProductApiService, private ap:AppComponent, private sanitizer: DomSanitizer) { }
+  constructor(private service:ProductApiService, private ap:AppComponent, ) { }
 
   readData:any;
   brandName:any;
@@ -24,17 +24,24 @@ export class ProdAndSellerDescriptionComponent implements OnInit {
   discountedPrice:any;
   prdImage:any;
   ngOnInit(): void {
+    this.getSelectedProductData();
+
+  }
+
+  public getSelectedProductData() // This function will get data against selected product 
+  {
     this.service.getProductData(this.ap.clickedProductPictureId).subscribe((res) =>{
-    this.readData = res.data;
-    this.brandName = this.readData[0].Brand;
-    this.totalPrice = this.readData[0].SellPrice;
-    this.description = this.readData[0].Description;
-    this.discount = this.readData[0].Discount;
-    this.quantity = this.readData[0].Quantity;
-    this.prdName = this.readData[0].Name;
-    this.sellerName = this.readData[0].FName+" "+this.readData[0].LName;
-    this.sellerCity = this.readData[0].SellerCity;
-    this.discountedPrice = this.calculatediscountedPrice(this.totalPrice, this.discount);
+      this.readData = res.data;
+      this.brandName = this.readData[0].Brand;
+      this.totalPrice = this.readData[0].SellPrice;
+      this.description = this.readData[0].Description;
+      this.discount = this.readData[0].Discount;
+      this.quantity = this.readData[0].Quantity;
+      this.prdName = this.readData[0].Name;
+      this.sellerName = this.readData[0].FName+" "+this.readData[0].LName;
+      this.sellerCity = this.readData[0].SellerCity;
+      this.discountedPrice = this.calculatediscountedPrice(this.totalPrice, this.discount);
+      this.prdImage = this.readData[0].Picture;
 
     })
   }
@@ -44,3 +51,4 @@ export class ProdAndSellerDescriptionComponent implements OnInit {
   }
 
 }
+

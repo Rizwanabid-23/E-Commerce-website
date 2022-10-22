@@ -1,0 +1,29 @@
+.selectedImage > img {
+    object-fit: cover;
+    width: 100%;
+    max-height: 100%;
+  }
+
+
+/* ===== BUTTONS ===== */
+.btn {
+  text-transform: uppercase;
+  box-shadow: none !important;
+  padding: 0.3125rem 1rem;
+}
+.btn.btn-square {
+  border-radius: 0px;
+}
+.btn.btn-pill {
+  border-radius: 20px;
+}
+@media (min-width: 768px) {
+  .btn.btn-pill {
+    border-radius: 30px;
+  }
+}
+@media (min-width: 768px) {
+  .btn {
+    padding: 0.56rem 1.5rem;
+  }
+}

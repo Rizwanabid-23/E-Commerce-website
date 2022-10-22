@@ -56,7 +56,7 @@ export class SignUpSellerComponent implements OnInit {
       this.ap.sellerLogin = true;
       this.ap.buyerLogin = false;
       this.ap.loginSellerId = this.readData;
-      this.router.navigate(['/SellerDashboard']);
+      this.router.navigate(['/SignInSeller']);
       this.sellerSignUpForm.reset();
       
 

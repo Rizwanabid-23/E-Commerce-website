@@ -2,10 +2,52 @@
     box-sizing: border-box
 }
 
+.cardTextDescriptionOverFlow
+{
+    line-height: 1.5rem;
+    height: 4.5em;
+    overflow: hidden;
+    text-align: left;
+}
+
+.cardTextPrdNameOverFlow
+{
+    line-height: 1.5rem;
+    height: 1.5rem;
+    overflow: hidden;
+    text-align: center;
+}
+
+.inner
+{
+    overflow: hidden;
+}
+
+.inner div
+{
+    transition: all 1.04s ease;
+}
+
+.inner:hover > div
+{
+    transform: scale(1.04);
+}
+
+.cardPicHeight
+{
+    height: 150px !important;
+}
+
 body {
     font-family: Verdana, sans-serif;
     margin: 0;
     background-color: whitesmoke;
+}
+
+.cardproperty
+{
+    height: 350px;
+    border-radius: 0px;
 }
 
 .mySlides {

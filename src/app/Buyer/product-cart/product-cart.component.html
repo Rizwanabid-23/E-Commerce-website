@@ -39,35 +39,36 @@
           <!--------Image of Product Starts--------------->
           <div class="col-lg-2">
             <div class=" mt-3 mb-4">
-              <img src="p1.jpg" style="width: 80px;"/>
+              <img class="images" src="assets/p1.jpg" style="width: 80px;"/>
             </div>
           </div>
           <!--------Image of Product ends----------------->
 
           <!-------Description of Product Starts---------->
           <div class="col-lg-4 mt-3">
-            <p class="m-0">Imported High Quality HeadPhones</p>
-            <p class="small m-0"> No Brand to Show</p>
+            <p class="m-0">{{lprdName}}</p>
+            <p class="small m-0"> {{lbrandName}}</p>
           </div>
           <!-------Description of Product ends------------>
 
           <!-------Price of Product Starts---------------->
           <div class="col-lg-2">
-            <p class="mt-3 text-danger mb-0" >RS. 200</p>
-            <p class="small m-0"><s>RS. 400</s></p>
-            <p class="small">Discount 40%</p>
+            <p class="mt-3 text-danger mb-0" >RS. {{ldiscountedPrice}}</p>
+            <p class="small m-0"><s>RS. {{ltotalPrice}}</s></p>
+            <p class="small">Discount {{ldiscount}}%</p>
           </div>
           <!-------Price of Product ends------------------>
 
           <!-------Plus and minus Sign for upgrading Product Starts------->
-          <div class="col-lg-1" style="margin-top: 25px;">
-            <a href="#" ><img  class="images" src="assets/minus.png" width="40" height="40"></a>
+          <div class="col-lg-1" style="margin-top: 25px; float: right;">
+            <button (click)="clickOnMinusSign()" ><img  class="images" src="assets/minus.png" width="30" height="30"></button>
           </div>
-          <div class="col-lg-1 mt-3 p-2"  >
-            <h3 class="border border-dark mt-2 text-center" > 1</h3>
+          <div class="col-lg-1" style="margin-top: 20px;">
+            <h3 class="mt-2 text-center" >{{selectQuantity}}</h3>
           </div>
           <div class="col-lg-1" style="margin-top: 25px;">
-            <a href="#" ><img  class="images" src="assets/Plus.png" width="40" height="40"></a>
+            <button (click)="clickOnPlusSign()"  type="submit" ><img  class="images" src="assets/Plus.png" width="30" height="30"></button>
+
             <!-- <button class="border border-dark" type="button"></button> -->
           </div>
           <!-------Plus and minus Sign for upgrading Product ends------->
@@ -95,11 +96,11 @@
 
           <div class="row">
               <div class="col-lg-8">
-                  <p class="mx-2">Items Total (1 Items)</p>
+                  <p class="mx-2">Items Total ({{selectQuantity}})</p>
               </div>
               <div class="col-lg-4">
                   <div class="mx-2">
-                      <input type="text" class="form-control no-border" id="hjds" placeholder="200">
+                    <p class="mx-2">{{prdsTotalPrice}}</p>
                   </div>
               </div>
           </div>
@@ -110,7 +111,8 @@
               </div>
               <div class="col-lg-4">
                   <div class="mx-2">
-                      <input type="text" class="form-control no-border" id="hjds" placeholder="`120">
+                    <p class="mx-2">{{deliveryFee}}</p>
+                      <!-- <input type="text" class="form-control no-border" id="hjds" placeholder=""> -->
                   </div>
               </div>
           </div>
@@ -130,16 +132,16 @@
               </div>
               <div class="col-lg-4">
                   <div class="mx-2">
-                      <input type="text" class="form-control no-border" id="hjds" placeholder="320">
+                    <p class="mx-2">{{allTotalPrice}}</p>
                   </div>
               </div>
           </div>
 
-          <div class="d-grid gap-2">
-            <a href="Buy_Now.html">
+          <!-- <div class="d-grid gap-2">
+            <a >
             <button class="btn btn-dark m-2 mt-3" type="button">Place Order</button>
           </a>
-          </div>
+          </div> -->
 
         </div>
           

@@ -103,7 +103,6 @@ app.post('/buyerUserSignUpValid', (req, res) => {
 
 })
 
-
 app.post('/buyerUser', (req, res) => {
     let buyer_email = req.body.email;
     let buyer_pin = req.body.password;
@@ -125,6 +124,23 @@ app.post('/buyerUser', (req, res) => {
     })
 })
 
+app.get('/getLoginSellerName/:Id', (req, res) => {
+    let id = req.params.Id;
+    let getQuery = "Select FirstName,LastName From seller_user WHERE Email = '"+id+"'";
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            console.log("Error");
+            res.send('Error')
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
+    })
+})
+
 
 /*For Seller Registration code start from here*/
 /*------------------------------------------- */
@@ -137,10 +153,10 @@ app.post('/sellerSignUpUserValid', (req, res) => {
     let email = req.body.email;
     let getQuery = "Select Id From seller_user WHERE Email = '"+email+"'";
     con.query(getQuery, (err, result) =>{
-        if (result != null){
+        if (result.length > 0){
             res.send({
                 message:'Data',
-                data:result
+                data:result[0].Id
             });
         }
         else{
@@ -148,7 +164,7 @@ app.post('/sellerSignUpUserValid', (req, res) => {
                 message:'Data',
                 data:null
             });
-        }    
+        }
     })
 })
 
@@ -186,6 +202,7 @@ app.post('/sellerSignInUserValid', (req, res) => {
 
     let email = req.body.email;
     let password = req.body.password;
+    console.log("dsdss dds ",email);
     let getQuery = "Select Id From seller_user WHERE Email = '"+email+"' And Password = '"+password+"' ";
     con.query(getQuery, (err, result) =>{
         if (result.length > 0){
@@ -214,12 +231,13 @@ app.post('/sellerSignInUserValid', (req, res) => {
 /*------------------------------------------ */
 /*------------------------------------------ */
 app.get('/getProduct', (req, res) => {
-    console.log("In get Product");
-    let getQuery = 'Select * From product';
+    let getQuery = 'Select Id, Name, Picture, SellPrice, Discount, Description From product';
     con.query(getQuery, (err, result) =>{
         if (err){
             console.log("Error");
-            res.send('Error')
+            res.send({
+                data:null
+            })
         }
         else{
             res.send({
@@ -227,17 +245,19 @@ app.get('/getProduct', (req, res) => {
                 data:result
             });
         }
-
     })
 })
 
+
 app.get('/getProduct/:Id', (req, res) => {
     let id = req.params.Id;
-    let getQuery = "SELECT prdBrand.Br As Brand, prdBrand.Id As Id, prdBrand.Sellprice As SellPrice, prdBrand.Description As Description, prdBrand.Discount As Discount, prdBrand.Quantity As Quantity, prdBrand.Name As Name, prdBrand.Picture As Picture, seller_user.FirstName As FName, seller_user.LastName As LName, seller_user.City As SellerCity FROM (SELECT product_brand.Brand As Br, Pr.Id As Id, Pr.SellPrice As SellPrice, Pr.Description As  Description, Pr.Discount As Discount, Pr.Quantity As Quantity, Pr.Name As Name, 		  Pr.Picture As       Picture, Pr.Seller_Id As SellerId FROM (SELECT Id, Brand_Id, SellPrice, Description, Discount, Quantity, Name, Picture, Seller_Id FROM product WHERE Id = '"+id+"') As Pr, product_brand WHERE Pr.Brand_Id = product_brand.Id) As prdBrand, seller_user WHERE prdBrand.SellerId = seller_user.Id ";
+    id = id.replaceAll('"', '')
+    let getQuery = "SELECT prdBrand.Br As Brand, prdBrand.Id As Id, prdBrand.Sellprice As SellPrice, prdBrand.Description As Description, prdBrand.Discount As Discount, prdBrand.Quantity As Quantity, prdBrand.Name As Name, prdBrand.Picture As Picture, seller_user.FirstName As FName, seller_user.LastName As LName, seller_user.City As SellerCity FROM (SELECT product_brand.Brand As Br, Pr.Id As Id, Pr.SellPrice As SellPrice, Pr.Description As  Description, Pr.Discount As Discount, Pr.Quantity As Quantity, Pr.Name As Name, Pr.Picture As  Picture, Pr.Seller_Id As SellerId FROM (SELECT Id, Brand_Id, SellPrice, Description, Discount, Quantity, Name, Picture, Seller_Id FROM product WHERE Id = '"+id+"') As Pr, product_brand WHERE Pr.Brand_Id = product_brand.Id) As prdBrand, seller_user WHERE prdBrand.SellerId = seller_user.Id ";
     con.query(getQuery, (err, result) =>{
         if (err){
             console.log("Error");
             res.send('Error')
+            
         }
         else{
             res.send({
@@ -245,14 +265,12 @@ app.get('/getProduct/:Id', (req, res) => {
                 data:result
             });
         }
+    })
+})    
 
 app.post('/addProductValid', (req, res) => {
 
     let pname=req.body.pname;
-
-
-
-
     let postQuery = "SELECT Id from product WHERE Name='"+pname+"' ";
     con.query(postQuery, (err, result) =>{
         if (result!=null)
@@ -283,6 +301,17 @@ app.post('/addProductValid', (req, res) => {
 /*   For  Product  code  ends  from  here    */
 app.post('/addProduct', (req, res) => {
 
+    var file = req.files.pimage;
+    var img_name=file.name;
+
+
+    if(file.mimetype == "image/jpeg" ||file.mimetype == "image/png"||file.mimetype == "image/gif" ){
+                                
+        file.mv('public/images/upload_images/'+file.name, function(err) {
+
+        });
+    }
+
     let pname=req.body.pname;
     let pdescription=req.body.description;
     let pimage=req.body.pimage;
@@ -296,8 +325,6 @@ app.post('/addProduct', (req, res) => {
     let quantity=7;
     let stockDate='20200502';
 
-
-
     let postQuery = "INSERT INTO product (Name, Description,BuyPrice,SellPrice,Discount,Quantity,AddStockDate ,Picture,Seller_Id,Category_Id,Brand_Id) VALUES ('"+pname+"', '"+pdescription+"','"+buyPrice+"','"+sellPrice+"','"+discount+"','"+quantity+"','"+stockDate+"', '"+pimage+"','"+sellerid+"','"+categoryid+"','"+brandid+"')";
     con.query(postQuery, (err, result) =>{
         if (err){
@@ -309,3 +336,4 @@ app.post('/addProduct', (req, res) => {
         }
     })
 })
+    
