@@ -50,9 +50,4 @@ import { ApisellerregistrationService } from './SellerRegistration/apisellerregi
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
-
-
-
-
-
+export class AppModule { }
