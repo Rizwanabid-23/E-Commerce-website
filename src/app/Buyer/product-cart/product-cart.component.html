@@ -1,150 +1,106 @@
 <div class="marginFromNavbar"></div>
-<div class="containerml-5 mr-5">
+<div class="container ">
     <div class="row">
 
       <!--Left Column Start From here-->
       <!------------------------------->
       <!------------------------------->
 
-      <div class="col-lg-8 " >
-        <div class="row m-2" style="background-color:#DEDEDE;">
+      <div class="col-lg-8 col-md-12 col-sm-12">
+        <!-- <div class="row m-2" style="background-color:#DEDEDE;">
           <p>Delivery Option</p>
-        </div>
-
+        </div> -->
+        <div class="me-2">
         <!--Row start for select all or unselect option-->
-        <div class="row m-2 py-2" style="background-color: #DEDEDE;">
-          <div class="col-lg-11">
+        <div class="row py-2" style="background-color: #DEDEDE;">
+          <div class="col-lg-11 col-md-10 col-sm-9">
             <div class="form-check">
-              <input class="form-check-input p-2  my-2" type="checkbox" value="" id="flexCheckDefault">
-              <label class="form-check-label mx-2 my-1 " for="flexCheckDefault">
+              <input class="form-check-input p-2  my-2" type="checkbox" value="" (click)="clickOnSelectAllCheckBox()" id="selectAllCheckBox"  >
+              <label class="form-check-label mx-2 my-1 " for="selectAllCheckBox">
                 Select All
               </label>
             </div>
           </div>
-            <div class="col-lg-1">
-              <!-- <button class="btn" type="button"> <img src="p1.jpg" height ="25" width="25" /></button> -->
+            <div class="col-lg-1 col-md-2 col-sm-3" >
+              
+              <button class="btn" (click)="deleteProduct()"   type="submit"> <img class="deleteBtnImage" src="assets/delete_image.jpg" /></button>
             </div>
         </div>
         <!--Row ends for select all or unselect option-->
 
         <!--Row start for Product Detail --------------->
-        <div class="row m-2" style="background-color: #DEDEDE;">
-          
-          <div class="col-lg-1 ">
-            <div class="form-check mt-5">
-              <input class="form-check-input p-2  my-2" type="checkbox" value="" id="flexCheckDefault">
-
+        <div class="row my-2" style="background-color: #DEDEDE;" *ngFor="let prd of addToCartProduct">
+          <div class="col-lg-1 col-md-1 col-sm-1">
+            <div class="form-check " style="margin-top: 60px;">
+              <input class="form-check-input py-2" type="checkbox" value="" (click)="clickOnCheckBox(prd.prdId, prd.prdQuantity,prd.prdDiscountedPrice)" id="productheckBox{{prd.prdId}}">
             </div>
           </div>
           <!--------Image of Product Starts--------------->
-          <div class="col-lg-2">
-            <div class=" mt-3 mb-4">
-              <img class="images" src="assets/p1.jpg" style="width: 80px;"/>
+          <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class=" my-3">
+              <img class="addTocartImage" src="{{prd.prdImage}}"/>
             </div>
           </div>
           <!--------Image of Product ends----------------->
 
           <!-------Description of Product Starts---------->
-          <div class="col-lg-4 mt-3">
-            <p class="m-0">{{lprdName}}</p>
-            <p class="small m-0"> {{lbrandName}}</p>
+          <div class="col-lg-3 col-md-4 col-sm-5" style="margin-top: 5%;">
+            <p class="m-0">{{prd.prdName}}</p>
+            <p class="mt-2">Brand: <b>{{prd.prdBrandName}}</b></p>
           </div>
           <!-------Description of Product ends------------>
 
           <!-------Price of Product Starts---------------->
-          <div class="col-lg-2">
-            <p class="mt-3 text-danger mb-0" >RS. {{ldiscountedPrice}}</p>
-            <p class="small m-0"><s>RS. {{ltotalPrice}}</s></p>
-            <p class="small">Discount {{ldiscount}}%</p>
+          <div class="col-lg-2 col-md-3 col-sm-3" style="margin-top: 3%;">
+            <p class="mt-3 text-danger mb-0" >RS. {{prd.prdDiscountedPrice}}</p>
+            <p class="small m-0"><s>RS. {{prd.prdTotalPrice}}</s></p>
+            <p class="small">Discount:{{prd.prdDiscount}}%</p>
           </div>
           <!-------Price of Product ends------------------>
 
           <!-------Plus and minus Sign for upgrading Product Starts------->
-          <div class="col-lg-1" style="margin-top: 25px; float: right;">
-            <button (click)="clickOnMinusSign()" ><img  class="images" src="assets/minus.png" width="30" height="30"></button>
+          <div class="col-lg-1 col-md-1 col-sm-1" style="margin-top: 50px;">
+            <button (click)="clickOnMinusSign(prd.prdId)" ><img  class="minusBtnImage" src="assets/minus.png"  width="30" height="30"></button>
           </div>
-          <div class="col-lg-1" style="margin-top: 20px;">
-            <h3 class="mt-2 text-center" >{{selectQuantity}}</h3>
+          <div class="col-lg-1 col-md-1 col-sm-1" style="margin-top: 45px;">
+            <h3 class="mt-2 text-center" >{{prd.prdQuantity}}</h3>
           </div>
-          <div class="col-lg-1" style="margin-top: 25px;">
-            <button (click)="clickOnPlusSign()"  type="submit" ><img  class="images" src="assets/Plus.png" width="30" height="30"></button>
-
-            <!-- <button class="border border-dark" type="button"></button> -->
+          <div class="col-lg-1 col-md-1 col-sm-1" style="margin-top: 50px;">
+            <button (click)="getSelectedProductQuantityOnPlus(prd.prdId)" type="submit" ><img  class="plusBtnImage" src="assets/Plus.png" width="30" height="30"></button>
           </div>
           <!-------Plus and minus Sign for upgrading Product ends------->
 
         </div>
         <!--Row ends for Product Detail ---------------->
-
+      </div>
       </div>
       <!--Left Column ends here-------->
       <!------------------------------->
       <!------------------------------->
 
-
       <!--Right Column Start From here---->
       <!---------------------------------->
       <!---------------------------------->
-      <div class="col-lg-4">
-
-        <div class="row my-2" style="background-color: #DEDEDE;">
-          <div class="d-grid gap-2">
-              <button class="btn btn-danger m-2 mt-3" type="button">Proceed to Pay</button>
+      <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="row me-1" style="background-color: #DEDEDE;">
+          <h4 class="m-2 text-center">Order Summary</h4>
+          <div class="mx-1">
+            <p>Items Total ({{totalSelectedItems}})<span style="float : right;">{{totaPricePerProduct}}</span> </p>
           </div>
-
-          <h5 class="m-2">Order Summary</h5>
-
-          <div class="row">
-              <div class="col-lg-8">
-                  <p class="mx-2">Items Total ({{selectQuantity}})</p>
-              </div>
-              <div class="col-lg-4">
-                  <div class="mx-2">
-                    <p class="mx-2">{{prdsTotalPrice}}</p>
-                  </div>
-              </div>
+          <div  class="mx-1"> 
+            <p> Delivery Fee <span style="float : right;">{{deliveryFee}}</span> </p>
           </div>
-
-          <div class="row">
-              <div class="col-lg-8">
-                  <p class="mx-2">Delivery Fee</p>
-              </div>
-              <div class="col-lg-4">
-                  <div class="mx-2">
-                    <p class="mx-2">{{deliveryFee}}</p>
-                      <!-- <input type="text" class="form-control no-border" id="hjds" placeholder=""> -->
-                  </div>
-              </div>
-          </div>
-
+<!-- 
           <div class="row my-2">
-              <div class="col-lg-8">
-                      <input class="form-control" type="text" placeholder="Enter Voucher Code" aria-label="default input example">
-              </div>
-              <div class="col-lg-4 d-grid">
-                      <button class="btn btn-primary" type="button">Apply</button>
-              </div>
-          </div>
-
-          <div class="row">
-              <div class="col-lg-8">
-                  <p class="mx-2 mt-1">Total</p>
-              </div>
-              <div class="col-lg-4">
-                  <div class="mx-2">
-                    <p class="mx-2">{{allTotalPrice}}</p>
-                  </div>
-              </div>
-          </div>
-
-          <!-- <div class="d-grid gap-2">
-            <a >
-            <button class="btn btn-dark m-2 mt-3" type="button">Place Order</button>
-          </a>
+            <input class="form-control" type="text" placeholder="Enter Voucher Code" aria-label="default input example">
+            <button class="btn btn-primary" type="button">Apply</button>
           </div> -->
-
-        </div>
-          
+          <div  class="mx-1"> 
+            <p> Total <span style="float : right;">{{totalPriceOFBill}}</span> </p>
+          </div>   
+          <div class="d-grid gap-2">
+            <button class="btn btn-danger m-2 mt-3" type="button">Proceed to Pay</button>
+        </div> 
       </div>
       <!--Right Column ends From here----->
       <!---------------------------------->

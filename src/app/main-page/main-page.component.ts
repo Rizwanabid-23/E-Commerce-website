@@ -44,11 +44,8 @@ export class MainPageComponent implements OnInit {
 
   // This function will get all product categories data
   getProductData(){
-    console.log("In Get");
     this.service.getAllProductData().subscribe((res) =>{
       this.prdData = res.data;
-      console.log("In Res");
-  
     })
   }
 
@@ -56,7 +53,6 @@ export class MainPageComponent implements OnInit {
   // function of that page
   setSelctedProductGlobal(selected_prd_id)
   {
-    console.log("in global");
     this.ap.clickedProductPictureId = selected_prd_id;
   }
 

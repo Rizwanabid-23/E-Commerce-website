@@ -18,5 +18,9 @@ export class ProductApiService {
   {
     return this._http.get('http://localhost:3000/getProduct');
   }
+  getProductQuantity(prdId):Observable<any>
+  {
+    return this._http.get('http://localhost:3000/getProductQuantity/"'+prdId+'"');
+  }
 
 }

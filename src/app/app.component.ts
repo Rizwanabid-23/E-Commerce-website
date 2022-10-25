@@ -16,7 +16,7 @@ export class AppComponent {
   public loginBuyerId = -10; // This will store login buyer Id
   public loginSellerId = -10; // This will store login seller Id
   public loginSellerName = "Any"; 
-  public clickedProductPictureId = 3;
+  public clickedProductPictureId = -10;
 
 
   public readData:any;
