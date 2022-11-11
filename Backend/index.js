@@ -266,7 +266,83 @@ app.get('/getProduct/:Id', (req, res) => {
             });
         }
     })
-})    
+})
+
+app.get('/getProductQuantity/:Id', (req, res) => {
+    let id = req.params.Id;
+    id = id.replaceAll('"', '');
+    let getQuery = "SELECT Quantity FROM `product` WHERE Id = '"+id+"'";
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            console.log("Error");
+            res.send('Error')
+            
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
+    })
+})
+
+app.get('/getProductName/:Id', (req, res) => {
+    let id = req.params.Id;
+    id = id.replaceAll('"', '');
+    let getQuery = "SELECT Name FROM `product` WHERE Id = '"+id+"'";
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            console.log("Error");
+            res.send('Error')
+            
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
+    })
+})
+
+app.get('/getProductBrandName/:Id', (req, res) => {
+    let id = req.params.Id;
+    id = id.replaceAll('"', '');
+    let getQuery = "SELECT Brand FROM `product`, product_brand WHERE product.Id = '"+id+"' AND product_brand.Id = product.Brand_Id";
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            console.log("Error");
+            res.send('Error')
+            
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
+    })
+})
+app.get('/getProductPrice/:Id', (req, res) => {
+    let id = req.params.Id;
+    id = id.replaceAll('"', '');
+    let getQuery = "SELECT Brand FROM `product`, product_brand WHERE product.Id = '"+id+"' AND product_brand.Id = product.Brand_Id";
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            console.log("Error");
+            res.send('Error')
+            
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
+    })
+})
+
 
 app.post('/addProductValid', (req, res) => {
 

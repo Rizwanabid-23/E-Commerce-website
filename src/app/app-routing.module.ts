@@ -10,6 +10,8 @@ import { AddStockComponent } from './SellerRegistration/add-stock/add-stock.comp
 import { ProdAndSellerDescriptionComponent } from './Buyer/prod-and-seller-description/prod-and-seller-description.component';
 import { ProductCartComponent } from './Buyer/product-cart/product-cart.component';
 import {UploadFileService} from './SellerRegistration/upload-file.service';
+import { CustomerSupportComponent } from './customer-support/customer-support.component';
+
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -22,6 +24,7 @@ const routes: Routes = [
   {path: 'productAndSellerDetails',component:ProdAndSellerDescriptionComponent},
   {path: 'productCart', component:ProductCartComponent},
   {path:'uploadFile',component:UploadFileService}
+  {path: 'customerSupport',component:CustomerSupportComponent},
 ];
 
 @NgModule({
