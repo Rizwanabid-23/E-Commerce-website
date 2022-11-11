@@ -271,12 +271,12 @@ app.get('/getProduct/:Id', (req, res) => {
 app.post('/addProductValid', (req, res) => {
 
     let pname=req.body.pname;
-    let postQuery = "SELECT Id from product WHERE Name='"+pname+"' ";
+    let postQuery = "SELECT Name from product WHERE Name='"+pname+"' ";
     con.query(postQuery, (err, result) =>{
-        if (result!=null)
+        if (result==null)
         {
             res.send({
-                message:'Data Inserted',
+                message:'Data not Inserted',
                 // data:result[0].Id
                 data:result.insertId
 
@@ -285,11 +285,16 @@ app.post('/addProductValid', (req, res) => {
         else{
             res.send({
                 message:'Data Inserted',
-                data:null
+                data:null,
+                
             })
         }
+        if(err)
+        {
+            console.log("err",err);
+        }
 
-        console.log("insert",result.length());
+        console.log("insert");
     })
 })
 
@@ -302,28 +307,32 @@ app.post('/addProductValid', (req, res) => {
 app.post('/addProduct', (req, res) => {
 
     var file = req.files.pimage;
-    var img_name=file.name;
+    // var img_name=file.name;
 
-
-    if(file.mimetype == "image/jpeg" ||file.mimetype == "image/png"||file.mimetype == "image/gif" ){
+    console.log("addProduct in index.js");
+    if(file.mimetype == "image/jpeg" ||file.mimetype == "image/png"||file.mimetype == "image/gif" || file.mimetype=="image/jpg" ){
                                 
-        file.mv('public/images/upload_images/'+file.name, function(err) {
-
-        });
+        file.mv('public/images/upload_images/'+file.name, function(err) {});
     }
 
     let pname=req.body.pname;
     let pdescription=req.body.description;
     let pimage=req.body.pimage;
+    // let pimage="assets/p1.jpg";
     let sellerid=req.body.sellerid;
     let categoryid=req.body.categoryid;
     let brandid=req.body.brandid;
 
-    let buyPrice=10;
-    let sellPrice=15;
-    let discount=5;
-    let quantity=7;
-    let stockDate='20200502';
+    let buyPrice=req.body.buyPrice;
+    buyPrice=String(buyPrice);
+    let sellPrice=req.body.sellPrice;
+    sellPrice=String(sellPrice);
+    let discount=req.body.discount;
+    discount=String(discount);
+    let quantity="0";
+    let stockDate=new Date();
+    console.log("date:",stockDate);  //C:\fakepath\p2.jpg
+    
 
     let postQuery = "INSERT INTO product (Name, Description,BuyPrice,SellPrice,Discount,Quantity,AddStockDate ,Picture,Seller_Id,Category_Id,Brand_Id) VALUES ('"+pname+"', '"+pdescription+"','"+buyPrice+"','"+sellPrice+"','"+discount+"','"+quantity+"','"+stockDate+"', '"+pimage+"','"+sellerid+"','"+categoryid+"','"+brandid+"')";
     con.query(postQuery, (err, result) =>{
@@ -332,6 +341,7 @@ app.post('/addProduct', (req, res) => {
                 message:'Data Inserted',
                 data:null
             })
+            // console.log(result.insertId);
             
         }
     })
