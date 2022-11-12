@@ -25,12 +25,30 @@
             <input type="number" formControlName="categoryid" class="form-control" >
           </div>
       </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label> Buying Price</label>
+          <input type="number" formControlName="buyPrice" class="form-control">
+        </div>
+        <div class="form-group col-md-4">
+          <label >Selling Price</label>
+          <input type="number" formControlName="sellPrice" class="form-control" >
+        </div>
+        <div class="form-group col-md-4">
+            <label >Discount(%)</label>
+            <input type="number" formControlName="discount" class="form-control" >
+          </div>
+      </div>
     
     <div class="form-row">
       
       <div class="form-group col-md-4">
         <label>Add Image</label>
-        <input type="file" formControlName="pimage" class="form-control" id="customFile" />
+        <input type="file" accept="image/*" (change)="onFileChange($event)" formControlName="pimage" class="form-control" id="customFile" />
+        <div class="div" style="margin: 10px;">
+          <button type="button" class="btn btn-secondary" (click)="onUpload()">Upload</button>
+        </div>
       </div>
       
     </div>

@@ -9,6 +9,8 @@ import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.co
 import { AddStockComponent } from './SellerRegistration/add-stock/add-stock.component';
 import { ProdAndSellerDescriptionComponent } from './Buyer/prod-and-seller-description/prod-and-seller-description.component';
 import { ProductCartComponent } from './Buyer/product-cart/product-cart.component';
+import {UploadFileService} from './SellerRegistration/upload-file.service';
+import { CustomerSupportComponent } from './customer-support/customer-support.component';
 
 
 const routes: Routes = [
@@ -20,7 +22,9 @@ const routes: Routes = [
   { path: 'SellerDashboard', component: SellerDashboardComponent },
   {path: 'addStock',component:AddStockComponent},
   {path: 'productAndSellerDetails',component:ProdAndSellerDescriptionComponent},
-  {path: 'productCart', component:ProductCartComponent}
+  {path: 'productCart', component:ProductCartComponent},
+  {path:'uploadFile',component:UploadFileService}
+  {path: 'customerSupport',component:CustomerSupportComponent},
 ];
 
 @NgModule({

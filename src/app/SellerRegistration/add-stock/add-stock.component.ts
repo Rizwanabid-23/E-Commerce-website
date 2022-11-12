@@ -3,6 +3,10 @@ import { APIService } from 'src/app/api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppComponent } from 'src/app/app.component';
 import { Router } from '@angular/router';
+import { HttpClient, HttpEventType } from '@angular/common/http';
+import { UploadFileService } from '../upload-file.service';
+
+
 
 @Component({
   selector: 'app-add-stock',
@@ -14,7 +18,7 @@ export class AddStockComponent implements OnInit {
   readData: any;
   accountCreated:Boolean = false;
   uLogin:Boolean;
-  constructor(private service: APIService, private router: Router, private ap: AppComponent) { }
+  constructor(private service: APIService, private router: Router, private ap: AppComponent,private uploadService:UploadFileService) { }
   ngOnInit(): void {
 
   }
@@ -26,13 +30,16 @@ export class AddStockComponent implements OnInit {
     'sellerid': new FormControl('', Validators.required),
     'brandid': new FormControl('', Validators.required),
     'categoryid': new FormControl('', Validators.required),
-    'pimage': new FormControl('', Validators.required)
+    'pimage': new FormControl('', Validators.required),
+    'buyPrice':new FormControl('',Validators.required),
+    'sellPrice':new FormControl('',Validators.required),
+    'discount':new FormControl('',Validators.required)
 
   })
   async checkProduct(){
     this.service.checkProductStock(this.pstockForm.value).subscribe(res => {
       this.readData = res.data;
-      console.log(this.readData);
+      console.log("readData:",this.readData);
       if (this.readData == null) {
         this.addProductStock();
         console.log("line36");
@@ -50,14 +57,56 @@ export class AddStockComponent implements OnInit {
     this.userid = this.ap.loginSellerId;
     
     console.log("function");
-    this.service.insertProductStock(this.pstockForm.value).subscribe((res) => {
+    this.service.insertProductStock(this.pstockForm.value).subscribe(res => {
 
     });
-    this.ap.appOpen = false;
-    this.ap.sellerLogin = false;
-    this.ap.buyerLogin = true;
+    // this.ap.appOpen = false;
+    // this.ap.sellerLogin = false;
+    // this.ap.buyerLogin = true;
+
 
     this.router.navigate(['/SellerDashboard']);
     this.pstockForm.reset();
+  }
+
+  selectedFile:File=null;
+  onFileChange(event:any)
+  {
+    // console.log(event);
+    this.selectedFile=event.target.files[0];
+    console.log("heheh");
+    console.log(this.selectedFile);
+  }
+  onUpload()
+  {
+    if(this.selectedFile)
+    {
+      this.uploadService.uploadfile(this.selectedFile).subscribe(resp=>{
+        alert("uploaded")
+      })
+    }
+    else{
+      alert("please select a file")
+    }
+
+
+
+    // const fd=new FormData();
+    // fd.append('image',this.selectedFile,this.selectedFile.name);
+    // this.http.post('C:/Users/rizwa/Documents/GitHub/E-Commerce-website/src/assets/upload_images',fd,{
+    //   reportProgress: true,
+    //   observe:'events'
+    // })
+    // .subscribe(event=>{
+    //   if (event.type===HttpEventType.UploadProgress)
+    //   {
+    //     console.log('Upload progress:'+Math.round(event.loaded/event.total*100)+'%')
+    //   }
+    //   else if (event.type===HttpEventType.Response)
+    //   {
+    //     console.log(event);
+    //   }
+      
+    // });
   }
 }

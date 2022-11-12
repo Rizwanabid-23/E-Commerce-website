@@ -19,6 +19,8 @@ import { ProductCartComponent } from './Buyer/product-cart/product-cart.componen
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductApiService } from './Buyer/Services/product-api.service';
 import { ApisellerregistrationService } from './SellerRegistration/apisellerregistration.service';
+import { CustomerSupportComponent } from './customer-support/customer-support.component';
+import { CustomerSupportItemComponent } from './customer-support-item/customer-support-item.component';
 
 
 
@@ -34,6 +36,8 @@ import { ApisellerregistrationService } from './SellerRegistration/apisellerregi
     AddStockComponent,
     ProdAndSellerDescriptionComponent,
     ProductCartComponent,
+    CustomerSupportComponent,
+    CustomerSupportItemComponent,
   ],
   imports: [ 
     BrowserModule,
