@@ -22,5 +22,9 @@ export class ProductApiService {
   {
     return this._http.get('http://localhost:3000/getProductQuantity/"'+prdId+'"');
   }
+  insertBuyerAddress(buyerAddressData):Observable<any>
+  {
+    return this._http.post('http://localhost:3000/saveBuyerAddress', buyerAddressData);
+  }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductApiService } from '../Services/product-api.service';
 import { AppComponent } from 'src/app/app.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-prod-and-seller-description',
@@ -10,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ProdAndSellerDescriptionComponent implements OnInit {
 
-  constructor(private service:ProductApiService, private ap:AppComponent, ) { }
+  constructor(private service:ProductApiService, private ap:AppComponent, private router:Router) { }
 
   readData:any;
   brandName:any;
@@ -23,9 +24,10 @@ export class ProdAndSellerDescriptionComponent implements OnInit {
   sellerCity:any;
   discountedPrice:any;
   prdImage:any;
+  isBuyerLogin:Boolean;
   ngOnInit(): void {
     this.getSelectedProductData();
-
+    this.isBuyerLogin = this.ap.buyerLogin;
   }
 
   public getSelectedProductData() // This function will get data against selected product 
@@ -49,6 +51,19 @@ export class ProdAndSellerDescriptionComponent implements OnInit {
   calculatediscountedPrice(price, discountPercentage){
     return price - (price*discountPercentage/100)
   }
+  addToCart()
+  {
+    if(this.isBuyerLogin)
+    {
+      this.router.navigate(['/productCart']);
+    }
+    else
+    {
+      this.ap.buyerLoginThroughAddToCart = true;
+      this.router.navigate(['/SignIn']);
+    }
+  }
+
 
 }
 
