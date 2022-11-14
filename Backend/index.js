@@ -248,6 +248,24 @@ app.get('/getProduct', (req, res) => {
     })
 })
 
+app.get('/getSellerProduct', (req, res) => {
+    let getQuery = 'Select Id, Name, Picture, SellPrice,BuyPrice,Quantity,AddStockDate, Discount, Description From product';
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            console.log("Error");
+            res.send({
+                data:null
+            })
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
+    })
+})
+
 
 app.get('/getProduct/:Id', (req, res) => {
     let id = req.params.Id;
