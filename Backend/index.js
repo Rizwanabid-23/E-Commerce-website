@@ -392,6 +392,40 @@ app.post('/addProductValid', (req, res) => {
     })
 })
 
+/*------------------------------------------ */
+/*------------------------------------------ */
+/*   For  Buyer Deliver Address starts here  */
+
+
+/*------------------------------------------ */
+/*------------------------------------------ */
+/*   For  Buyer Deliver Address ends here   */
+app.post('/saveBuyerAddress', (req, res) => {
+    let buyer_Address_Name = req.body.fullName;
+    let buyer_Address_Phone = req.body.phoneNo;
+    let buyer_Address_Colony = req.body.colSubLocLan;
+    let buyer_Address_NickName = req.body.nickName;
+    let buyer_Address_Province = req.body.province;
+    let buyer_Address_City = req.body.city;
+    let buyer_Address_Building = req.body.buiHouFloStr;
+    console.log("In index");
+    let postQuery = "INSERT INTO buyer_Address (FullName, PhoneNo, Buildin_House_Street_Floor, Colony_Submark_Locality_Landmark, Province, City, Buyer_User_Id, NickName) VALUES ('"+buyer_Address_Name+"', '"+buyer_Address_Phone+"', '"+buyer_Address_Building+"', '"+buyer_Address_Colony+"', '"+buyer_Address_Province+"', '"+buyer_Address_City+"', '1', '"+buyer_Address_NickName+"')";
+    con.query(postQuery, (err, result) =>{
+        if (err){
+            res.send({
+                message:'Data Inserted',
+                data:null
+            })
+        }
+        else{
+            res.send({
+                message:'Data Inserted',
+                data:result.insertId
+            })
+        }
+    })
+})
+
 
 
 

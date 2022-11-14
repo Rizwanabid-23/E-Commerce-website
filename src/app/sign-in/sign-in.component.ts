@@ -44,7 +44,14 @@ export class SignInComponent implements OnInit {
         this.ap.appOpen = false;
         this.ap.sellerLogin = false;
         this.ap.buyerLogin = true;
-        this.router.navigate(['/']);
+        if(this.ap.buyerLoginThroughAddToCart)
+        {
+          this.router.navigate(['productCart']);
+        }
+        else
+        {
+          this.router.navigate(['/']);
+        }
         this.signInForm.reset();
       }
 

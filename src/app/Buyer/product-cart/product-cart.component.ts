@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { AddToCartProduct } from '../AddToCartProduct';
 import { ProductApiService } from '../Services/product-api.service';
+declare var window:any;
 
 @Component({
   selector: 'app-product-cart',
@@ -25,9 +27,13 @@ export class ProductCartComponent implements OnInit {
   totalPriceOFBill = 0;
   copyProducts =  [];
   localProducts:string;
+  deliveryAddressModal:any;
   ngOnInit(): void {
     this.pushInArrayOnLoad();
     this.getSelectedProductData();
+    this.deliveryAddressModal = new window.bootstrap.Modal(
+      document.getElementById("deliveryModal")
+    );
   }
 
   pushInArrayOnLoad(){ // This will load items in array from localstorage that are already selected by user
@@ -180,32 +186,182 @@ export class ProductCartComponent implements OnInit {
       this.copyProducts.push(items);
     });
   }
-  copyInAddToCart()
-  {
-    this.addToCartProduct = [];
-    this.copyProducts.forEach((items) =>
-    {
-      this.addToCartProduct.push(items);
-    });
-    localStorage.setItem("addToCartProducts", JSON.stringify(this.addToCartProduct));
-    this.copyProducts = [];
-  }
+
   deleteProduct() // This delete items which are checked.
   {
     this.copyInCopyProducts();
-    this.addToCartProduct.forEach((items) =>
+    this.copyProducts.forEach((items) =>
     {
       if(items['isCheckBoxChecked'])
       {
-        const index = this.copyProducts.indexOf(items);
-        console.log("index ",index);
-        this.copyProducts.splice(index,1);
+        const index = this.addToCartProduct.indexOf(items);
+        this.addToCartProduct.splice(index,1);
       }
     });
-    this.copyInAddToCart();
+    localStorage.setItem("addToCartProducts", JSON.stringify(this.addToCartProduct));
     this.calculateBill();
   }
 
+  // Code For Modal Start From Here
+  // ------------------------------
+  // ------------------------------
+  // ------------------------------
+  
 
+  
+  cities = [
+    "Ahmadpur East",
+    "Ahmed Nager Chatha",
+    "Ali Khan Abad",
+    "Alipur",
+    "Arifwala",
+    "Attock",
+    "Bhera",
+    "Bhalwal",
+    "Bahawalnagar",
+    "Bahawalpur",
+    "Bhakkar",
+    "Burewala",
+    "Chenab Nagar",
+    "Chillianwala",
+    "Choa Saidanshah",
+    "Chakwal",
+    "Chak Jhumra",
+    "Chichawatni",
+    "Chiniot",
+    "Chishtian",
+    "Chunian",
+    "Dajkot",
+    "Daska",
+    "Davispur",
+    "Darya Khan",
+    "Dera Ghazi Khan",
+    "Dhaular",
+    "Dina",
+    "Dinga",
+    "Dhudial Chakwal",
+    "Dipalpur",
+    "Faisalabad",
+    "Fateh Jang",
+    "Ghakhar Mandi",
+    "Gojra",
+    "Gujranwala",
+    "Gujrat",
+    "Gujar Khan",
+    "Harappa",
+    "Hafizabad",
+    "Haroonabad",
+    "Hasilpur",
+    "Haveli Lakha",
+    "Islamabad",
+    "Jalalpur Jattan",
+    "Jampur",
+    "Jaranwala",
+    "Jhang",
+    "Jhelum",
+    "Jauharabad",
+    "Kallar Syedan",
+    "Kalabagh",
+    "Karor Lal Esan",
+    "Karachi",
+    "Kasur",
+    "Kamalia",
+    "Kāmoke",
+    "Khanewal",
+    "Khanpur",
+    "Khanqah Sharif",
+    "Kharian",
+    "Khushab",
+    "Kot Adu",
+    "Lahore",
+    "Lalamusa",
+    "Layyah",
+    "Lawa Chakwal",
+    "Liaquat Pur",
+    "Lodhran",
+    "Malakwal",
+    "Mamoori",
+    "Mailsi",
+    "Mandi Bahauddin",
+    "Mian Channu",
+    "Mianwali",
+    "Miani",
+    "Multan",
+    "Murree",
+    "Muridke",
+    "Mianwali Bangla",
+    "Muzaffargarh",
+    "Narowal",
+    "Nankana Sahib",
+    "Okara",
+    "Pakpattan",
+    "Pattoki",
+    "Pindi Bhattian",
+    "Pind Dadan Khan",
+    "Pir Mahal",
+    "Qaimpur",
+    "Qila Didar Singh",
+    "Raiwind",
+    "Rajanpur",
+    "Rahim Yar Khan",
+    "Rawalpindi",
+    "Renala Khurd",
+    "Sadiqabad",
+    "Sagri",
+    "Sahiwal",
+    "Sambrial",
+    "Samundri",
+    "Sangla Hill",
+    "Sarai Alamgir",
+    "Sargodha",
+    "Shakargarh",
+    "Sheikhupura",
+    "Shujaabad",
+    "Sialkot",
+    "Sohawa",
+    "Soianwala",
+    "Siranwali",
+    "Tandlianwala",
+    "Talagang",
+    "Taxila",
+    "Toba Tek Singh",
+    "Vehari",
+    "Wah Cantonment",
+    "Wazirabad",
+    "Yazman",
+    "Zafarwal"
+  ]
+  
+  buyerAddressForm = new FormGroup({
+    'fullName':new FormControl('',Validators.required),
+    'phoneNo':new FormControl('',Validators.required),
+    'colSubLocLan':new FormControl('',Validators.required),
+    'province':new FormControl('',Validators.required),
+    'city':new FormControl('',Validators.required),
+    'buiHouFloStr':new FormControl('',Validators.required),
+    'nickName':new FormControl('',Validators.required),
+  })
+  openAddAddressModal()
+  {
+    this.deliveryAddressModal.show();
+  }
+  closeAddAddressModal()
+  {
+    this.deliveryAddressModal.hide();
+  }
+  saveBuyerAddress()
+  {
+    this.service.insertBuyerAddress(this.buyerAddressForm.value).subscribe((res) => {
+      this.readData = res.data;
+      console.log(this.readData);
+      this.deliveryAddressModal.hide();
+      this.buyerAddressForm.reset();
+      
 
+    });
+  }
+  openSelectAddressModal()
+  {
+    
+  }
 }
