@@ -188,6 +188,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
+                                    <ng-container *ngIf="this.prdData">
                                     <table id="productsTable" class="table table-hover table-product"
                                         style="width:100%">
                                         <thead>
@@ -196,30 +197,26 @@
                                                 <th>Product Name</th>
                                                 <th>ID</th>
                                                 <th>Qty</th>
-                                                <th>Variants</th>
-                                                <th>Committed</th>
-                                                <th>Daily Sale</th>
-                                                <th>Sold</th>
-                                                <th>In Stock</th>
+                                                <th>Buy Price</th>
+                                                <th>Sell Price</th>
+                                                <th>Description</th>
+                                                <th>Adding Date</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-
+                                        
+                                        <tbody *ngFor="let prd of prdData">
                                             <tr>
                                                 <td class="py-0">
-                                                    <img src="/assets/products-xs-01.jpg" alt="Product Image">
+                                                     <img src="{{prd.Picture}}" style="height: 60px;width: 50px;margin-top: 8px;" alt="Product Image">
                                                 </td>
-                                                <td>Coach Swagger</td>
-                                                <td>24541</td>
-                                                <td>27</td>
-                                                <td>1</td>
-                                                <td>2</td>
-                                                <td>
-                                                    <div id="tbl-chart-01"></div>
-                                                </td>
-                                                <td>4</td>
-                                                <td>18</td>
+                                                <td>{{prd.Name}}</td>
+                                                <td>{{prd.Id}}</td>
+                                                <td>{{prd.Quantity}}</td>
+                                                <td>{{prd.BuyPrice}}</td>
+                                                <td>{{prd.SellPrice}}</td>
+                                                <td>{{prd.Description}}</td>
+                                                <td>{{prd.AddStockDate}}</td>
                                                 <td>
                                                     <div class="row">
                                                         <div class="col">
@@ -228,7 +225,7 @@
                                                                     
                                                                 </button>
                                                                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                                                    <button ngbDropdownItem>Action - 1</button>
+                                                                    <button ngbDropdownItem>Action 1</button>
                                                                     <button ngbDropdownItem>Another Action</button>
                                                                     <button ngbDropdownItem>Something else is here</button>
                                                                 </div>
@@ -239,6 +236,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                </ng-container>
 
                                 </div>
                             </div>
