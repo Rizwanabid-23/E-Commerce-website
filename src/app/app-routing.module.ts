@@ -23,7 +23,7 @@ const routes: Routes = [
   {path: 'addStock',component:AddStockComponent},
   {path: 'productAndSellerDetails',component:ProdAndSellerDescriptionComponent},
   {path: 'productCart', component:ProductCartComponent},
-  {path:'uploadFile',component:UploadFileService}
+  {path:'uploadFile',component:UploadFileService},
   {path: 'customerSupport',component:CustomerSupportComponent},
 ];
 

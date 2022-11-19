@@ -84,19 +84,23 @@ app.post('/buyerUserSignInValid', (req, res) => {
 // This will check that same email id with new creating account exist or not
 app.post('/buyerUserSignUpValid', (req, res) => {
     let check_buyer_email = req.body.email;
+    console.log(check_buyer_email);
     let getQuery = "Select Id From buyer_user WHERE Email = '"+check_buyer_email+"'";
     con.query(getQuery, (err, userResult) =>{
-        if(userResult != null){
+        console.log("userresult", userResult);
+        if(userResult.length == 0){
             res.send({
-                message:'Data',
-                data:userResult
+
+                message:'Null',
+                data:null
             });
-        
+            
+            console.log("null");
         }
         else{
             res.send({
                 message:'Data',
-                data:null
+                data:userResult
             });
         }
     })
@@ -407,8 +411,6 @@ app.post('/saveBuyerAddress', (req, res) => {
         }
     })
 })
-
-
 
 
 /*------------------------------------------ */

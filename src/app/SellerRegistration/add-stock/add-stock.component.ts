@@ -22,6 +22,14 @@ export class AddStockComponent implements OnInit {
   ngOnInit(): void {
 
   }
+  getProductBrands()
+  {
+    console.log("Get Brands");
+  }
+  getProductCategory()
+  {
+    console.log("Get Category");
+  }
 
   userid = -10;
   pstockForm = new FormGroup({
@@ -79,9 +87,11 @@ export class AddStockComponent implements OnInit {
   }
   onUpload()
   {
+    
     if(this.selectedFile)
     {
-      this.uploadService.uploadfile(this.selectedFile).subscribe(resp=>{
+      console.log("On upload Selected");
+      this.uploadService.uploadfile(this.selectedFile).subscribe(res=>{
         alert("uploaded")
       })
     }
