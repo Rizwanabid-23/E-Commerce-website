@@ -17,6 +17,19 @@ export class APIService {
     {
       return this._http.get('http://localhost:3000/buyerUser');
     }
+    // reset buyer user password
+    checkbuyerUserData(userData:any):Observable<any>
+    {
+      return this._http.post('http://localhost:3000/resetBuyerPassword',userData);
+    }
+
+    //update buyer user password
+
+    updateBuyerUserPassword(userData:any):Observable<any>
+    {
+      // console.log(userData);
+      return this._http.post('http://localhost:3000/updateBuyerPassword',userData);
+    }
 
     // This will insert data in table
     insertUserData(userData:any):Observable<any>

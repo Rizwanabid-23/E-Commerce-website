@@ -1,0 +1,134 @@
+CREATE TABLE `buyer_user` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `FullName` varchar(20) NOT NULL,
+  `Email` varchar(30) NOT NULL,
+  `Password` varchar(15) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `seller_user` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `FirstName` varchar(12) NOT NULL,
+  `LastName` varchar(12) NOT NULL,
+  `Email` varchar(30) NOT NULL,
+  `PhoneNo` varchar(15) NOT NULL,
+  `CnicNo` varchar(13) NOT NULL,
+  `City` varchar(12) NOT NULL,
+  `Address` varchar(300) NOT NULL,
+  `Password` varchar(15) NOT NULL,
+  `JoiningDate` varchar(10) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `product_category` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `Category` varchar(15) NOT NULL,
+  PRIMARY KEY (`Id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `product_brand` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `Brand` varchar(15) NOT NULL,
+  PRIMARY KEY (`Id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `product` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(20) NOT NULL,
+  `Description` varchar(300) NOT NULL,
+  `BuyPrice` varchar(6) NOT NULL,
+  `SellPrice` varchar(6) NOT NULL,
+  `Discount` int(11) DEFAULT 0,
+  `Quantity` varchar(3) NOT NULL,
+  `AddStockDate` varchar(10) NOT NULL,
+  `Picture` varchar(40) NOT NULL,
+  `Seller_Id` int(11) NOT NULL,
+  `Category_Id` int(11) NOT NULL,
+  `Brand_Id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  FOREIGN KEY (`Seller_Id`) REFERENCES `seller_user`(`Id`),
+  FOREIGN KEY (`Category_Id`) REFERENCES `product_category`(`Id`),
+  FOREIGN KEY (`Brand_Id`) REFERENCES `product_brand`(`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `buyer_Address` (
+  `Id` int(11) AUTO_INCREMENT,
+  `FullName` varchar(20) NOT NULL,
+  `PhoneNo` varchar(11) NOT NULL,
+  `Buildin_House_Street_Floor` varchar(15) NULL,
+  `Colony_Submark_Locality_Landmark` varchar(15) NULL,
+  `Province` varchar(12) NOT NULL,
+  `City` varchar(30) NOT NULL,
+  `Buyer_User_Id` int(11) NOT NULL,
+  `NickName` varchar(20) NOT NULL,
+  PRIMARY KEY (`Id`),
+  FOREIGN KEY (`Buyer_User_Id`) REFERENCES `buyer_user`(`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+INSERT INTO `seller_user` (`Id`, `FirstName`, `LastName`, `Email`, `PhoneNo`, `CnicNo`, `City`, `Address`, `Password`, `JoiningDate`) VALUES (NULL, 'Muhammad', 'Talha', 'talha321@gmail.com', '03021234321', '3523123431234', 'Lahore', 'ancs s as asd ad we we we dwem dsew  e wq3 q3w q3w qw q3  3wq.', '12', '2020:10:22');
+
+INSERT INTO `product_category` (`Id`, `Category`) VALUES (NULL, 'Electronics');
+INSERT INTO `product_category` (`Id`, `Category`) VALUES (NULL, 'Shoes');
+INSERT INTO `product_category` (`Id`, `Category`) VALUES (NULL, 'Mobile');
+INSERT INTO `product_category` (`Id`, `Category`) VALUES (NULL, 'Computer');
+
+INSERT INTO `product_brand` (`Id`, `Brand`) VALUES (NULL, 'Singer');
+INSERT INTO `product_brand` (`Id`, `Brand`) VALUES (NULL, 'Nodel');
+INSERT INTO `product_brand` (`Id`, `Brand`) VALUES (NULL, 'Samsung');
+
+
+INSERT INTO `product` (`Id`, `Name`, `Description`, `BuyPrice`, `SellPrice`, `Discount`, `Quantity`, `AddStockDate`, `Picture`, `Seller_Id`, `Category_Id`, `Brand_Id`) VALUES (NULL, 'Watch', 'Imported brand new watch. Also, Water Resistant. ', '2000', '2500', '11', '4', '2020:10:20', 'assets/upload_images/p3.jpg', '1', '1', '1');
+INSERT INTO `product` (`Id`, `Name`, `Description`, `BuyPrice`, `SellPrice`, `Discount`, `Quantity`, `AddStockDate`, `Picture`, `Seller_Id`, `Category_Id`, `Brand_Id`) VALUES (NULL, 'AirBuds', 'Imported brand new airbuds. High quality. Made in Japan. ', '5000', '7500', '25', '4', '2020:10:20', 'assets/upload_images/p1.jpg', '1', '1', '1');
+
+
+
+
+
+
+
+
+
+
+
+SELECT prdBrand.Br, prdBrand.Id, prdBrand.Sellprice, prdBrand.Description, prdBrand.Discount, prdBrand.Quantity, prdBrand.Name, prdBrand.Picture, seller_user.FirstName+" "+seller_user.LastName, seller_user.City
+FROM (SELECT product_brand.Brand As Br, Pr.Id As Id, Pr.SellPrice As SellPrice, Pr.Description As 	           Description, Pr.Discount As Discount, Pr.Quantity As Quantity, Pr.Name As Name, 		  Pr.Picture As       Picture, Pr.Seller_Id As SellerId
+    	FROM (SELECT Id, Brand_Id, SellPrice, Description, Discount, Quantity, Name, Picture, Seller_Id
+        FROM product
+        WHERE Id = 0) As Pr, product_brand
+        WHERE Pr.Brand_Id = product_brand.Id) As prdBrand, seller_user
+        WHERE prdBrand.SellerId = seller_user.Id
+
+
+
+
+
+INSERT INTO `product` (`Id`, `Name`, `Description`, `BuyPrice`, `SellPrice`, `Discount`, `Quantity`, `AddStockDate`, `Picture`, `Seller_Id`, `Category_Id`, `Brand_Id`) VALUES (NULL, 'Watch', 'Imported brand new watch. Also, Water Resistant. ', '2000', '2500', '11', '4', '2020:10:20', 'assets/upload_images/p3.jpg', '19', '1', '2');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+edge://settings/personalinfo

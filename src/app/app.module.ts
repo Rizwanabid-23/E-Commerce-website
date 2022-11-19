@@ -21,6 +21,12 @@ import { ProductApiService } from './Buyer/Services/product-api.service';
 import { ApisellerregistrationService } from './SellerRegistration/apisellerregistration.service';
 import { CustomerSupportComponent } from './customer-support/customer-support.component';
 import { CustomerSupportItemComponent } from './customer-support-item/customer-support-item.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { EditAccountDetailsComponent } from './edit-account-details/edit-account-details.component';
+import { TrackOrderComponent } from './track-order/track-order.component';
+import { MyReturnsComponent } from './my-returns/my-returns.component';
+import { AddressBookComponent } from './address-book/address-book.component';
+import { CancelOrderComponent } from './cancel-order/cancel-order.component';
 
 
 
@@ -38,6 +44,12 @@ import { CustomerSupportItemComponent } from './customer-support-item/customer-s
     ProductCartComponent,
     CustomerSupportComponent,
     CustomerSupportItemComponent,
+    ResetPasswordComponent,
+    EditAccountDetailsComponent,
+    TrackOrderComponent,
+    MyReturnsComponent,
+    AddressBookComponent,
+    CancelOrderComponent,
   ],
   imports: [ 
     BrowserModule,

@@ -3,7 +3,7 @@ const bodyparser = require('body-parser');
 const cors = require('cors');
 const app = express();
 const mysql = require('mysql2');
-const e = require('cors');
+// const e = require('cors');
 
 app.use(cors());
 app.use(bodyparser.json());
@@ -35,7 +35,9 @@ con.connect(err=>{
     {
         console.log(err,'Data Base Not Connected');
     }
-    console.log('Data Base Connected');
+    else{
+        console.log('Data Base Connected');
+    }
 
 })
 
@@ -477,3 +479,54 @@ app.post('/addProduct', (req, res) => {
     })
 })
     
+app.post('/resetBuyerPassword',(req,res) =>{
+    let email = req.body.email;
+    // console.log(req.body);
+    // console.log(email)
+    let getQuery = `Select Id from buyer_user where Email = '${email}'`
+    // console.log("hello")
+    con.query(getQuery, (err, result) =>{
+        console.log(result)
+        if(!result){
+            res.send({
+                data:null
+            })
+        }
+        else{
+            // console.log(result)
+            res.send({
+                data:result
+            });
+        }
+        if (err){
+            console.log(err);
+            res.send('Error')
+            
+        }
+    })
+})
+
+app.post('/updateBuyerPassword',(req,res)=>{
+    let email = req.body.email;
+    let password = req.body.password;
+    let getQuery = `Update buyer_user SET Password = '${password}' where Email = '${email}'`;
+    con.query(getQuery, (err, result) =>{
+        // if(result.length == 0){
+        //     res.send({
+        //         data:null
+        //     })
+        // }
+        if (err){
+            // console.log("Error");
+            res.send('Error')
+            
+        }
+        else{
+            // console.log(result)
+            res.send({
+                message:'Password Updated'
+                // data:result
+            });
+        }
+    })
+})

@@ -11,6 +11,7 @@ import { ProdAndSellerDescriptionComponent } from './Buyer/prod-and-seller-descr
 import { ProductCartComponent } from './Buyer/product-cart/product-cart.component';
 import {UploadFileService} from './SellerRegistration/upload-file.service';
 import { CustomerSupportComponent } from './customer-support/customer-support.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path: 'productCart', component:ProductCartComponent},
   {path:'uploadFile',component:UploadFileService},
   {path: 'customerSupport',component:CustomerSupportComponent},
+  {path: 'resetPassword',component:ResetPasswordComponent},
 ];
 
 @NgModule({
