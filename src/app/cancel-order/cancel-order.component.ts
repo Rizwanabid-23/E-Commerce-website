@@ -22,11 +22,11 @@ export class CancelOrderComponent implements OnInit {
   ngOnInit(): void {
     this.service.getBuyerUserOrdersData().subscribe((res) => {
       this.readData = res.data;
-      if (this.readData == null) {
-        this.showMsg = '0 results found';
-      } else {
-        // console.log(this.readData);
-      }
+      // if (this.readData == null) {
+      //   this.showMsg = '0 results found';
+      // } else {
+      //   // console.log(this.readData);
+      // }
     });
   }
 
@@ -35,11 +35,11 @@ export class CancelOrderComponent implements OnInit {
       this.service.deleteBuyerUserOrdersData(id).subscribe((res) => {
       this.readData = res.data;
       // console.log(res);
-      if (this.readData == null) {
-        this.showMsg = 'No data to show';
-      } else {
-        // console.log(this.readData);
-      }
+      // if (this.readData == null) {
+      //   this.showMsg = 'No data to show';
+      // } else {
+      //   // console.log(this.readData);
+      // }
     });
     // this..reset();
   }

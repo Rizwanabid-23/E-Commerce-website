@@ -16,6 +16,13 @@ export class APIService {
     return this._http.get('http://localhost:3000/buyerUser');
   }
 
+  // This will get single buyer user data from table
+
+  getSingleBuyerUserData(userData: any): Observable<any> 
+  {
+    return this._http.get('http://localhost:3000/buyerUser/' + userData);
+  }
+
   // get buyer user orders data
   getBuyerUserOrdersData(): Observable<any> {
     return this._http.get('http://localhost:3000/buyerUserOrders');

@@ -13,6 +13,7 @@ import { UploadFileService } from './SellerRegistration/upload-file.service';
 import { CustomerSupportComponent } from './customer-support/customer-support.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { CancelOrderComponent } from './cancel-order/cancel-order.component';
+import { EditAccountDetailsComponent } from './edit-account-details/edit-account-details.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'customerSupport', component: CustomerSupportComponent },
   { path: 'resetPassword', component: ResetPasswordComponent },
   { path: 'cancelOrder', component: CancelOrderComponent },
+  { path: 'editAccountDetails', component: EditAccountDetailsComponent },
 ];
 
 @NgModule({
