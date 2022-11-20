@@ -9,10 +9,10 @@ import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.co
 import { AddStockComponent } from './SellerRegistration/add-stock/add-stock.component';
 import { ProdAndSellerDescriptionComponent } from './Buyer/prod-and-seller-description/prod-and-seller-description.component';
 import { ProductCartComponent } from './Buyer/product-cart/product-cart.component';
-import {UploadFileService} from './SellerRegistration/upload-file.service';
+import { UploadFileService } from './SellerRegistration/upload-file.service';
 import { CustomerSupportComponent } from './customer-support/customer-support.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-
+import { CancelOrderComponent } from './cancel-order/cancel-order.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -21,16 +21,20 @@ const routes: Routes = [
   { path: 'SignInSeller', component: SignInSellerComponent },
   { path: 'SignUpSeller', component: SignUpSellerComponent },
   { path: 'SellerDashboard', component: SellerDashboardComponent },
-  {path: 'addStock',component:AddStockComponent},
-  {path: 'productAndSellerDetails',component:ProdAndSellerDescriptionComponent},
-  {path: 'productCart', component:ProductCartComponent},
-  {path:'uploadFile',component:UploadFileService},
-  {path: 'customerSupport',component:CustomerSupportComponent},
-  {path: 'resetPassword',component:ResetPasswordComponent},
+  { path: 'addStock', component: AddStockComponent },
+  {
+    path: 'productAndSellerDetails',
+    component: ProdAndSellerDescriptionComponent,
+  },
+  { path: 'productCart', component: ProductCartComponent },
+  { path: 'uploadFile', component: UploadFileService },
+  { path: 'customerSupport', component: CustomerSupportComponent },
+  { path: 'resetPassword', component: ResetPasswordComponent },
+  { path: 'cancelOrder', component: CancelOrderComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

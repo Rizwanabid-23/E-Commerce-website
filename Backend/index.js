@@ -60,6 +60,45 @@ app.get('/buyerUser', (req, res) => {
     })
 })
 
+//This will get buyer user order data
+app.get('/buyerUserOrders', (req, res) => {
+    let getQuery = 'Select * From buyer_user_orders';
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            console.log("Error");
+            res.send('Error')
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
+
+    })
+})
+
+// This will delete buyer user order data
+app.delete('/buyerUserOrdersDelete',(req,res) =>{
+    // console.log(req.body);
+    let orderId = req.body.userData;
+    console.log(orderId);
+    let getQuery = `Delete From buyer_user_orders where OrderId = ${orderId}`;
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            // console.log(err);
+            res.send('Error')
+        }
+        else{
+            res.send({
+                message:'Order Deleted!',
+                // data:result
+            });
+        }
+
+    })
+})
+
 // This will check that sign in user already exist or not
 app.post('/buyerUserSignInValid', (req, res) => {
     let check_buyer_email = req.body.email;

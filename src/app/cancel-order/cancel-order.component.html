@@ -1,1 +1,33 @@
-<p>cancel-order works!</p>
+<div class="marginFromNavbar"></div>
+
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-8">
+            <div class="row">
+                <h3 class="col-md-6 pageMainHeading">Cancel Order</h3>
+            </div>
+            <div class="row mt-4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">OrderId</th>
+                            <th scope="col">ProductName</th>
+                            <th scope="col">ProductPrice</th>
+                            <th scope="col">OrderStatus</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let us of readData">
+                            <th scope="row">{{us.OrderId}}</th>
+                            <td>{{us.ProductName}}</td>
+                            <td>{{us.ProductPrice}}</td>
+                            <td>{{us.OrderStatus}}</td>
+                            <td><button class="btn btn-dark ml-1" (click)="cancelOrder(us.OrderId)"><i class="bi bi-trash"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
