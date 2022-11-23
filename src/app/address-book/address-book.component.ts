@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { APIService } from '../api.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-address-book',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddressBookComponent implements OnInit {
 
-  constructor() { }
+  readData: any;
+
+  constructor(
+    private service: APIService,
+    private router: Router,
+    private ap: AppComponent
+  ) {}
+
 
   ngOnInit(): void {
+    this.service.getAddressBookData().subscribe((res) => {
+      this.readData = res.data;
+    });
   }
-
 }

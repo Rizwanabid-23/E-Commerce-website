@@ -1,1 +1,45 @@
-<p>address-book works!</p>
+<div class="marginFromNavbar"></div>
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-lg-12">
+            <div class="row">
+                <h3 class="col-md-6 pageMainHeading">Address Book</h3>
+            </div>
+            <div class="row mt-4">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">FullName</th>
+                            <th scope="col">PhoneNo</th>
+                            <th scope="col">Building_House_Street_Floor</th>
+                            <th scope="col">Colony_Submark_Locality_Landmark</th>
+                            <th scope="col">Province</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Buyer_User_Id</th>
+                            <th scope="col">NickName</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let us of readData">
+                            <th scope="row">{{us.Id}}</th>
+                            <td>{{us.FullName}}</td>
+                            <td>{{us.PhoneNo}}</td>
+                            <td>{{us.Buildin_House_Street_Floor}}</td>
+                            <td>{{us.Colony_Submark_Locality_Landmark}}</td>
+                            <td>{{us.Province}}</td>
+                            <td>{{us.City}}</td>
+                            <td>{{us.Buyer_User_Id}}</td>
+                            <td>{{us.NickName}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- <div *ngIf="showMsg" class="alert alert-success">
+                <strong>{{showMsg}}</strong>
+            </div> -->
+        </div>
+    </div>
+</div>

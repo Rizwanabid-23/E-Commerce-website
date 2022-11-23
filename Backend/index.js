@@ -590,3 +590,20 @@ app.get('/getSingleUserData/:Id',(req,res)=>{
         }
     })
 })
+
+app.get('/addressBook',(req,res)=>{
+    let getQuery = `Select * from buyer_address`;
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            // console.log("Error");
+            res.send('Error')
+            
+        }
+        else{
+            // console.log(result)
+            res.send({
+                data:result
+            });
+        }
+    })
+})
