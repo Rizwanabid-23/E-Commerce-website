@@ -18,9 +18,9 @@ export class APIService {
 
   // This will get single buyer user data from table
 
-  getSingleBuyerUserData(userData: any): Observable<any> 
-  {
-    return this._http.get('http://localhost:3000/buyerUser/' + userData);
+  getSingleBuyerUserData(userData: any): Observable<any> {
+    // console.log(userData);
+    return this._http.get('http://localhost:3000/getSingleUserData/'+userData);
   }
 
   // get buyer user orders data
@@ -30,12 +30,12 @@ export class APIService {
 
   // delete buyer user orders data
 
-  deleteBuyerUserOrdersData(userData:any): Observable<any>{
+  deleteBuyerUserOrdersData(userData: any): Observable<any> {
     // console.log(userData);
-    return this._http.delete('http://localhost:3000/buyerUserOrdersDelete',{
-      body:{
-        userData
-      }
+    return this._http.delete('http://localhost:3000/buyerUserOrdersDelete', {
+      body: {
+        userData,
+      },
     });
   }
   // reset buyer user password

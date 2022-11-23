@@ -3,10 +3,11 @@
     <div class="row d-flex justify-content-center">
 
         <div class="col-lg-8">
-            <div class="row"> 
+            <div class="row">
                 <h3 class="col-md-6 pageMainHeading">Edit Account Details</h3>
             </div>
             <div class="row mt-4">
+
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -23,7 +24,8 @@
                             <td>{{us.FullName}}</td>
                             <td>{{us.Email}}</td>
                             <td>{{us.Password}}</td>
-                            <td><button class="btn btn-dark ml-1" (click)="editAccountDetails(us.Id)"><i class="bi bi-pencil-square"></i></button></td>
+                            <td><button class="btn btn-dark ml-1" (click)="editAccountDetails(us.Id)"><i
+                                        class="bi bi-pencil-square"></i></button></td>
                         </tr>
                     </tbody>
                 </table>
