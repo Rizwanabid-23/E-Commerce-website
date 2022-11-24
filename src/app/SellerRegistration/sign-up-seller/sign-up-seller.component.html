@@ -77,8 +77,29 @@
                             placeholder="Please enter your password" required>
                         </div>
 
+
+                        <div class="row">
+                            <div *ngIf="verificationCodeSended" class="col-md-7">
+                                <div class="form-group">
+                                    <label class="label inputBoxHeadingColor" for="exampleInputPassword1">Verification Code*</label>
+                                    <input type="number"   class="form-control w-100" maxlength="6" minlength="6"
+                                    id="exampleInputVerification" formControlName="verificationCode" title="Length should be 6"
+                                    placeholder="Enter Verification Code" required>
+                                </div>
+                            </div>
+
+                            <div *ngIf="verificationCodeSended" class="col-md-5 mt-4">
+                                <button type="button" class="btn btn-danger w-100 my-2" 
+                                (click)="sendVerificationCode()" style="height: 40px;">{{verificationCodeButtonText}}</button>
+                            </div>
+                            <div  *ngIf="!verificationCodeSended" class="col-md-12 mt-4">
+                                <button type="button" [disabled]="getCodeButtonProperty" class="btn btn-danger w-100 my-2 me-5" (click)="sendVerificationCode()"
+                                style="height: 40px;">{{verificationCodeButtonText}}</button>
+                            </div>
+                       </div>
+
                     </div>
-                    <button type="submit" class="btn btn-danger w-100 my-2 mx-3"
+                    <button *ngIf="signUpButton" type="submit" class="btn btn-danger w-100 my-2 mx-3"
                     style="height: 50px;">Sign Up</button>
                 </div>
             </form>

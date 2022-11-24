@@ -40,10 +40,7 @@ export class APIService {
   }
   // reset buyer user password
   checkbuyerUserData(userData: any): Observable<any> {
-    return this._http.post(
-      'http://localhost:3000/resetBuyerPassword',
-      userData
-    );
+    return this._http.post('http://localhost:3000/resetBuyerPassword',userData);
   }
 
   //update buyer user password
@@ -51,9 +48,7 @@ export class APIService {
   updateBuyerUserPassword(userData: any): Observable<any> {
     // console.log(userData);
     return this._http.post(
-      'http://localhost:3000/updateBuyerPassword',
-      userData
-    );
+      'http://localhost:3000/updateBuyerPassword', userData);
   }
 
   // This will insert data in table
@@ -64,17 +59,12 @@ export class APIService {
   // This will check that sign in user is valid or not
   checkValidSignInUser(userData: any): Observable<any> {
     return this._http.post(
-      'http://localhost:3000/buyerUserSignInValid',
-      userData
-    );
+      'http://localhost:3000/buyerUserSignInValid', userData);
   }
 
   // This will check that sign up user detail is valid or not
   checkValidSignUpUser(userData: any): Observable<any> {
-    return this._http.post(
-      'http://localhost:3000/buyerUserSignUpValid',
-      userData
-    );
+    return this._http.post('http://localhost:3000/buyerUserSignUpValid', userData);
   }
 
   // This will insert data in table
@@ -83,5 +73,10 @@ export class APIService {
   }
   insertProductStock(userData: any): Observable<any> {
     return this._http.post('http://localhost:3000/addProduct', userData);
+  }
+
+  // Send Verification code to email
+  sendVerificationCode(userData: any): Observable<any> {
+    return this._http.post('http://localhost:3000/sendVerificationCodeForBuyer', userData);
   }
 }

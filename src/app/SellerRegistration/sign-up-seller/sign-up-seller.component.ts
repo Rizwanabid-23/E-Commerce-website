@@ -16,6 +16,11 @@ export class SignUpSellerComponent implements OnInit {
   showMsg:any;
   readData:any;
   accountCreated:Boolean = false;
+  verificationCodeSended:Boolean = false;
+  getCodeButtonProperty:Boolean = false;
+  signUpButton:Boolean = false;
+  verificationCodeGenerated: any;
+  verificationCodeButtonText = "Get Code";
   uLogin:Boolean;
   ngOnInit(): void {
   }
@@ -29,8 +34,31 @@ export class SignUpSellerComponent implements OnInit {
     'city': new FormControl('', Validators.required),
     'address': new FormControl('', Validators.required),
     'password': new FormControl('', Validators.required),
-
+    'verificationCode': new FormControl('', Validators.required),
   })
+
+  sendVerificationCode(){
+    console.log(this.sellerSignUpForm.value.email);
+    
+    this.verificationCodeButtonText = "Get Code ...";
+    this.getCodeButtonProperty = true;
+    this.service.sendVerificationCode(this.sellerSignUpForm.value).subscribe((res) => {
+      this.verificationCodeGenerated = res.data;
+      if(this.verificationCodeGenerated != null)
+      {
+        console.log(this.verificationCodeGenerated);
+        this.verificationCodeButtonText = "Resend It";
+        this.verificationCodeSended = true;
+        this.signUpButton = true;
+      }
+      else
+      {
+        this.showMsg = 'Enter Email in right format';
+        this.getCodeButtonProperty = false;
+      }
+
+    });
+  }
 
     // This function check that if account with this email id is already exist then show message 
   // that 'Account With This Email Id Already Exist' other wise create account.
@@ -49,22 +77,25 @@ export class SignUpSellerComponent implements OnInit {
 
   // This function will submit form
   submitSellerSignUpForm() {
-    this.service.insertSellerData(this.sellerSignUpForm.value).subscribe((res) => {
-      this.readData = res.data;
-      console.log(this.readData);
-      this.ap.appOpen = false;
-      this.ap.sellerLogin = true;
-      this.ap.buyerLogin = false;
-      this.ap.loginSellerId = this.readData;
-      this.router.navigate(['/SignInSeller']);
-      this.sellerSignUpForm.reset();
-      
+    if(this.verificationCodeGenerated == this.sellerSignUpForm.value.verificationCode)
+    {
+      this.service.insertSellerData(this.sellerSignUpForm.value).subscribe((res) => {
+        this.readData = res.data;
+        console.log(this.readData);
+        this.ap.appOpen = true;
+        this.ap.sellerLogin = false;
+        this.ap.buyerLogin = false;
+        this.ap.loginSellerId = this.readData;
+        this.router.navigate(['/SignInSeller']);
+        this.sellerSignUpForm.reset();
+      });
+    }
+    else
+    {
+      this.showMsg = 'Account With This Email Id Already Exist';
+    }
 
-    });
 
   }  
-
-
-
 
 }

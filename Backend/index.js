@@ -3,12 +3,16 @@ const bodyparser = require('body-parser');
 const cors = require('cors');
 const app = express();
 const mysql = require('mysql2');
+const nodemailer = require('nodemailer');
+const details = require('./details.json');
 // const e = require('cors');
+app.use(cors({origin: "*"}));
 
 app.use(cors());
 app.use(bodyparser.json());
 
-const port = 3000
+const port = 3000;
+let mailsend = false;
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
@@ -39,6 +43,11 @@ con.connect(err=>{
         console.log('Data Base Connected');
     }
 
+})
+
+//Host
+app.get('/', (req, res) => {
+    res.send("<h1>Welcome to Hueristic<h1>");
 })
 
 
@@ -122,10 +131,67 @@ app.post('/buyerUserSignInValid', (req, res) => {
 
 })
 
+app.post('/sendVerificationCode', (req, res) => {
+    try{
+        let user = req.body;
+        let verificationCode = Math.floor(100000 + Math.random() * 900000);
+        sendMail(user, verificationCode,  info => {
+            if(mailsend)
+            {
+                console.log("Mail has been sent");
+                console.log(verificationCode);
+                res.send({data:verificationCode});
+            }
+            else
+            {
+                console.log("Not sent mail");
+                res.send({data:null});
+            }
+
+        })
+    }
+    catch
+    {
+        console.log("Not sent mail");
+        res.send({data:null});
+    }
+
+})
+
+async function sendMail(user , code, callback) {
+    try{
+        let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: details.email, // generated ethereal user
+                pass: details.password, // generated ethereal password
+            },
+        });
+        // send mail with defined transport object
+        let mailOptions = {
+            from: '"Ecommerce Website"', // sender address
+            to: user.email,
+            subject: "Hello", // Subject line
+            html: "<b>Thank You For Joininng Us. Use this '"+code+"' OTP against '"+user.email+"' to create account</b> ", // html body
+        };
+        let info =  await transporter.sendMail(mailOptions);
+        mailsend = true;
+        callback(info);
+    }
+    catch
+    {
+        mailsend = false;
+        callback();
+    }
+
+
+}
+
 // This will check that same email id with new creating account exist or not
 app.post('/buyerUserSignUpValid', (req, res) => {
     let check_buyer_email = req.body.email;
-    console.log(check_buyer_email);
     let getQuery = "Select Id From buyer_user WHERE Email = '"+check_buyer_email+"'";
     con.query(getQuery, (err, userResult) =>{
         console.log("userresult", userResult);
