@@ -673,3 +673,27 @@ app.get('/addressBook',(req,res)=>{
         }
     })
 })
+
+app.post('/editBuyerUserData',(req,res)=>{
+    let id = req.body.id;
+    let name = req.body.fullname;
+    let email = req.body.email;
+    let password = req.body.password;
+    // console.log('hello');
+    // console.log(req.body.id);
+    let getQuery = `Update buyer_user SET FullName = '${name}', Email = '${email}', Password = '${password}' where Id = '${id}'`;
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            // console.log("Error");
+            res.send('Error')
+            
+        }
+        else{
+            // console.log(result)
+            res.send({
+                message:'Account Details Updated'
+                // data:result
+            });
+        }
+    })
+})

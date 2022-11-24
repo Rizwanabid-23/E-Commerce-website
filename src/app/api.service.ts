@@ -17,17 +17,24 @@ export class APIService {
   }
 
   // This will get address book data from table
-  getAddressBookData(): Observable<any> 
-  {
+  getAddressBookData(): Observable<any> {
     return this._http.get('http://localhost:3000/addressBook');
   }
 
+  // this will edit buyer user data in table
+
+  editBuyerUserDetails(userData: any): Observable<any> {
+    // console.log(userData);
+    return this._http.post('http://localhost:3000/editBuyerUserData', userData);
+  }
 
   // This will get single buyer user data from table
 
   getSingleBuyerUserData(userData: any): Observable<any> {
     // console.log(userData);
-    return this._http.get('http://localhost:3000/getSingleUserData/'+userData);
+    return this._http.get(
+      'http://localhost:3000/getSingleUserData/' + userData
+    );
   }
 
   // get buyer user orders data
