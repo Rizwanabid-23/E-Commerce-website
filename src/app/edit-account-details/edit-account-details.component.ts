@@ -17,15 +17,11 @@ export class EditAccountDetailsComponent implements OnInit {
     private ap: AppComponent
   ) {}
 
-  ngOnInit(): void {
-    // this.service.getUserData().subscribe((res) => {
-    //   this.readData = res.data;
-    // });
-  }
 
-  editAccountDetails(id: number) {
-    // this.service.getSingleBuyerUserData(id).subscribe((res) => {
-    //   this.readData = res.data;
-    // });
+  ngOnInit(): void {
+    // console.log(sessionStorage.getItem('loginBuyerId'));
+    this.service.getSingleBuyerUserData(sessionStorage.getItem('loginBuyerId')).subscribe((res) => {
+      this.readData = res.data;
+    });
   }
 }
