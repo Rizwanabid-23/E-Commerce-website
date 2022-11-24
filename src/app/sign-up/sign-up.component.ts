@@ -90,6 +90,7 @@ export class SignUpComponent implements OnInit {
           this.ap.buyerLogin = true;
           this.ap.loginBuyerId = this.readData;
           console.log(this.ap.loginBuyerId);
+          sessionStorage.setItem('loginBuyerId',this.ap.loginBuyerId.toString());
           this.router.navigate(['/']);
           this.signUpForm.reset();
       });

@@ -635,3 +635,41 @@ app.post('/updateBuyerPassword',(req,res)=>{
         }
     })
 })
+
+
+app.get('/getSingleUserData/:Id',(req,res)=>{
+    // console.log(req.params.Id);
+    // console.log('hello');
+    let id = req.params.Id;
+    let getQuery = `Select * from buyer_user where Id = '${id}'`;
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            // console.log("Error");
+            res.send('Error')
+            
+        }
+        else{
+            // console.log(result)
+            res.send({
+                data:result
+            });
+        }
+    })
+})
+
+app.get('/addressBook',(req,res)=>{
+    let getQuery = `Select * from buyer_address`;
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            // console.log("Error");
+            res.send('Error')
+            
+        }
+        else{
+            // console.log(result)
+            res.send({
+                data:result
+            });
+        }
+    })
+})
