@@ -15,22 +15,51 @@ export class SignUpComponent implements OnInit {
 
   showMsg: any;
   readData: any;
+  signUpButton:Boolean = false;
   accountCreated:Boolean = false;
+  verificationCodeSended = false;
+  getCodeButtonProperty:Boolean = false;
+  verificationCodeGenerated: any;
   uLogin:Boolean;
+  verificationCodeVaildTime:any;
+  signUpButtonText = "Sign Up";
+  verificationCodeButtonText = "Get Code";
   ngOnInit(): void { 
     // this.service.getUserData().subscribe((res) =>{
     //   console.log('User Data');
     //   this.readData = res.data;
     // })
+    this.signUpButtonText = "Sign Up";
+    this.verificationCodeButtonText = "Get Code";
+    this.verificationCodeVaildTime = 120;
   } 
 
+
+
+  // pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
 
   signUpForm = new FormGroup({
     'email': new FormControl('', Validators.required),
     'password': new FormControl('', Validators.required),
-    'fullname': new FormControl('', Validators.required)
+    'fullname': new FormControl('', Validators.required),
+    'verificationCode': new FormControl('', Validators.required)
 
   })
+
+  sendVerificationCode(){
+    console.log(this.signUpForm.value.email);
+    
+    this.verificationCodeButtonText = "Get Code ...";
+    this.getCodeButtonProperty = true;
+    this.service.sendVerificationCode(this.signUpForm.value).subscribe((res) => {
+      this.verificationCodeGenerated = res.data;
+      console.log(this.verificationCodeGenerated);
+      this.verificationCodeButtonText = "Resend It";
+      this.verificationCodeSended = true;
+      this.signUpButton = true;
+      this.getCodeButtonProperty = false;
+    });
+  }
 
   // This function check that if account with this email id is already exist then show message 
   // that 'Account With This Email Id Already Exist' other wise create account.
@@ -39,6 +68,7 @@ export class SignUpComponent implements OnInit {
       this.readData = res.data;
       console.log(this.readData);
       if (this.readData == null){
+
         this.submitSignUpForm();
       }
       else{
@@ -51,18 +81,23 @@ export class SignUpComponent implements OnInit {
 
   // This function will submit form
   submitSignUpForm() {
-    this.service.insertUserData(this.signUpForm.value).subscribe((res) => {
-      this.readData = res.data;
-        this.ap.appOpen = false;
-        this.ap.sellerLogin = false;
-        this.ap.buyerLogin = true;
-        this.ap.loginBuyerId = this.readData;
-        sessionStorage.setItem('loginBuyerId',this.ap.loginBuyerId.toString());
-        this.router.navigate(['/']);
-        this.signUpForm.reset();
-    });
-
-
+    if(this.verificationCodeGenerated == this.signUpForm.value.verificationCode)
+    {
+      this.service.insertUserData(this.signUpForm.value).subscribe((res) => {
+        this.readData = res.data;
+          this.ap.appOpen = false;
+          this.ap.sellerLogin = false;
+          this.ap.buyerLogin = true;
+          this.ap.loginBuyerId = this.readData;
+          console.log(this.ap.loginBuyerId);
+          sessionStorage.setItem('loginBuyerId',this.ap.loginBuyerId.toString());
+          this.router.navigate(['/']);
+          this.signUpForm.reset();
+      });
+    }
+    else
+    {
+      this.showMsg = 'Enter Right Verification Code or Resend It';
+    }
   }
-
 }

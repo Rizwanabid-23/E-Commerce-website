@@ -7,24 +7,23 @@
                 <h3 class="col-md-6 pageMainHeading">Edit Account Details</h3>
             </div>
             <div class="row mt-4">
-
-                <table class="table table-bordered">
+                <table class="table table-bordered" contenteditable="true">
                     <thead>
                         <tr>
-                            <th scope="col">Id</th>
+                            <th scope="col" style="display: none;">Id</th>
                             <th scope="col">FullName</th>
-                            <th scope="col">Email</th>
+                            <th scope="col" contenteditable="false">Email</th>
                             <th scope="col">Password</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let us of readData">
-                            <th scope="row">{{us.Id}}</th>
+                        <tr *ngFor="let us of readData" id="details">
+                            <th scope="row" style="display: none;">{{us.Id}}</th>
                             <td>{{us.FullName}}</td>
-                            <td>{{us.Email}}</td>
+                            <td contenteditable="false">{{us.Email}}</td>
                             <td>{{us.Password}}</td>
-                            <td><button class="btn btn-dark ml-1" (click)="editAccountDetails(us.Id)"><i
+                            <td><button class="btn btn-dark ml-1" (click)="editAccountDetails()"><i
                                         class="bi bi-pencil-square"></i></button></td>
                         </tr>
                     </tbody>
