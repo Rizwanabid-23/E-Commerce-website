@@ -5238,7 +5238,7 @@ a.badge-smoke:focus, a.badge-smoke.focus {
   text-align: center;
   white-space: nowrap;
   background-color: #9e6de0;
-  transition: width 0.6s ease;
+  transition: width 0.8s ease;
 }
 @media (prefers-reduced-motion: reduce) {
   .progress-bar {

@@ -311,6 +311,24 @@ app.get('/getSellerProduct', (req, res) => {
     })
 })
 
+app.get('/getSaleData', (req, res) => {
+    let getQuery = 'Select productID,sellerID,quantity,saleTime,quantity/(select sum(quantity) from sold_products)*100 as percentage from sold_products GROUP by productID,sellerID,quantity,saleTime;';
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            console.log("Error");
+            res.send({
+                data:null
+            })
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
+    })
+})
+
 
 app.get('/getProduct/:Id', (req, res) => {
     let id = req.params.Id;

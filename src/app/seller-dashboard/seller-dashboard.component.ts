@@ -15,11 +15,14 @@ export class SellerDashboardComponent implements OnInit {
 
   sellerName:any;
   prdData:any;
+  saleData:any
+
+
   ngOnInit(): void {
     this.sellerName = this.ap.loginSellerName;
     this.getProductData();
+    this.getSaleData();
   }
-
 
 
 
@@ -29,7 +32,17 @@ export class SellerDashboardComponent implements OnInit {
   getProductData(){
     this.service.getSellerProductData().subscribe((res) =>{
       this.prdData = res.data;
+      console.log(this.prdData)
     })
   }
+
+  getSaleData()
+  {
+    this.service.getAllSaleData().subscribe((res)=>{
+      this.saleData=res.data;
+      console.log(this.saleData);
+    })
+  }
+  
 
 }
