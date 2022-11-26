@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { APIService } from '../api.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-my-returns',
@@ -6,10 +9,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./my-returns.component.css']
 })
 export class MyReturnsComponent implements OnInit {
+  readData: any;
 
-  constructor() { }
+  constructor(private service: APIService,
+    private router: Router,
+    private ap: AppComponent) { }
 
   ngOnInit(): void {
+    this.service.getBuyerUserReturnData(sessionStorage.getItem('loginBuyerId')).subscribe((res) => {
+      this.readData = res.data;
+    });
   }
 
 }

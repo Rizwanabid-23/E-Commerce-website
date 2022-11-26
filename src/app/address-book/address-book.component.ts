@@ -20,7 +20,7 @@ export class AddressBookComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.service.getAddressBookData().subscribe((res) => {
+    this.service.getAddressBookData(sessionStorage.getItem('loginBuyerId')).subscribe((res) => {
       this.readData = res.data;
     });
   }

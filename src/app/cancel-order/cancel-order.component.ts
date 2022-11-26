@@ -20,27 +20,17 @@ export class CancelOrderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.service.getBuyerUserOrdersData().subscribe((res) => {
+    this.service.getBuyerUserOrdersData(sessionStorage.getItem('loginBuyerId')).subscribe((res) => {
       this.readData = res.data;
-      // if (this.readData == null) {
-      //   this.showMsg = '0 results found';
-      // } else {
-      //   // console.log(this.readData);
-      // }
     });
   }
 
-  cancelOrder(id: number) {
+  cancelOrder(us:any) {
     // console.log(id);
-      this.service.deleteBuyerUserOrdersData(id).subscribe((res) => {
-      this.readData = res.data;
-      // console.log(res);
-      // if (this.readData == null) {
-      //   this.showMsg = 'No data to show';
-      // } else {
-      //   // console.log(this.readData);
-      // }
+      this.service.deleteBuyerUserOrdersData(us).subscribe((res) => {
+        this.service.getBuyerUserOrdersData(sessionStorage.getItem('loginBuyerId')).subscribe((res) => {
+          this.readData = res.data;
+        });
     });
-    // this..reset();
   }
 }

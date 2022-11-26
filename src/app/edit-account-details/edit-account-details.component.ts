@@ -11,9 +11,6 @@ import { AppComponent } from '../app.component';
 })
 export class EditAccountDetailsComponent implements OnInit {
   readData: any;
-  fullName : string
-  email : string
-  password : string
   constructor(
     private service: APIService,
     private router: Router,

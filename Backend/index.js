@@ -70,8 +70,8 @@ app.get('/buyerUser', (req, res) => {
 })
 
 //This will get buyer user order data
-app.get('/buyerUserOrders', (req, res) => {
-    let getQuery = 'Select * From buyer_user_orders';
+app.get('/buyerUserOrders/:Id', (req, res) => {
+    let getQuery = `Select * From buyer_user_orders where buyer_user_id = ${req.params.Id}`;
     con.query(getQuery, (err, result) =>{
         if (err){
             console.log("Error");
@@ -90,9 +90,9 @@ app.get('/buyerUserOrders', (req, res) => {
 // This will delete buyer user order data
 app.delete('/buyerUserOrdersDelete',(req,res) =>{
     // console.log(req.body);
-    let orderId = req.body.userData;
-    console.log(orderId);
-    let getQuery = `Delete From buyer_user_orders where OrderId = ${orderId}`;
+    let orderId = req.body.userData.Id;
+    // console.log(orderId);
+    let getQuery = `Delete From buyer_user_orders where OrderId = ${orderId} and Buyer_User_Id = ${req.body.userData.Buyer_User_Id}`;
     con.query(getQuery, (err, result) =>{
         if (err){
             // console.log(err);
@@ -675,8 +675,10 @@ app.get('/getSingleUserData/:Id',(req,res)=>{
     })
 })
 
-app.get('/addressBook',(req,res)=>{
-    let getQuery = `Select * from buyer_address`;
+app.get('/addressBook/:Id',(req,res)=>{
+    let id = req.params.Id;
+    // console.log(id)
+    let getQuery = `Select * from buyer_address where Buyer_User_Id = ${id}`;
     con.query(getQuery, (err, result) =>{
         if (err){
             // console.log("Error");
@@ -711,6 +713,44 @@ app.post('/editBuyerUserData',(req,res)=>{
             res.send({
                 message:'Account Details Updated'
                 // data:result
+            });
+        }
+    })
+})
+
+app.get('/myReturns/:Id',(req,res)=>{
+    let id =  req.params.Id;
+    // console.log('hello')
+    // console.log(id)
+    let getQuery = `Select * from buyer_user_returns where Buyer_User_Id = ${id}`;
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            // console.log("Error");
+            res.send('Error')
+        }
+        else{
+            // console.log(result)
+            res.send({
+                data:result
+            });
+        }
+    })
+})
+
+app.get('/trackOrder/:Id',(req,res)=>{
+    let id =  req.params.Id;
+    // console.log('hello')
+    // console.log(id)
+    let getQuery = `Select * from buyer_user_orders where Buyer_User_Id = ${id}`;
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            // console.log("Error");
+            res.send('Error')
+        }
+        else{
+            // console.log(result)
+            res.send({
+                data:result
             });
         }
     })

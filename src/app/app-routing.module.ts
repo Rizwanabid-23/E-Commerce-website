@@ -15,6 +15,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { CancelOrderComponent } from './cancel-order/cancel-order.component';
 import { EditAccountDetailsComponent } from './edit-account-details/edit-account-details.component';
 import { AddressBookComponent } from './address-book/address-book.component';
+import { MyReturnsComponent } from './my-returns/my-returns.component';
+import { TrackOrderComponent } from './track-order/track-order.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -35,6 +37,8 @@ const routes: Routes = [
   { path: 'cancelOrder', component: CancelOrderComponent },
   { path: 'editAccountDetails', component: EditAccountDetailsComponent },
   { path: 'addressBook', component: AddressBookComponent },
+  { path: 'myReturns', component: MyReturnsComponent },
+  { path: 'trackOrder', component: TrackOrderComponent },
 ];
 
 @NgModule({

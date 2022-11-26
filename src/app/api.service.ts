@@ -17,8 +17,23 @@ export class APIService {
   }
 
   // This will get address book data from table
-  getAddressBookData(): Observable<any> {
-    return this._http.get('http://localhost:3000/addressBook');
+  getAddressBookData(userData : any): Observable<any> {
+    return this._http.get('http://localhost:3000/addressBook/'+ userData);
+  }
+
+  // this will get buyer user track order data in table
+
+  getTrackOrderData(userData:any):Observable<any>
+  {
+    return this._http.get('http://localhost:3000/trackOrder/'+userData)
+  }
+
+  // this will get buyer user returns data in table
+
+  getBuyerUserReturnData(userData : any):Observable<any>
+  {
+    // console.log(userData);
+    return this._http.get('http://localhost:3000/myReturns/'+ userData);
   }
 
   // this will edit buyer user data in table
@@ -38,8 +53,8 @@ export class APIService {
   }
 
   // get buyer user orders data
-  getBuyerUserOrdersData(): Observable<any> {
-    return this._http.get('http://localhost:3000/buyerUserOrders');
+  getBuyerUserOrdersData(userData:any): Observable<any> {
+    return this._http.get('http://localhost:3000/buyerUserOrders/'+userData);
   }
 
   // delete buyer user orders data
