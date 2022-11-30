@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { APIService } from '../api.service';
 import { AppComponent } from '../app.component';
+import { GlobalData } from '../App/navbar/GlobalData';
 
 @Component({
   selector: 'app-reset-password',

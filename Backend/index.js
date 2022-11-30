@@ -47,7 +47,43 @@ con.connect(err=>{
 
 //Host
 app.get('/', (req, res) => {
-    res.send("<h1>Welcome to Hueristic<h1>");
+    res.send("<h1>Welcome to Ecommerce<h1>");
+})
+
+app.get('/getCategories', (req, res) => {
+    let getQuery = 'Select * From lookup Where Category = "ProductCategory"';
+    con.query(getQuery, (err, result) =>{
+        console.log(" dis category ", result);
+        if (err){
+            console.log("Error");
+            res.send('Error')
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
+
+    })
+})
+
+app.get('/getSubCategories', (req, res) => {
+    let getQuery = 'Select * From product_category';
+    con.query(getQuery, (err, result) =>{
+        console.log("subm category ", result);
+        if (err){
+            console.log("Error");
+            res.send('Error')
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
+
+    })
 })
 
 
@@ -237,8 +273,10 @@ app.post('/buyerUser', (req, res) => {
 
 app.get('/getLoginSellerName/:Id', (req, res) => {
     let id = req.params.Id;
-    let getQuery = "Select FirstName,LastName From seller_user WHERE Email = '"+id+"'";
+    id = id.replaceAll('"', '');
+    let getQuery = "Select * From seller_user WHERE Id = '"+id+"'";
     con.query(getQuery, (err, result) =>{
+        console.log("ssdd ",result);
         if (err){
             console.log("Error");
             res.send('Error')
@@ -246,7 +284,7 @@ app.get('/getLoginSellerName/:Id', (req, res) => {
         else{
             res.send({
                 message:'Data',
-                data:result
+                data:result[0].FirstName+" "+result[0].LastName
             });
         }
     })
@@ -380,7 +418,7 @@ app.get('/getSellerProduct', (req, res) => {
 
 app.get('/getProduct/:Id', (req, res) => {
     let id = req.params.Id;
-    id = id.replaceAll('"', '')
+    id = id.replaceAll('"', '');
     let getQuery = "SELECT prdBrand.Br As Brand, prdBrand.Id As Id, prdBrand.Sellprice As SellPrice, prdBrand.Description As Description, prdBrand.Discount As Discount, prdBrand.Quantity As Quantity, prdBrand.Name As Name, prdBrand.Picture As Picture, seller_user.FirstName As FName, seller_user.LastName As LName, seller_user.City As SellerCity FROM (SELECT product_brand.Brand As Br, Pr.Id As Id, Pr.SellPrice As SellPrice, Pr.Description As  Description, Pr.Discount As Discount, Pr.Quantity As Quantity, Pr.Name As Name, Pr.Picture As  Picture, Pr.Seller_Id As SellerId FROM (SELECT Id, Brand_Id, SellPrice, Description, Discount, Quantity, Name, Picture, Seller_Id FROM product WHERE Id = '"+id+"') As Pr, product_brand WHERE Pr.Brand_Id = product_brand.Id) As prdBrand, seller_user WHERE prdBrand.SellerId = seller_user.Id ";
     con.query(getQuery, (err, result) =>{
         if (err){
@@ -511,7 +549,7 @@ app.post('/addProductValid', (req, res) => {
 /*------------------------------------------ */
 /*------------------------------------------ */
 /*   For  Buyer Deliver Address ends here   */
-app.post('/saveBuyerAddress', (req, res) => {
+app.post('/saveBuyerAddress/:buyerId', (req, res) => {
     let buyer_Address_Name = req.body.fullName;
     let buyer_Address_Phone = req.body.phoneNo;
     let buyer_Address_Colony = req.body.colSubLocLan;
@@ -519,8 +557,10 @@ app.post('/saveBuyerAddress', (req, res) => {
     let buyer_Address_Province = req.body.province;
     let buyer_Address_City = req.body.city;
     let buyer_Address_Building = req.body.buiHouFloStr;
+    let buyer_Id = req.params.buyerId;
+    console.log("Bure id ", buyer_Id);
     console.log("In index");
-    let postQuery = "INSERT INTO buyer_Address (FullName, PhoneNo, Buildin_House_Street_Floor, Colony_Submark_Locality_Landmark, Province, City, Buyer_User_Id, NickName) VALUES ('"+buyer_Address_Name+"', '"+buyer_Address_Phone+"', '"+buyer_Address_Building+"', '"+buyer_Address_Colony+"', '"+buyer_Address_Province+"', '"+buyer_Address_City+"', '1', '"+buyer_Address_NickName+"')";
+    let postQuery = "INSERT INTO buyer_Address (FullName, PhoneNo, Buildin_House_Street_Floor, Colony_Submark_Locality_Landmark, Province, City, Buyer_User_Id, NickName) VALUES ('"+buyer_Address_Name+"', '"+buyer_Address_Phone+"', '"+buyer_Address_Building+"', '"+buyer_Address_Colony+"', '"+buyer_Address_Province+"', '"+buyer_Address_City+"', '"+buyer_Id+"', '"+buyer_Address_NickName+"')";
     con.query(postQuery, (err, result) =>{
         if (err){
             res.send({

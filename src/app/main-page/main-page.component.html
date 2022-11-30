@@ -21,76 +21,19 @@
     <div class="col-sm-8  col-md-5 col-lg-3">
         <div class="container" style="border: black;margin-left: 10px;padding:inherit;">
 
-            <nav class="sidebar card py-2 mb-4   ">
+            <nav class="sidebar card py-2 mb-4">
                 <ul class="nav flex-column" id="nav_accordion">
-
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#menu_item1" href="#"> <img
-                                src="assets/electronics.png" style="width: 20px;"> Electronics <i
+                    <li  *ngFor="let cat of categories" class="nav-item" id ="#menu{{cat.Id}}">
+                        <a  class="nav-link" data-bs-toggle="collapse" [attr.data-bs-target]="'#menu' + cat.Id" href="#"> <img
+                                src="assets/electronics.png" style="width: 20px;" alt=""> {{cat.Name}}<i
                                 class="bi small bi-caret-down-fill"></i> </a>
-                        <ul id="menu_item1" class="submenu collapse" data-bs-parent="#nav_accordion">
-                            <li><a class="nav-link" href="#">Computer & accessories </a></li>
-                            <li><a class="nav-link" href="#">Home appliances </a></li>
-                            <li><a class="nav-link" href="#">Power generators</a> </li>
-                        </ul>
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#menu_item2" href="#"><img
-                                src="assets/clothes-hanger.png" style="width: 20px;"> Clothing <i
-                                class="bi small bi-caret-down-fill"></i> </a>
-                        <ul id="menu_item2" class="submenu collapse" data-bs-parent="#nav_accordion">
-                            <li><a class="nav-link" href="#">Men's garments </a></li>
-                            <li><a class="nav-link" href="#">Female garments </a></li>
-                            <li><a class="nav-link" href="#">Kids garments </a></li>
+                        <ul id="menu{{cat.Id}}" class="submenu collapse" data-bs-parent="#nav_accordion">
+                            <div  *ngFor="let sub_cat of subCategories">
+                                <li *ngIf="sub_cat.Categor_Id === cat.Id" ><a class="nav-link" href="#" (click)="getCategoryProducts(sub_cat.Categor_Id)" >{{sub_cat.Sub_Category}}</a></li>
+                            </div>
                         </ul>
                     </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#menu_item3" href="#"><img
-                                src="assets/automotive.png" style="width: 20px;"> Automotive <i
-                                class="bi small bi-caret-down-fill"></i> </a>
-                        <ul id="menu_item3" class="submenu collapse" data-bs-parent="#nav_accordion">
-                            <li><a class="nav-link" href="#">Car's accessories </a></li>
-                            <li><a class="nav-link" href="#">Car spare parts </a></li>
-                            <li><a class="nav-link" href="#">Bike accessories </a></li>
-                            <li><a class="nav-link" href="#">Bike spare parts </a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#menu_item4" href="#"> <img
-                                src="assets/electronics.png" style="width: 20px;"> Electronics <i
-                                class="bi small bi-caret-down-fill"></i> </a>
-                        <ul id="menu_item4" class="submenu collapse" data-bs-parent="#nav_accordion">
-                            <li><a class="nav-link" href="#">Computer & accessories </a></li>
-                            <li><a class="nav-link" href="#">Home appliances </a></li>
-                            <li><a class="nav-link" href="#">Power generators</a> </li>
-                        </ul>
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#menu_item5" href="#"><img
-                                src="assets/clothes-hanger.png" style="width: 20px;"> Clothing <i
-                                class="bi small bi-caret-down-fill"></i> </a>
-                        <ul id="menu_item5" class="submenu collapse" data-bs-parent="#nav_accordion">
-                            <li><a class="nav-link" href="#">Men's garments </a></li>
-                            <li><a class="nav-link" href="#">Female garments </a></li>
-                            <li><a class="nav-link" href="#">Kids garments </a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#menu_item6" href="#"><img
-                                src="assets/automotive.png" style="width: 20px;"> Automotive <i
-                                class="bi small bi-caret-down-fill"></i> </a>
-                        <ul id="menu_item6" class="submenu collapse" data-bs-parent="#nav_accordion">
-                            <li><a class="nav-link" href="#">Car's accessories </a></li>
-                            <li><a class="nav-link" href="#">Car spare parts </a></li>
-                            <li><a class="nav-link" href="#">Bike accessories </a></li>
-                            <li><a class="nav-link" href="#">Bike spare parts </a></li>
-                        </ul>
-                    </li>                </ul>
+                </ul>
             </nav>
         </div>
     </div>
@@ -166,7 +109,6 @@
 <br>
 <br>
 <br>
-
 
 <ng-container *ngIf="this.prdData">
         <div class="container">

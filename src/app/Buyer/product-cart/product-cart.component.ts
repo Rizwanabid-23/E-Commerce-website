@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
+import { GlobalData } from 'src/app/App/navbar/GlobalData';
 import { AddToCartProduct } from '../AddToCartProduct';
 import { ProductApiService } from '../Services/product-api.service';
 declare var window:any;
@@ -28,11 +29,20 @@ export class ProductCartComponent implements OnInit {
   copyProducts =  [];
   localProducts:string;
   deliveryAddressModal:any;
+  selectAddressModal:any;
+  recentLoginBuyerId:any;
   ngOnInit(): void {
     this.pushInArrayOnLoad();
-    this.getSelectedProductData();
+    if(this.ap.productCartPageOpenThroughAddToCartBtn)
+    {
+      this.getSelectedProductData();
+    }
+    
     this.deliveryAddressModal = new window.bootstrap.Modal(
       document.getElementById("deliveryModal")
+    );
+    this.selectAddressModal = new window.bootstrap.Modal(
+      document.getElementById("selectAddressModal")
     );
   }
 
@@ -351,17 +361,23 @@ export class ProductCartComponent implements OnInit {
   }
   saveBuyerAddress()
   {
-    this.service.insertBuyerAddress(this.buyerAddressForm.value).subscribe((res) => {
+    this.recentLoginBuyerId = localStorage.getItem('buyerLoginId');
+    console.log("abc any idsdd id  ",this.recentLoginBuyerId);
+    this.service.insertBuyerAddress(this.buyerAddressForm.value, this.recentLoginBuyerId).subscribe((res) => {
       this.readData = res.data;
       console.log(this.readData);
       this.deliveryAddressModal.hide();
       this.buyerAddressForm.reset();
       
-
     });
   }
-  openSelectAddressModal()
-  {
-    
-  }
+  // openSelectAddressModal()
+  // {
+  //   this.selectAddressModal.show();
+  // }
+  // closeSelectAddressModal()
+  // {
+  //   console.log("Hide  ");
+  //   this.selectAddressModal.hide();
+  // }
 }

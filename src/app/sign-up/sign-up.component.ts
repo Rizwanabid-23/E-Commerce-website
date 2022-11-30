@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AppComponent } from '../app.component';
 import { Router } from '@angular/router';
+import { GlobalData } from '../App/navbar/GlobalData';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -51,13 +52,21 @@ export class SignUpComponent implements OnInit {
     
     this.verificationCodeButtonText = "Get Code ...";
     this.getCodeButtonProperty = true;
+    console.log("Abcc");
     this.service.sendVerificationCode(this.signUpForm.value).subscribe((res) => {
       this.verificationCodeGenerated = res.data;
-      console.log(this.verificationCodeGenerated);
-      this.verificationCodeButtonText = "Resend It";
-      this.verificationCodeSended = true;
-      this.signUpButton = true;
-      this.getCodeButtonProperty = false;
+      if(this.verificationCodeGenerated != null)
+      {
+        console.log(this.verificationCodeGenerated);
+        this.verificationCodeButtonText = "Resend It";
+        this.verificationCodeSended = true;
+        this.signUpButton = true;
+      }
+      else
+      {
+        this.showMsg = 'Enter Email in right format';
+        this.getCodeButtonProperty = false;
+      }
     });
   }
 
@@ -90,7 +99,7 @@ export class SignUpComponent implements OnInit {
           this.ap.buyerLogin = true;
           this.ap.loginBuyerId = this.readData;
           console.log(this.ap.loginBuyerId);
-          sessionStorage.setItem('loginBuyerId',this.ap.loginBuyerId.toString());
+          localStorage.setItem('buyerLoginId',this.ap.loginBuyerId.toString());
           this.router.navigate(['/']);
           this.signUpForm.reset();
       });

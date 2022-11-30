@@ -28,9 +28,19 @@ export class ProductApiService {
   {
     return this._http.get('http://localhost:3000/getProductQuantity/"'+prdId+'"');
   }
-  insertBuyerAddress(buyerAddressData):Observable<any>
+  insertBuyerAddress(buyerAddressData, recentLoginBuyer):Observable<any>
   {
-    return this._http.post('http://localhost:3000/saveBuyerAddress', buyerAddressData);
+    return this._http.post('http://localhost:3000/saveBuyerAddress/"'+ recentLoginBuyer+'"', buyerAddressData);
+  }
+
+  getCategories():Observable<any>
+  {
+    return this._http.get('http://localhost:3000/getCategories');
+  }
+
+  getSubCategories():Observable<any>
+  {
+    return this._http.get('http://localhost:3000/getSubCategories');
   }
 
 }

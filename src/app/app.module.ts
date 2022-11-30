@@ -27,6 +27,8 @@ import { TrackOrderComponent } from './track-order/track-order.component';
 import { MyReturnsComponent } from './my-returns/my-returns.component';
 import { AddressBookComponent } from './address-book/address-book.component';
 import { CancelOrderComponent } from './cancel-order/cancel-order.component';
+import { SaveOrderAndSelectBillingComponent } from './Buyer/save-order-and-select-billing/save-order-and-select-billing.component';
+import { NavbarComponent } from './App/navbar/navbar.component';
 
 
 
@@ -50,6 +52,8 @@ import { CancelOrderComponent } from './cancel-order/cancel-order.component';
     MyReturnsComponent,
     AddressBookComponent,
     CancelOrderComponent,
+    SaveOrderAndSelectBillingComponent,
+    NavbarComponent,
   ],
   imports: [ 
     BrowserModule,

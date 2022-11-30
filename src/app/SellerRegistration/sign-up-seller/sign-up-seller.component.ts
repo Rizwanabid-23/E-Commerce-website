@@ -3,6 +3,7 @@ import { ApisellerregistrationService } from '../apisellerregistration.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
+import { GlobalData } from 'src/app/App/navbar/GlobalData';
 
 @Component({
   selector: 'app-sign-up-seller',

@@ -3,6 +3,7 @@ import { APIService } from '../api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppComponent } from '../app.component';
 import { Router } from '@angular/router';
+import { GlobalData } from '../App/navbar/GlobalData';
 
 @Component({
   selector: 'app-sign-in',
@@ -16,6 +17,7 @@ export class SignInComponent implements OnInit {
 
 
   showMsg:any;
+  locaId:any;
   readData:any;
   successfullyLogIn:Boolean = false;
   uLogin:Boolean;
@@ -24,6 +26,9 @@ export class SignInComponent implements OnInit {
     //   console.log('User Data');
     //   this.readData = res.data;
     // })
+    this.ap.appOpen = false;
+    this.ap.sellerLogin = false;
+    this.ap.buyerLogin = true;
 
   }
 
@@ -44,7 +49,9 @@ export class SignInComponent implements OnInit {
         // this.service.getSingleBuyerUserData(this.ap.loginBuyerId).subscribe((res) => {
         //   this.readData = res.data;
         // });
-        sessionStorage.setItem('loginBuyerId',this.ap.loginBuyerId.toString());
+        localStorage.setItem('buyerLoginId',this.ap.loginBuyerId.toString());
+        // this.locaId = localStorage.getItem('buyerLoginId');
+        // console.log("local id  ",this.locaId);
         // console.log(this.readData);
         this.ap.appOpen = false;
         this.ap.sellerLogin = false;

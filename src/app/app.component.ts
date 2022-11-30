@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Inject }  from '@angular/core';
+import { GlobalData } from './App/navbar/GlobalData';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,8 +9,9 @@ import { Inject }  from '@angular/core';
 })
 export class AppComponent {
 
+
   title = 'ecommerce-website';
-  // globalVariables
+  // // globalVariables
   public appOpen = true; // This will true when app will open
   public buyerLogin = false; // This will true when buyer will login
   public buyerLoginThroughAddToCart = false;
@@ -18,7 +20,7 @@ export class AppComponent {
   public loginSellerId = -10; // This will store login seller Id
   public loginSellerName = "Any"; 
   public clickedProductPictureId = -10;
-
+  public productCartPageOpenThroughAddToCartBtn = false;
 
   public readData:any;
   public brandName:any;

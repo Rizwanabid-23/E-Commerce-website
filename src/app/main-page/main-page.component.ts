@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from '../app.component';
 import { ProductApiService } from '../Buyer/Services/product-api.service';
 import { ProdAndSellerDescriptionComponent } from '../Buyer/prod-and-seller-description/prod-and-seller-description.component';
+import { GlobalData } from '../App/navbar/GlobalData';
 
 
 @Component({
@@ -17,12 +18,21 @@ import { ProdAndSellerDescriptionComponent } from '../Buyer/prod-and-seller-desc
 
 export class MainPageComponent implements OnInit {
 
+  
+
   @ViewChild('carousel', { static: true }) carousel: NgbCarousel | any;
+
+  // Variables
+  categories:any;
+  subCategories:any;
+  categoryHashid = [];
 
   prevSlide() {
     this.carousel.prev();
     this,this.carousel.play();
   }
+
+  abc:any;
 
   nextSlide() {
     this.carousel.next();
@@ -40,6 +50,32 @@ export class MainPageComponent implements OnInit {
   prdData:any;
   ngOnInit(): void {
     this.getProductData();
+    this.getCategories();
+    this.getSubCategories();
+    // this.abc = localStorage.getItem('buyerLoginId');
+    // console.log("abc any idsdd id  ",this.abc);
+  }
+
+  // This will load catogaries on main page
+  getCategories()
+  {
+    this.service.getCategories().subscribe((res) =>{
+      this.categories = res.data;
+      console.log("caaaaaaaaaaaa  ", this.categories);
+
+      // this.categories.forEach((item) =>
+      // {
+      //   this.categories['Id'] = "#"+item['Id']+"";
+      //   console.log("ssss     ",this.categories['Id']);
+      // });
+    })
+  
+  }
+  getSubCategories()
+  {
+    this.service.getSubCategories().subscribe((res) =>{
+      this.subCategories = res.data;
+    })
   }
 
   // This function will get all product categories data
@@ -48,12 +84,17 @@ export class MainPageComponent implements OnInit {
       this.prdData = res.data;
     })
   }
+  getCategoryProducts(id)
+  {
+    console.log("ijoewhq ", id);
+  }
 
   // This will load data of selected picture in product and seller description page by calling
   // function of that page
   setSelctedProductGlobal(selected_prd_id)
   {
     this.ap.clickedProductPictureId = selected_prd_id;
+    sessionStorage.setItem('clickedPrdInPrdndSellerDescrip',this.ap.clickedProductPictureId.toString());
   }
 
   // calculate product price with calculating discount

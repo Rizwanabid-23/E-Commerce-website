@@ -3,6 +3,7 @@ import { ProductApiService } from '../Services/product-api.service';
 import { AppComponent } from 'src/app/app.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Route, Router } from '@angular/router';
+import { GlobalData } from 'src/app/App/navbar/GlobalData';
 
 @Component({
   selector: 'app-prod-and-seller-description',
@@ -25,14 +26,22 @@ export class ProdAndSellerDescriptionComponent implements OnInit {
   discountedPrice:any;
   prdImage:any;
   isBuyerLogin:Boolean;
+  clickedProduct:any;
   ngOnInit(): void {
+    this.manageLocalStorage();
     this.getSelectedProductData();
     this.isBuyerLogin = this.ap.buyerLogin;
+    this.ap.productCartPageOpenThroughAddToCartBtn = false;
+  }
+
+  manageLocalStorage()
+  {
+    this.clickedProduct = parseInt(sessionStorage.getItem('clickedPrdInPrdndSellerDescrip'));
   }
 
   public getSelectedProductData() // This function will get data against selected product 
   {
-    this.service.getProductData(this.ap.clickedProductPictureId).subscribe((res) =>{
+    this.service.getProductData(this.clickedProduct).subscribe((res) =>{
       this.readData = res.data;
       this.brandName = this.readData[0].Brand;
       this.totalPrice = this.readData[0].SellPrice;
@@ -53,6 +62,7 @@ export class ProdAndSellerDescriptionComponent implements OnInit {
   }
   addToCart()
   {
+    this.ap.productCartPageOpenThroughAddToCartBtn = true;
     if(this.isBuyerLogin)
     {
       this.router.navigate(['/productCart']);

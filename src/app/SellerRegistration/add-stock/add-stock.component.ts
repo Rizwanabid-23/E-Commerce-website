@@ -5,6 +5,7 @@ import { AppComponent } from 'src/app/app.component';
 import { Router } from '@angular/router';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { UploadFileService } from '../upload-file.service';
+import { GlobalData } from 'src/app/App/navbar/GlobalData';
 
 
 
@@ -18,7 +19,7 @@ export class AddStockComponent implements OnInit {
   readData: any;
   accountCreated:Boolean = false;
   uLogin:Boolean;
-  constructor(private service: APIService, private router: Router, private ap: AppComponent,private uploadService:UploadFileService) { }
+  constructor(private service: APIService, private router: Router, private ap:AppComponent, private uploadService:UploadFileService) { }
   ngOnInit(): void {
 
   }
