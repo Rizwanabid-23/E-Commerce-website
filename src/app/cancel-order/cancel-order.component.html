@@ -19,11 +19,11 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let us of readData">
-                            <th scope="row">{{us.OrderId}}</th>
+                            <th scope="row">{{us.Id}}</th>
                             <td>{{us.ProductName}}</td>
                             <td>{{us.ProductPrice}}</td>
                             <td>{{us.OrderStatus}}</td>
-                            <td><button class="btn btn-dark ml-1" (click)="cancelOrder(us.OrderId)"><i class="bi bi-trash"></i></button></td>
+                            <td><button class="btn btn-dark ml-1" (click)="cancelOrder(us)"><i class="bi bi-trash"></i></button></td>
                         </tr>
                     </tbody>
                 </table>

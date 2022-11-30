@@ -253,6 +253,7 @@
                                     <h2>Top Customers</h2>
                                 </div>
                                 <div class="card-body">
+                                    <ng-container *ngIf="this.saleData">
                                     <table class="table table-borderless table-thead-border">
                                         <thead>
                                             <tr>
@@ -284,6 +285,7 @@
                                             </tr>
                                         </tfoot>
                                     </table>
+                                </ng-container>
                                 </div>
                             </div>
 
@@ -296,81 +298,36 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="tab-content">
+                                        <ng-container *ngIf="this.saleData">
                                         <table id="product-sale" class="table table-product " style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th>Product Name</th>
-                                                    <th>Unit</th>
-                                                    <th>Amount</th>
+                                                    <th>Sale date</th>
+                                                    <th>Quantity</th>
                                                     <th>%sold</th>
                                                     <th class="th-width-250"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody *ngFor="let sale of saleData">
 
                                                 <tr>
-                                                    <td>Coach Swagger</td>
-                                                    <td>134</td>
-                                                    <td>$24541</td>
-                                                    <td>35.28%</td>
+                                                    <td>{{sale.productID}}</td>
+                                                    <!-- <td>{{sale.sellerID}}</td> -->
+                                                    <td>{{sale.saleTime}}</td>
+                                                    <td>{{sale.quantity}}</td>
+                                                    <td>{{sale.percentage}}</td>
                                                     <td>
-                                                        <div class="progress progress-md rounded-0">
-                                                            <div class="progress-bar" role="progressbar"
-                                                                style="width: 70%" aria-valuenow="70%" aria-valuemin="0"
-                                                                aria-valuemax="100"></div>
+                                                        <div class="progress progress-md rounded-2">
+                                                            <div class="progress-bar progress-bar-striped" role="progressbar"
+                                                              aria-valuenow=""  aria-valuemin="0"
+                                                                aria-valuemax=100></div>
                                                         </div>
                                                     </td>
                                                 </tr>
-
-                                                <tr>
-                                                    <td>Toddler Shoes</td>
-                                                    <td>119</td>
-                                                    <td>$20225</td>
-                                                    <td>27.05%</td>
-                                                    <td>
-                                                        <div class="progress progress-md rounded-0">
-                                                            <div class="progress-bar" role="progressbar"
-                                                                style="width: 55%" aria-valuenow="55%" aria-valuemin="0"
-                                                                aria-valuemax="100"></div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>Hat Black Suits</td>
-                                                    <td>101</td>
-                                                    <td>$17,290</td>
-                                                    <td>20.25%</td>
-                                                    <td>
-                                                        <div class="progress progress-md rounded-0">
-                                                            <div class="progress-bar" role="progressbar"
-                                                                style="width: 45%" aria-valuenow="45%" aria-valuemin="0"
-                                                                aria-valuemax="100"></div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>Backpack Gents</td>
-                                                    <td>59</td>
-                                                    <td>$1150</td>
-                                                    <td>12.50%</td>
-                                                    <td>
-                                                        <div class="progress progress-md rounded-0">
-                                                            <div class="progress-bar" role="progressbar"
-                                                                style="width: 25%" aria-valuenow="25%" aria-valuemin="0"
-                                                                aria-valuemax="100"></div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-
-
-
-
-
                                             </tbody>
                                         </table>
+                                    </ng-container>
                                     </div>
                                 </div>
                             </div>

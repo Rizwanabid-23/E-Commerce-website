@@ -17,22 +17,44 @@ export class APIService {
   }
 
   // This will get address book data from table
-  getAddressBookData(): Observable<any> 
-  {
-    return this._http.get('http://localhost:3000/addressBook');
+  getAddressBookData(userData : any): Observable<any> {
+    return this._http.get('http://localhost:3000/addressBook/'+ userData);
   }
 
+  // this will get buyer user track order data in table
+
+  getTrackOrderData(userData:any):Observable<any>
+  {
+    return this._http.get('http://localhost:3000/trackOrder/'+userData)
+  }
+
+  // this will get buyer user returns data in table
+
+  getBuyerUserReturnData(userData : any):Observable<any>
+  {
+    // console.log(userData);
+    return this._http.get('http://localhost:3000/myReturns/'+ userData);
+  }
+
+  // this will edit buyer user data in table
+
+  editBuyerUserDetails(userData: any): Observable<any> {
+    // console.log(userData);
+    return this._http.post('http://localhost:3000/editBuyerUserData', userData);
+  }
 
   // This will get single buyer user data from table
 
   getSingleBuyerUserData(userData: any): Observable<any> {
     // console.log(userData);
-    return this._http.get('http://localhost:3000/getSingleUserData/'+userData);
+    return this._http.get(
+      'http://localhost:3000/getSingleUserData/' + userData
+    );
   }
 
   // get buyer user orders data
-  getBuyerUserOrdersData(): Observable<any> {
-    return this._http.get('http://localhost:3000/buyerUserOrders');
+  getBuyerUserOrdersData(userData:any): Observable<any> {
+    return this._http.get('http://localhost:3000/buyerUserOrders/'+userData);
   }
 
   // delete buyer user orders data

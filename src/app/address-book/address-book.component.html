@@ -11,7 +11,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">Id</th>
+                            <th scope="col" style="display: none;">Id</th>
                             <th scope="col">FullName</th>
                             <th scope="col">PhoneNo</th>
                             <th scope="col">Building_House_Street_Floor</th>
@@ -24,7 +24,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let us of readData">
-                            <th scope="row">{{us.Id}}</th>
+                            <th scope="row" style="display: none;">{{us.Id}}</th>
                             <td>{{us.FullName}}</td>
                             <td>{{us.PhoneNo}}</td>
                             <td>{{us.Buildin_House_Street_Floor}}</td>

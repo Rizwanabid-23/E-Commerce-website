@@ -16,10 +16,14 @@ export class SellerDashboardComponent implements OnInit {
 
   sellerName:any;
   prdData:any;
+  saleData:any
+
+
   ngOnInit(): void {
     this.sellerName = this.ap.loginSellerName;
     this.getProductData();
     this.pushLocalDataInVariablesOnLoad();
+    this.getSaleData();
   }
   pushLocalDataInVariablesOnLoad(){ // This will load items in array from localstorage that are already selected by user
     this.ap.loginSellerId = parseInt(localStorage.getItem('sellerLoginId'));
@@ -32,13 +36,23 @@ export class SellerDashboardComponent implements OnInit {
       this.ap.sellerLogin = true;
     }
 
-  }
+
 
   // This function will get all product categories data
   getProductData(){
     this.service.getSellerProductData().subscribe((res) =>{
       this.prdData = res.data;
+      console.log(this.prdData)
     })
   }
+
+  getSaleData()
+  {
+    this.service.getAllSaleData().subscribe((res)=>{
+      this.saleData=res.data;
+      console.log(this.saleData);
+    })
+  }
+  
 
 }
