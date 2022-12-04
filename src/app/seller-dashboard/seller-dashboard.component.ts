@@ -36,7 +36,7 @@ export class SellerDashboardComponent implements OnInit {
       this.ap.sellerLogin = true;
     }
 
-
+  }
 
   // This function will get all product categories data
   getProductData(){

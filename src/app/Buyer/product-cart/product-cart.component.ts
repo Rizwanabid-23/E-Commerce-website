@@ -29,7 +29,6 @@ export class ProductCartComponent implements OnInit {
   copyProducts =  [];
   localProducts:string;
   deliveryAddressModal:any;
-  selectAddressModal:any;
   recentLoginBuyerId:any;
   ngOnInit(): void {
     this.pushInArrayOnLoad();
@@ -41,19 +40,20 @@ export class ProductCartComponent implements OnInit {
     this.deliveryAddressModal = new window.bootstrap.Modal(
       document.getElementById("deliveryModal")
     );
-    this.selectAddressModal = new window.bootstrap.Modal(
-      document.getElementById("selectAddressModal")
-    );
+
   }
 
   pushInArrayOnLoad(){ // This will load items in array from localstorage that are already selected by user
+    console.log("Through Cart");
     this.localProducts = localStorage.getItem("addToCartProducts");
     if(this.localProducts == null)
     {
+      console.log("Through Cart null");
       this.addToCartProduct = [];
     }
     else
     {
+      console.log("Through Cart exist");
       this.addToCartProduct = JSON.parse(this.localProducts);
     }
     this.addToCartProduct.forEach((items) =>
