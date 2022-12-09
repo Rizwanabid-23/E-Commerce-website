@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
-import { GlobalData } from 'src/app/App/navbar/GlobalData';
 import { AddToCartProduct } from '../AddToCartProduct';
 import { ProductApiService } from '../Services/product-api.service';
 declare var window:any;
@@ -22,15 +21,23 @@ export class ProductCartComponent implements OnInit {
 
   readData:any;
 
+  showMessage:any;
   deliveryFee = 120;
   totalSelectedItems = 0;
   totaPricePerProduct = 0;
   totalPriceOFBill = 0;
+  buyerDeliverAddresses:any;
   copyProducts =  [];
+  alreadyAddressExists:any;
   localProducts:string;
   deliveryAddressModal:any;
+  confirmationModal:any;
   recentLoginBuyerId:any;
+  placeOrderButtonPropertyDisable:any;
+  abc = true;
   ngOnInit(): void {
+    this.alreadyAddressExists = false;
+    this.placeOrderButtonPropertyDisable = true;
     this.pushInArrayOnLoad();
     if(this.ap.productCartPageOpenThroughAddToCartBtn)
     {
@@ -40,20 +47,21 @@ export class ProductCartComponent implements OnInit {
     this.deliveryAddressModal = new window.bootstrap.Modal(
       document.getElementById("deliveryModal")
     );
+    this.confirmationModal = new window.bootstrap.Modal(
+      document.getElementById("confirmationModal")
+    );
+    this.getBuyerAddress();
 
   }
 
   pushInArrayOnLoad(){ // This will load items in array from localstorage that are already selected by user
-    console.log("Through Cart");
     this.localProducts = localStorage.getItem("addToCartProducts");
     if(this.localProducts == null)
     {
-      console.log("Through Cart null");
       this.addToCartProduct = [];
     }
     else
     {
-      console.log("Through Cart exist");
       this.addToCartProduct = JSON.parse(this.localProducts);
     }
     this.addToCartProduct.forEach((items) =>
@@ -61,6 +69,7 @@ export class ProductCartComponent implements OnInit {
       items['prdQuantity'] = 1;
       items['isCheckBoxChecked'] = false;
     });
+    this.recentLoginBuyerId = parseInt(localStorage.getItem('buyerLoginId')); // Get Login Buyer Id
   }
 
   getSelectedProductData() // This function will get data against selected product 
@@ -154,6 +163,7 @@ export class ProductCartComponent implements OnInit {
     var isChecked = element.checked;
     if(isChecked)
     {
+      this.placeOrderButtonPropertyDisable = false;
       this.addToCartProduct.forEach((items) =>
       {
         var element = document.getElementById("productheckBox"+items['prdId']+"") as HTMLInputElement;
@@ -163,6 +173,7 @@ export class ProductCartComponent implements OnInit {
     }
     else
     {
+      this.placeOrderButtonPropertyDisable = true;
       this.addToCartProduct.forEach((items) =>
       {
         var element = document.getElementById("productheckBox"+items['prdId']+"") as HTMLInputElement;
@@ -178,7 +189,6 @@ export class ProductCartComponent implements OnInit {
   {
     var element = document.getElementById("productheckBox"+id+"") as HTMLInputElement;
     var isChecked = element.checked;
-
     this.addToCartProduct.forEach((items) =>
     {
       if (id == items['prdId']){
@@ -186,6 +196,25 @@ export class ProductCartComponent implements OnInit {
       }
     });
     this.calculateBill();
+    this.placeOrderButtonPropertyDisable = this.isAnyProductCheckBoxSelected();
+  }
+
+  // This will check if any product check box is selected will return false otherwise true
+  isAnyProductCheckBoxSelected():Boolean
+  {
+    let productSelected = false;
+    this.addToCartProduct.forEach((items) =>
+    {
+      if (items['isCheckBoxChecked']){
+        productSelected = true;
+        return false;
+      }
+    });
+    if(!productSelected)
+    {
+      return true;
+    }
+   
   }
 
   copyInCopyProducts()
@@ -361,23 +390,119 @@ export class ProductCartComponent implements OnInit {
   }
   saveBuyerAddress()
   {
-    this.recentLoginBuyerId = localStorage.getItem('buyerLoginId');
-    console.log("abc any idsdd id  ",this.recentLoginBuyerId);
     this.service.insertBuyerAddress(this.buyerAddressForm.value, this.recentLoginBuyerId).subscribe((res) => {
       this.readData = res.data;
-      console.log(this.readData);
       this.deliveryAddressModal.hide();
       this.buyerAddressForm.reset();
+      this.getBuyerAddress();
       
     });
   }
-  // openSelectAddressModal()
+  // This will get buyer delivery addresses
+  getBuyerAddress()
+  {
+    this.service.getBuyerAddress(this.recentLoginBuyerId).subscribe((res) => {
+      this.readData = res.data;
+      if(this.readData != null)
+      {
+        this.alreadyAddressExists = true;
+        this.buyerDeliverAddresses = this.readData;
+      }
+
+    });
+  }
+
+
+  // Proceed Order Start froms Here
+  openConfirmationModal()
+  {
+    this.confirmationModal.show();
+  }
+  // closeConfirmationModal()
   // {
-  //   this.selectAddressModal.show();
+  
   // }
-  // closeSelectAddressModal()
-  // {
-  //   console.log("Hide  ");
-  //   this.selectAddressModal.hide();
-  // }
+  ordered(time)
+  {
+    setTimeout (() => {
+      this.closeConfirmationModal()
+    }, time);
+  }
+  closeConfirmationModal()
+  {
+    this.confirmationModal.hide();
+    this.ap.goHomePage();
+  }
+
+  buyerOrderForm = new FormGroup({
+    'addressId':new FormControl('',Validators.required),
+    // 'pricePerProduct':new FormControl('',Validators.required),
+    // 'deliveryFees':new FormControl('',Validators.required),
+    // 'priceOfBill':new FormControl('',Validators.required),
+  })
+
+//  This will save buyer order
+  saveBuyerOrder()
+  {
+    this.service.insertOrder(this.buyerOrderForm.value, this.recentLoginBuyerId).subscribe((res) => {
+      this.readData = res.data;
+      this.saveBuyerOrderDetail(this.readData);
+    });
+  }
+
+// This will save buyer order details
+  saveBuyerOrderDetail(orderId)
+  {
+    let response;
+    let selectedProducts = [];
+    this.addToCartProduct.forEach((items) =>
+    {
+      var element = document.getElementById("productheckBox"+items['prdId']+"") as HTMLInputElement;
+      var qty = document.getElementById("productSelectedQty"+items['prdId']+"").innerHTML;
+
+      if(element.checked)
+      {
+        let orderedProduct = {
+          orderId:parseInt(orderId),
+          selectedPrdId:parseInt(items['prdId']),
+          selectedPrdQuantity:parseInt(qty),
+        }
+
+        selectedProducts.push(orderedProduct);
+      }
+    });
+    
+    this.service.insertOrderDetails(selectedProducts).subscribe((res) => {
+      response = res.data;
+      if(response != null)
+      {
+        this.showMessage = "Order Deliver Started";
+        this.openConfirmationModal();
+        this.removeOrderedProduct();
+        this.ordered(1000);
+      }
+      else
+      {
+        this.showMessage = "Order Not Deliver";
+        this.openConfirmationModal();
+        this.ordered(1500);
+      }
+
+    });
+  }
+
+  removeOrderedProduct() // This wil remove product from add to cart page which is ordered by buyer
+  {
+    this.copyInCopyProducts();
+    this.copyProducts.forEach((items) =>
+    {
+      if(items['isCheckBoxChecked'])
+      {
+        const index = this.addToCartProduct.indexOf(items);
+        this.addToCartProduct.splice(index,1);
+      }
+    });
+    localStorage.setItem("addToCartProducts", JSON.stringify(this.addToCartProduct));
+  }
+
 }

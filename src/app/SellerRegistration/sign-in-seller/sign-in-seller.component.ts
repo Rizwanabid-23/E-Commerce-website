@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApisellerregistrationService } from '../apisellerregistration.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
-import { GlobalData } from 'src/app/App/navbar/GlobalData';
 
 @Component({
   selector: 'app-sign-in-seller',
@@ -12,7 +10,7 @@ import { GlobalData } from 'src/app/App/navbar/GlobalData';
 })
 export class SignInSellerComponent implements OnInit {
 
-  constructor(private service:ApisellerregistrationService,  private router:Router, private ap:AppComponent) { }
+  constructor(private service:ApisellerregistrationService, private ap:AppComponent) { }
 
   ngOnInit(): void {
   }
@@ -39,9 +37,9 @@ export class SignInSellerComponent implements OnInit {
         this.ap.appOpen = false;
         this.ap.sellerLogin = true;
         this.ap.buyerLogin = false;
-        this.router.navigate(['/SellerDashboard']);
+        this.ap.goSellerDashboardPage();
         this.sellerSignInForm.reset();
-        this.aaaa = localStorage.getItem('sellerLoginName');
+        // this.aaaa = localStorage.getItem('sellerLoginName');
       }
     });
   }
@@ -60,7 +58,11 @@ export class SignInSellerComponent implements OnInit {
       }
 
     });
+  }
 
+  openSignUpSellerPage()
+  {
+    this.ap.goSellerSignUpPage();
   }
 
 }

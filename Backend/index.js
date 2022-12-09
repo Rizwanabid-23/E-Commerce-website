@@ -1,15 +1,18 @@
 const express = require('express');
+const path =  require("path")
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const app = express();
 const mysql = require('mysql2');
 const nodemailer = require('nodemailer');
 const details = require('./details.json');
-// const e = require('cors');
-app.use(cors({origin: "*"}));
+const fileUpload = require("./fileUpload");
+const { escape } = require('querystring');
 
+app.use(cors({origin: "*"}));
 app.use(cors());
 app.use(bodyparser.json());
+app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
 const port = 3000;
 let mailsend = false;
@@ -55,7 +58,6 @@ app.get('/getCategories', (req, res) => {
     con.query(getQuery, (err, result) =>{
         console.log(" dis category ", result);
         if (err){
-            console.log("Error");
             res.send('Error')
         }
         else{
@@ -69,16 +71,19 @@ app.get('/getCategories', (req, res) => {
 })
 
 app.get('/getSubCategories', (req, res) => {
-    let getQuery = 'Select * From product_category';
+    let getQuery = 'SELECT * FROM `product_category` ORDER BY `product_category`.`Sub_Category` ASC';
     con.query(getQuery, (err, result) =>{
-        console.log("subm category ", result);
         if (err){
-            console.log("Error");
-            res.send('Error')
+            res.send
+            ({
+                message:'Not Get',
+                data:null
+            })
         }
         else{
-            res.send({
-                message:'Data',
+            res.send
+            ({
+                message:'Found Data',
                 data:result
             });
         }
@@ -86,6 +91,26 @@ app.get('/getSubCategories', (req, res) => {
     })
 })
 
+app.get('/getProductBrands', (req, res) => {
+    let getQuery = 'SELECT * FROM `product_brand` ORDER BY `product_brand`.`Brand` ASC';
+    con.query(getQuery, (err, result) =>{
+        if (err){
+            res.send
+            ({
+                message:'Not Get',
+                data:null
+            })
+        }
+        else{
+            res.send
+            ({
+                message:'Found Data',
+                data:result
+            });
+        }
+
+    })
+})
 
 //This will get user data
 app.get('/buyerUser', (req, res) => {
@@ -125,13 +150,10 @@ app.get('/buyerUserOrders/:Id', (req, res) => {
 
 // This will delete buyer user order data
 app.delete('/buyerUserOrdersDelete',(req,res) =>{
-    // console.log(req.body);
     let orderId = req.body.userData.Id;
-    // console.log(orderId);
     let getQuery = `Delete From buyer_user_orders where OrderId = ${orderId} and Buyer_User_Id = ${req.body.userData.Buyer_User_Id}`;
     con.query(getQuery, (err, result) =>{
         if (err){
-            // console.log(err);
             res.send('Error')
         }
         else{
@@ -174,13 +196,11 @@ app.post('/sendVerificationCode', (req, res) => {
         sendMail(user, verificationCode,  info => {
             if(mailsend)
             {
-                console.log("Mail has been sent");
                 console.log(verificationCode);
                 res.send({data:verificationCode});
             }
             else
             {
-                console.log("Not sent mail");
                 res.send({data:null});
             }
 
@@ -188,7 +208,6 @@ app.post('/sendVerificationCode', (req, res) => {
     }
     catch
     {
-        console.log("Not sent mail");
         res.send({data:null});
     }
 
@@ -276,7 +295,6 @@ app.get('/getLoginSellerName/:Id', (req, res) => {
     id = id.replaceAll('"', '');
     let getQuery = "Select * From seller_user WHERE Id = '"+id+"'";
     con.query(getQuery, (err, result) =>{
-        console.log("ssdd ",result);
         if (err){
             console.log("Error");
             res.send('Error')
@@ -290,12 +308,9 @@ app.get('/getLoginSellerName/:Id', (req, res) => {
     })
 })
 
-
 /*For Seller Registration code start from here*/
 /*------------------------------------------- */
 /*------------------------------------------- */
-
-
 // This will check that same email id with new creating account exist or not
 app.post('/sellerSignUpUserValid', (req, res) => {
 
@@ -316,7 +331,6 @@ app.post('/sellerSignUpUserValid', (req, res) => {
         }
     })
 })
-
 
 // This function will insert data into seller_user table
 app.post('/insertSellerUser', (req, res) => {
@@ -369,19 +383,17 @@ app.post('/sellerSignInUserValid', (req, res) => {
         }    
     })
 })
-
 /*For Seller Registration code ends      here*/
 /*------------------------------------------- */
 /*------------------------------------------- */
-
-
 
 /*   For  Product  code  start  from  here   */
 /*------------------------------------------ */
 /*------------------------------------------ */
 app.get('/getProduct', (req, res) => {
-    let getQuery = 'Select Id, Name, Picture, SellPrice, Discount, Description From product';
+    let getQuery = 'Select Id, Name, Picture, SellPrice, Discount, Description From product Where Quantity >= 1';
     con.query(getQuery, (err, result) =>{
+        console.log("rrrrrrrrrr ",result);
         if (err){
             console.log("Error");
             res.send({
@@ -419,7 +431,6 @@ app.get('/getSaleData', (req, res) => {
     let getQuery = 'Select productID,sellerID,quantity,saleTime,quantity/(select sum(quantity) from sold_products)*100 as percentage from sold_products GROUP by productID,sellerID,quantity,saleTime;';
     con.query(getQuery, (err, result) =>{
         if (err){
-            console.log("Error");
             res.send({
                 data:null
             })
@@ -433,14 +444,12 @@ app.get('/getSaleData', (req, res) => {
     })
 })
 
-
 app.get('/getProduct/:Id', (req, res) => {
     let id = req.params.Id;
     id = id.replaceAll('"', '');
     let getQuery = "SELECT prdBrand.Br As Brand, prdBrand.Id As Id, prdBrand.Sellprice As SellPrice, prdBrand.Description As Description, prdBrand.Discount As Discount, prdBrand.Quantity As Quantity, prdBrand.Name As Name, prdBrand.Picture As Picture, seller_user.FirstName As FName, seller_user.LastName As LName, seller_user.City As SellerCity FROM (SELECT product_brand.Brand As Br, Pr.Id As Id, Pr.SellPrice As SellPrice, Pr.Description As  Description, Pr.Discount As Discount, Pr.Quantity As Quantity, Pr.Name As Name, Pr.Picture As  Picture, Pr.Seller_Id As SellerId FROM (SELECT Id, Brand_Id, SellPrice, Description, Discount, Quantity, Name, Picture, Seller_Id FROM product WHERE Id = '"+id+"') As Pr, product_brand WHERE Pr.Brand_Id = product_brand.Id) As prdBrand, seller_user WHERE prdBrand.SellerId = seller_user.Id ";
     con.query(getQuery, (err, result) =>{
         if (err){
-            console.log("Error");
             res.send('Error')
             
         }
@@ -509,6 +518,7 @@ app.get('/getProductBrandName/:Id', (req, res) => {
         }
     })
 })
+
 app.get('/getProductPrice/:Id', (req, res) => {
     let id = req.params.Id;
     id = id.replaceAll('"', '');
@@ -528,45 +538,9 @@ app.get('/getProductPrice/:Id', (req, res) => {
     })
 })
 
-
-app.post('/addProductValid', (req, res) => {
-
-    let pname=req.body.pname;
-    let postQuery = "SELECT Name from product WHERE Name='"+pname+"' ";
-    con.query(postQuery, (err, result) =>{
-        if (result==null)
-        {
-            res.send({
-                message:'Data not Inserted',
-                // data:result[0].Id
-                data:result.insertId
-
-            })
-        }
-        else{
-            res.send({
-                message:'Data Inserted',
-                data:null,
-                
-            })
-        }
-        if(err)
-        {
-            console.log("err",err);
-        }
-
-        console.log("insert");
-    })
-})
-
 /*------------------------------------------ */
 /*------------------------------------------ */
 /*   For  Buyer Deliver Address starts here  */
-
-
-/*------------------------------------------ */
-/*------------------------------------------ */
-/*   For  Buyer Deliver Address ends here   */
 app.post('/saveBuyerAddress/:buyerId', (req, res) => {
     let buyer_Address_Name = req.body.fullName;
     let buyer_Address_Phone = req.body.phoneNo;
@@ -576,9 +550,10 @@ app.post('/saveBuyerAddress/:buyerId', (req, res) => {
     let buyer_Address_City = req.body.city;
     let buyer_Address_Building = req.body.buiHouFloStr;
     let buyer_Id = req.params.buyerId;
-    console.log("Bure id ", buyer_Id);
-    console.log("In index");
-    let postQuery = "INSERT INTO buyer_Address (FullName, PhoneNo, Buildin_House_Street_Floor, Colony_Submark_Locality_Landmark, Province, City, Buyer_User_Id, NickName) VALUES ('"+buyer_Address_Name+"', '"+buyer_Address_Phone+"', '"+buyer_Address_Building+"', '"+buyer_Address_Colony+"', '"+buyer_Address_Province+"', '"+buyer_Address_City+"', '"+buyer_Id+"', '"+buyer_Address_NickName+"')";
+    buyer_Id = buyer_Id.replaceAll('"', '');
+
+    let postQuery = "INSERT INTO `buyer_address` (`FullName`, `PhoneNo`, `Buildin_House_Street_Floor`, `Colony_Submark_Locality_Landmark`, `Province`, `City`, `Buyer_User_Id`, `NickName`) VALUES ('"+buyer_Address_Name+"', '"+buyer_Address_Phone+"', '"+buyer_Address_Building+"', '"+buyer_Address_Colony+"', '"+buyer_Address_Province+"', '"+buyer_Address_City+"', '"+buyer_Id+"', '"+buyer_Address_NickName+"')";
+
     con.query(postQuery, (err, result) =>{
         if (err){
             res.send({
@@ -596,51 +571,116 @@ app.post('/saveBuyerAddress/:buyerId', (req, res) => {
 })
 
 
-/*------------------------------------------ */
-/*------------------------------------------ */
-/*   For  Product  code  ends  from  here    */
-app.post('/addProduct', (req, res) => {
-
-    var file = req.files.pimage;
-    // var img_name=file.name;
-
-    console.log("addProduct in index.js");
-    if(file.mimetype == "image/jpeg" ||file.mimetype == "image/png"||file.mimetype == "image/gif" || file.mimetype=="image/jpg" ){
-                                
-        file.mv('public/images/upload_images/'+file.name, function(err) {});
-    }
-
-    let pname=req.body.pname;
-    let pdescription=req.body.description;
-    let pimage=req.body.pimage;
-    // let pimage="assets/p1.jpg";
-    let sellerid=req.body.sellerid;
-    let categoryid=req.body.categoryid;
-    let brandid=req.body.brandid;
-
-    let buyPrice=req.body.buyPrice;
-    buyPrice=String(buyPrice);
-    let sellPrice=req.body.sellPrice;
-    sellPrice=String(sellPrice);
-    let discount=req.body.discount;
-    discount=String(discount);
-    let quantity="0";
-    let stockDate=new Date();
-    console.log("date:",stockDate);  //C:\fakepath\p2.jpg
-    
-
-    let postQuery = "INSERT INTO product (Name, Description,BuyPrice,SellPrice,Discount,Quantity,AddStockDate ,Picture,Seller_Id,Category_Id,Brand_Id) VALUES ('"+pname+"', '"+pdescription+"','"+buyPrice+"','"+sellPrice+"','"+discount+"','"+quantity+"','"+stockDate+"', '"+pimage+"','"+sellerid+"','"+categoryid+"','"+brandid+"')";
+app.get('/getBuyerAddress/:buyerId', (req, res) => {
+    let buyer_Id = req.params.buyerId;
+    id = buyer_Id.replaceAll('"', '');
+    let postQuery = "SELECT * FROM `buyer_address` WHERE Buyer_User_Id = '"+id+"'";
     con.query(postQuery, (err, result) =>{
         if (err){
             res.send({
                 message:'Data Inserted',
                 data:null
             })
-            // console.log(result.insertId);
-            
+        }
+        else{
+            if (result.length == 0)
+            {
+                res.send({
+                    message:'Not Get',
+                    data:null
+                })
+            }
+            else
+            {
+                res.send({
+                    message:'get data',
+                    data:result
+                })
+            }
         }
     })
 })
+/*------------------------------------------ */
+/*------------------------------------------ */
+/*   For  Buyer Deliver Address ends here   */
+
+/*------------------------------------------ */
+/*------------------------------------------ */
+/*   For  Product  code  ends  from  here    */
+app.post('/addProductValid', (req, res) => {
+    console.log("addProductValid   ");
+    let pname=req.body.pname;
+    let postQuery = "SELECT Name from product WHERE Name='"+pname+"' ";
+    con.query(postQuery, (err, result) =>{
+        if(err)
+        {
+            res.send
+            ({
+                message:'Erro Found',
+                data:null,
+            })
+        }
+        else{
+            if(result.length != 0)
+            {
+                res.send
+                ({
+                    message:'Duplicate Name',
+                    data:result,
+                })
+            }
+            else
+            {
+                res.send
+                ({
+                    message:'Not Found Same Name Product',
+                    data:null,
+                })
+            }
+        }
+    })
+})
+
+
+app.post('/addProduct', fileUpload.single("image"), (req, res) => {
+    let dateObj = new Date();
+    let date = ("0" + dateObj.getDate()).slice(-2); // current date
+    let month = ("0" + (dateObj.getMonth() + 1)).slice(-2);  // current month
+    let year = dateObj.getFullYear(); // current year
+    currentDate = year+":"+month+":"+date;
+    let picture_Path = req.file.path;
+    picture_Path = escape(picture_Path);
+    picture_Path = picture_Path.replaceAll("%5C", "\\\\");
+    let p_Name=req.body.prdName;
+    let p_Description=req.body.prdDescription;
+    let seller_Id=req.body.prdSellerId;
+    let category_Id=req.body.prdCategoryId;
+    let brand_Id=req.body.prdBrandId;
+    let p_BuyPrice=req.body.prdBuyPrice;
+    let p_SellPrice=req.body.prdSellPrice;
+    let p_Discount=req.body.prdDiscountPercentage;
+    let p_Quantity=0;
+    let postQuery = "INSERT INTO `product` (`Name`, `Description`, `BuyPrice`, `SellPrice`, `Discount`, `Quantity`, `AddStockDate`, `Picture`, `Seller_Id`, `Category_Id`, `Brand_Id`) VALUES ('"+p_Name+"', '"+p_Description+"', '"+p_BuyPrice+"', '"+p_SellPrice+"', '"+p_Discount+"', '"+p_Quantity+"', '"+currentDate+"', '"+picture_Path+"', '"+seller_Id+"', '"+category_Id+"', '"+brand_Id+"')";
+    con.query(postQuery, (err, result) =>{
+        if (err)
+        {
+            res.send
+            ({
+                message:'Data Not Inserted',
+                data:null
+            })
+        }
+        else
+        {
+            res.send
+            ({
+                message:'Data Inserted',
+                data:result.insertId
+            })
+        }
+    })
+})
+
     
 app.post('/resetBuyerPassword',(req,res) =>{
     let email = req.body.email;
@@ -693,7 +733,6 @@ app.post('/updateBuyerPassword',(req,res)=>{
         }
     })
 })
-
 
 app.get('/getSingleUserData/:Id',(req,res)=>{
     // console.log(req.params.Id);
@@ -795,3 +834,87 @@ app.get('/trackOrder/:Id',(req,res)=>{
         }
     })
 })
+
+/*------------------------------------------ */
+/*------------------------------------------ */
+/*      For  Order code  Start From here     */
+app.post('/saveOrder/:buyerId', (req, res) => {
+    let dateObj = new Date();
+    let date = ("0" + dateObj.getDate()).slice(-2); // current date
+    let month = ("0" + (dateObj.getMonth() + 1)).slice(-2);  // current month
+    let year = dateObj.getFullYear(); // current year
+    currentDate = year+":"+month+":"+date;
+
+    dateObj.setDate(dateObj.getDate() + 7);
+    date = ("0" + dateObj.getDate()).slice(-2); // current date
+    month = ("0" + (dateObj.getMonth() + 1)).slice(-2);  // current month
+    year = dateObj.getFullYear(); // current year
+    requiredDate = year+":"+month+":"+date;
+
+    let buyer_Address_Id = req.body.addressId;
+    let buyer_Id = req.params.buyerId;
+    buyer_Id = buyer_Id.replaceAll('"', '');
+
+    let postQuery = "INSERT INTO `order` (`Date`, `ShippedDate`, `RequiredDate`, `Buyer_Id`, `BuyerAddress_Id`) VALUES ('"+currentDate+"', '"+currentDate+"', '"+requiredDate+"', '"+buyer_Id+"', '"+buyer_Address_Id+"')";
+    con.query(postQuery, (err, result) =>{
+        if (err)
+        {
+            res.send({
+                message:'Data Not Inserted',
+                data:null
+            })
+        }
+        else
+        {
+            res.send({
+                message:'Data Inserted',
+                data:result.insertId
+            })
+        }
+    })
+})
+
+app.post('/saveOrderDetail',(req, res) => {
+    let counter = 0;
+    let orderId;
+    let prdId;
+    let quantity;
+    let postQuery;
+    let allData = req.body;
+    let queryExecuted;
+    allData.forEach((items) => { // ForEach Loop
+        orderId = items['orderId'];
+        prdId = items['selectedPrdId'];
+        quantity = items['selectedPrdQuantity'];
+
+        postQuery = "INSERT INTO `orderdetail` (`Quantity`, `Order_Id`, `Product_Id`) VALUES ('"+quantity+"', '"+orderId+"', '"+prdId+"')";
+        queryExecuted = false;
+        con.query(postQuery, (err, result) =>{
+            if (err)
+            {
+                res.send({
+                    message:'Data Not Inserted',
+                    data:null
+                })
+            }
+            else
+            {
+                counter = counter+1;
+                if(counter == allData.length)
+                {
+                    res.send({
+                        message:'Data Not Inserted',
+                        data:result
+                    })
+                }
+                
+            }
+        })
+
+
+    });// ForEach Loop
+
+})
+/*------------------------------------------ */
+/*------------------------------------------ */
+/*      For  Order code ends From here       */

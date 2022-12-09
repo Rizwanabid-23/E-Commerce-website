@@ -17,6 +17,7 @@ import { EditAccountDetailsComponent } from './edit-account-details/edit-account
 import { AddressBookComponent } from './address-book/address-book.component';
 import { MyReturnsComponent } from './my-returns/my-returns.component';
 import { TrackOrderComponent } from './track-order/track-order.component';
+import { MessageModalComponent } from './Shared/message-modal/message-modal.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -26,10 +27,7 @@ const routes: Routes = [
   { path: 'SignUpSeller', component: SignUpSellerComponent },
   { path: 'SellerDashboard', component: SellerDashboardComponent },
   { path: 'addStock', component: AddStockComponent },
-  {
-    path: 'productAndSellerDetails',
-    component: ProdAndSellerDescriptionComponent,
-  },
+  { path: 'productAndSellerDetails', component: ProdAndSellerDescriptionComponent, },
   { path: 'productCart', component: ProductCartComponent },
   { path: 'uploadFile', component: UploadFileService },
   { path: 'customerSupport', component: CustomerSupportComponent },
@@ -39,6 +37,7 @@ const routes: Routes = [
   { path: 'addressBook', component: AddressBookComponent },
   { path: 'myReturns', component: MyReturnsComponent },
   { path: 'trackOrder', component: TrackOrderComponent },
+  { path: 'ShowMessageModal', component: MessageModalComponent },
 ];
 
 @NgModule({

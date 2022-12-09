@@ -7,11 +7,8 @@ export class UploadFileService {
 
   constructor(private _http: HttpClient) { }
 
-  public uploadfile(file: File) {
-
-    let formParams = new FormData();
-    formParams.append('file', file)
-    return this._http.post('http://localhost:3000/uploadFile', formParams)
+  public uploadfile(file) {
+    return this._http.post('http://localhost:3000/uploadFile', file);
   }
 
 }

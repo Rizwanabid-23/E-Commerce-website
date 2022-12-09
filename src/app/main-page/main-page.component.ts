@@ -52,8 +52,7 @@ export class MainPageComponent implements OnInit {
     this.getProductData();
     this.getCategories();
     this.getSubCategories();
-    // this.abc = localStorage.getItem('buyerLoginId');
-    // console.log("abc any idsdd id  ",this.abc);
+    // localStorage.removeItem('buyerLoginId');
   }
 
   // This will load catogaries on main page
@@ -61,13 +60,6 @@ export class MainPageComponent implements OnInit {
   {
     this.service.getCategories().subscribe((res) =>{
       this.categories = res.data;
-      console.log("caaaaaaaaaaaa  ", this.categories);
-
-      // this.categories.forEach((item) =>
-      // {
-      //   this.categories['Id'] = "#"+item['Id']+"";
-      //   console.log("ssss     ",this.categories['Id']);
-      // });
     })
   
   }
@@ -82,6 +74,8 @@ export class MainPageComponent implements OnInit {
   getProductData(){
     this.service.getAllProductData().subscribe((res) =>{
       this.prdData = res.data;
+      console.log(this.prdData,"dsd");
+
     })
   }
   getCategoryProducts(id)
@@ -91,10 +85,11 @@ export class MainPageComponent implements OnInit {
 
   // This will load data of selected picture in product and seller description page by calling
   // function of that page
-  setSelctedProductGlobal(selected_prd_id)
+  setSelctedProductGlobalAndOpenNextPage(selected_prd_id)
   {
     this.ap.clickedProductPictureId = selected_prd_id;
     sessionStorage.setItem('clickedPrdInPrdndSellerDescrip',this.ap.clickedProductPictureId.toString());
+    this.ap.goProductAndSellerDetailPage();
   }
 
   // calculate product price with calculating discount

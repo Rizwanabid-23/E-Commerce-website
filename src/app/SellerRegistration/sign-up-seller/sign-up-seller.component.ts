@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApisellerregistrationService } from '../apisellerregistration.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
-import { GlobalData } from 'src/app/App/navbar/GlobalData';
 
 @Component({
   selector: 'app-sign-up-seller',
@@ -12,7 +10,7 @@ import { GlobalData } from 'src/app/App/navbar/GlobalData';
 })
 export class SignUpSellerComponent implements OnInit {
 
-  constructor(private service:ApisellerregistrationService, private router:Router, private ap:AppComponent) { }
+  constructor(private service:ApisellerregistrationService, private ap:AppComponent) { }
 
   showMsg:any;
   readData:any;
@@ -39,7 +37,6 @@ export class SignUpSellerComponent implements OnInit {
   })
 
   sendVerificationCode(){
-    console.log(this.sellerSignUpForm.value.email);
     
     this.verificationCodeButtonText = "Get Code ...";
     this.getCodeButtonProperty = true;
@@ -47,7 +44,6 @@ export class SignUpSellerComponent implements OnInit {
       this.verificationCodeGenerated = res.data;
       if(this.verificationCodeGenerated != null)
       {
-        console.log(this.verificationCodeGenerated);
         this.verificationCodeButtonText = "Resend It";
         this.verificationCodeSended = true;
         this.signUpButton = true;
@@ -82,12 +78,11 @@ export class SignUpSellerComponent implements OnInit {
     {
       this.service.insertSellerData(this.sellerSignUpForm.value).subscribe((res) => {
         this.readData = res.data;
-        console.log(this.readData);
         this.ap.appOpen = true;
         this.ap.sellerLogin = false;
         this.ap.buyerLogin = false;
         this.ap.loginSellerId = this.readData;
-        this.router.navigate(['/SignInSeller']);
+        this.ap.goSellerSignInPage();
         this.sellerSignUpForm.reset();
       });
     }
@@ -95,8 +90,15 @@ export class SignUpSellerComponent implements OnInit {
     {
       this.showMsg = 'Account With This Email Id Already Exist';
     }
+  }
 
-
-  }  
+  openSignInSellerPage()
+  {
+    this.ap.goSellerSignInPage();
+  }
+  openSellerDashBoardPage()
+  {
+    this.ap.goSellerDashboardPage();
+  }
 
 }

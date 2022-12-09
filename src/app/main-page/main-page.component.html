@@ -114,10 +114,10 @@
         <div class="container">
             <div class="row ">
                 <div class="my-2 col-lg-3 col-md-4 col-sm-6 col-12" *ngFor="let prd of prdData">
-                    <a routerLink="/productAndSellerDetails" (click)="setSelctedProductGlobal(prd.Id)">
+                    <a (click)="setSelctedProductGlobalAndOpenNextPage(prd.Id)">
                         <div class="inner">
                             <div class="card shadow cardproperty">
-                                <img class="card-img-top cardPicHeight" src="{{prd.Picture}}" alt="Card image cap">
+                                <img class="card-img-top cardPicHeight" src="http://localhost:3000/{{prd.Picture}}" alt="Card image cap">
                                 <div class="card-body " >
                                     <p class="inputBoxHeadingColor cardTextPrdNameOverFlow my-0">{{prd.Name}}</p>
                                     <p class="cardTextDescriptionOverFlow simpleText mb-0" >{{prd.Description}}</p>

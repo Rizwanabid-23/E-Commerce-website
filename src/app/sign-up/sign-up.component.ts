@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { APIService } from '../api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { GlobalData } from '../App/navbar/GlobalData';
 import { AppComponent } from '../app.component';
 
 @Component({
@@ -12,7 +10,7 @@ import { AppComponent } from '../app.component';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor(private service: APIService, private router:Router, private ap:AppComponent) { }
+  constructor(private service: APIService, private ap:AppComponent) { }
 
   showMsg: any;
   readData: any;
@@ -26,10 +24,6 @@ export class SignUpComponent implements OnInit {
   signUpButtonText = "Sign Up";
   verificationCodeButtonText = "Get Code";
   ngOnInit(): void { 
-    // this.service.getUserData().subscribe((res) =>{
-    //   console.log('User Data');
-    //   this.readData = res.data;
-    // })
     this.signUpButtonText = "Sign Up";
     this.verificationCodeButtonText = "Get Code";
     this.verificationCodeVaildTime = 120;
@@ -48,11 +42,8 @@ export class SignUpComponent implements OnInit {
   })
 
   sendVerificationCode(){
-    console.log(this.signUpForm.value.email);
-    
     this.verificationCodeButtonText = "Get Code ...";
     this.getCodeButtonProperty = true;
-    console.log("Abcc");
     this.service.sendVerificationCode(this.signUpForm.value).subscribe((res) => {
       this.verificationCodeGenerated = res.data;
       if(this.verificationCodeGenerated != null)
@@ -75,7 +66,6 @@ export class SignUpComponent implements OnInit {
   async checkDetailValidSignUpForm(){
     await this.service.checkValidSignUpUser(this.signUpForm.value).subscribe(res => {
       this.readData = res.data;
-      console.log(this.readData);
       if (this.readData == null){
 
         this.submitSignUpForm();
@@ -98,9 +88,8 @@ export class SignUpComponent implements OnInit {
           this.ap.sellerLogin = false;
           this.ap.buyerLogin = true;
           this.ap.loginBuyerId = this.readData;
-          console.log(this.ap.loginBuyerId);
           localStorage.setItem('buyerLoginId',this.ap.loginBuyerId.toString());
-          this.router.navigate(['/']);
+          this.ap.goHomePage();
           this.signUpForm.reset();
       });
     }
@@ -108,5 +97,9 @@ export class SignUpComponent implements OnInit {
     {
       this.showMsg = 'Enter Right Verification Code or Resend It';
     }
+  }
+  openSignInPage()
+  {
+    this.ap.goBuyerSignInPage();
   }
 }

@@ -100,7 +100,7 @@ export class APIService {
   checkProductStock(userData: any): Observable<any> {
     return this._http.post('http://localhost:3000/addProductValid', userData);
   }
-  insertProductStock(userData: any): Observable<any> {
+  insertProductStock(userData:any): Observable<any> {
     return this._http.post('http://localhost:3000/addProduct', userData);
   }
 
@@ -108,4 +108,15 @@ export class APIService {
   sendVerificationCode(userData: any): Observable<any> {
     return this._http.post('http://localhost:3000/sendVerificationCode', userData);
   }
+//  This will get sub categories
+  getSubCategories():Observable<any>
+  {
+    return this._http.get('http://localhost:3000/getSubCategories');
+  }
+  getProductBrands():Observable<any>
+  {
+    return this._http.get('http://localhost:3000/getProductBrands');
+  }
+
+
 }

@@ -6,17 +6,14 @@
             <div class="row">
                 <h3 class="col-md-6 pageMainHeading">Create Your E-Commerce Account</h3>
                 <div class="float-right col-md-6">
-                    <div class="float-right simpleText">Already Member? <a routerLink="/SignInSeller"
-                            class="Links">Login</a> here.</div>
+                    <div class="float-right simpleText">Already Member? <button (click)="openSignInSellerPage()"
+                            class="Links">Login</button> here.</div>
                 </div>
             </div>
             <br>
             <br>
-            <div *ngIf="showMsg" class="alert alert-success">
+            <div *ngIf="showMsg" class="alert alert-danger">
                 <strong>{{showMsg}}</strong>
-            </div>
-            <div *ngIf="accountCreated" >
-                <div routerLink="/SellerDashboard"></div> 
             </div>
             <form [formGroup]="sellerSignUpForm" (ngSubmit)="checkValidUserDetail()" ngNativeValidate>
                 <div class="row">

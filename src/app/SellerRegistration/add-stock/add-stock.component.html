@@ -1,69 +1,84 @@
-
-<form style="margin: 50px;" (ngSubmit)="checkProduct()" [formGroup]="pstockForm" ngNativeValidate>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label>Product Name</label>
-        <input type="text" formControlName="pname" class="form-control" required>
+<div class="marginFromNavbar"></div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-1 col-md-1 col-sm-0"></div>
+    <div class="col-lg-10 col-md-10 col-sm-12">
+      <h3 class="col-md-6 pageMainHeading text-center">Add New Product</h3>
+      <div class="float-right col-md-6">
       </div>
-      
-    </div>
-    <div class="form-group">
-      <label >Description</label>
-      <input type="text" formControlName="description" class="form-control" required="">
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-4">
-          <label>Seller ID</label>
-          <input type="number" formControlName="sellerid" class="form-control">
-        </div>
-        <div class="form-group col-md-4">
 
-          <!-- <label for="validationBrandId" class="form-label">City</label>
-          <select class="form-select" formControlName="brandid" id="validationCity" required>
-              <option selected>Select City</option>
-              <option [value]="city" *ngFor="let city of cities">{{city}}</option>
-          </select>
-          <div class="invalid-feedback">
-          Please select a valid state.
-          </div> -->
 
-          <label >Brand ID</label>
-          <input type="number" formControlName="brandid" class="form-control" >
-        </div>
-        <div class="form-group col-md-4">
-            <label >Category ID</label>
-            <input type="number" formControlName="categoryid" class="form-control" >
+        <form style="margin: 50px;" (ngSubmit)="checkProduct()" [formGroup]="pstockForm" ngNativeValidate>
+          <div class="form-row">
+            <div class="form-group col-lg-6 col-md-6 col-sm-12">
+              <label class="label inputBoxHeadingColor">Product Name</label>
+              <input type="text" formControlName="pname" class="form-control" required>
+            </div>
+            <div *ngIf="showMsg" class="alert alert-success">
+              <strong>{{showMsg}}</strong>
+            </div>
+            <div class="form-group col-lg-6 col-md-6 col-sm-12">
+              <label class="label inputBoxHeadingColor">Discount(%)</label>
+              <input type="number" minlength="1" maxlength="2" formControlName="discount" class="form-control" required>
+            </div>
           </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group col-md-4">
-          <label> Buying Price</label>
-          <input type="number" formControlName="buyPrice" class="form-control" required>
-        </div>
-        <div class="form-group col-md-4">
-          <label >Selling Price</label>
-          <input type="number" formControlName="sellPrice" class="form-control" required>
-        </div>
-        <div class="form-group col-md-4">
-            <label >Discount(%)</label>
-            <input type="number" formControlName="discount" class="form-control" required>
+          <div class="form-row">
+            <div class="form-group col-lg-6 col-md-6 col-sm-12">
+              <label class="label inputBoxHeadingColor"> Buying Price</label>
+              <input type="number" formControlName="buyPrice" class="form-control" required>
+            </div>
+            <div class="form-group col-lg-6 col-md-6 col-sm-12 ">
+              <label class="label inputBoxHeadingColor">Selling Price</label>
+              <input type="number" formControlName="sellPrice" class="form-control" required>
+            </div>
           </div>
-      </div>
+
+          <div class="form-row">
+            <div class="form-group col-lg-6 col-md-6 col-sm-12">
     
-    <div class="form-row">
+              <label for="PrdBrand" class="label inputBoxHeadingColor form-label" >Select Brand</label>
+              <select class="form-select" formControlName="brandid" id="PrdBrand" required>
+                  <option [value]="brand.Id" *ngFor="let brand of brands">{{brand.Brand}}</option>
+              </select>
+              <div class="invalid-feedback">
+              Please select a valid state.
+              </div>
+            </div>
+            <div class="form-group col-lg-6 col-md-6 col-sm-12">
+              <label for="PrdSubCatogory" class="label inputBoxHeadingColor form-label">Select Category</label>
+              <select class="form-select" formControlName="categoryid" id="PrdSubCatogory" required>
+                  <option [value]="category.Id" *ngFor="let category of subCategories">{{category.Sub_Category}}</option>
+              </select>
+              <div class="invalid-feedback">
+              Please select a valid state.
+              </div>
+            </div>
+          </div>
       
-      <div class="form-group col-md-4">
-        <label>Add Image</label>
-        <input type="file" accept="image/*" (change)="onFileChange($event)" formControlName="pimage" class="form-control" id="customFile" />
-        <div class="div" style="margin: 10px;">
-          <button type="button" class="btn btn-secondary" (click)="onUpload()">Upload</button>
-        </div>
-      </div>
-      
+          <div class="form-row">
+            <div class="form-group col-lg-6 col-md-6 col-sm-12">
+
+              <label class="label inputBoxHeadingColor" for="exampleInputDescription">Description</label>
+              <textarea type="description" class="form-control w-100" id="exampleInputDescription" row="2" formControlName="description" maxlength="300"
+                  required></textarea>
+            </div>
+            <div class="form-group col-lg-6 col-md-6 col-sm-12">
+              <label class="label inputBoxHeadingColor">Add Image</label>
+              <input type="file" accept="image/*" (change)="onFileChange($event)" formControlName="pimage" class="form-control" id="customFile" required/>
+              <!-- <div class="div" style="margin: 10px;">
+                <button type="button" class="btn btn-secondary" (click)="onUpload()">Upload</button>
+              </div> -->
+            </div> 
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
-    
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form> 
+    <!-- <div class="col-lg-1 col-md-1 col-sm-0"></div> -->
+  </div>
+</div>
+
+
+ 
 
 

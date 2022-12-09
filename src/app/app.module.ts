@@ -29,8 +29,7 @@ import { AddressBookComponent } from './address-book/address-book.component';
 import { CancelOrderComponent } from './cancel-order/cancel-order.component';
 import { SaveOrderAndSelectBillingComponent } from './Buyer/save-order-and-select-billing/save-order-and-select-billing.component';
 import { NavbarComponent } from './App/navbar/navbar.component';
-
-
+import { MessageModalComponent } from './Shared/message-modal/message-modal.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +53,8 @@ import { NavbarComponent } from './App/navbar/navbar.component';
     CancelOrderComponent,
     SaveOrderAndSelectBillingComponent,
     NavbarComponent,
+    MessageModalComponent,
+
   ],
   imports: [ 
     BrowserModule,

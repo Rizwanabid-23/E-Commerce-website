@@ -36,6 +36,9 @@
 {
     color:#2b81e4;
     font-size: 15px;
+    padding: 0;
+    border: none;
+    background: none;
 }
 
 .backgroundColor

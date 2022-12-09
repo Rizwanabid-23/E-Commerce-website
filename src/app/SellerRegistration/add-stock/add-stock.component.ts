@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { APIService } from 'src/app/api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppComponent } from 'src/app/app.component';
-import { Router } from '@angular/router';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { UploadFileService } from '../upload-file.service';
 import { GlobalData } from 'src/app/App/navbar/GlobalData';
@@ -19,105 +18,113 @@ export class AddStockComponent implements OnInit {
   readData: any;
   accountCreated:Boolean = false;
   uLogin:Boolean;
-  constructor(private service: APIService, private router: Router, private ap:AppComponent, private uploadService:UploadFileService) { }
+  subCategories;
+  brands:any;
+  picturePath:any;
+  navigateOnNextPage:any;
+  constructor(private service: APIService, private ap:AppComponent, private uploadService:UploadFileService) { }
   ngOnInit(): void {
-
-  }
-  getProductBrands()
-  {
-    console.log("Get Brands");
-  }
-  getProductCategory()
-  {
-    console.log("Get Category");
+    this.ap.loginSellerId = parseInt(localStorage.getItem('sellerLoginId'));
+    this.getSubCategories();
+    this.getBrands();
   }
 
+  getBrands()
+  {
+    this.service.getProductBrands().subscribe((res) =>{
+      this.brands = res.data;
+    })
+  }
+  getSubCategories()
+  {
+    this.service.getSubCategories().subscribe((res) =>{
+      this.subCategories = res.data;
+    })
+  }
   userid = -10;
   pstockForm = new FormGroup({
     'pname': new FormControl('', Validators.required),
     'description': new FormControl('', Validators.required),
-    'sellerid': new FormControl('', Validators.required),
     'brandid': new FormControl('', Validators.required),
     'categoryid': new FormControl('', Validators.required),
     'pimage': new FormControl('', Validators.required),
     'buyPrice':new FormControl('',Validators.required),
     'sellPrice':new FormControl('',Validators.required),
     'discount':new FormControl('',Validators.required)
-
   })
   async checkProduct(){
-    this.service.checkProductStock(this.pstockForm.value).subscribe(res => {
+    this.showMsg = '';
+    let allEntriesRight = true;
+    await this.service.checkProductStock(this.pstockForm.value).subscribe(res => {
       this.readData = res.data;
-      console.log("readData:",this.readData);
       if (this.readData == null) {
-        this.addProductStock();
-        console.log("line36");
+        if(this.pstockForm.value.sellPrice < this.pstockForm.value.buyPrice)
+        {
+          allEntriesRight = false;
+          this.showMsg = 'Sell Price Should be Greater than Buying Price';
+        }
+        else if((parseInt(this.pstockForm.value.discount) < 1) || (parseInt(this.pstockForm.value.discount) > 99))
+        {
+          allEntriesRight = false;
+          this.showMsg = 'Discount should between 1 and 99';
+        }
+        if(allEntriesRight)
+        {
+          this.addProductStock();
+        }
       }
       else {
-        this.showMsg = 'This Product Already Exist';
+        this.showMsg = 'Same name Product Already Exist in Stock';
       }
 
     });
 
-  }
-
-
-  addProductStock() {
-    this.userid = this.ap.loginSellerId;
-    
-    console.log("function");
-    this.service.insertProductStock(this.pstockForm.value).subscribe(res => {
-
-    });
-    // this.ap.appOpen = false;
-    // this.ap.sellerLogin = false;
-    // this.ap.buyerLogin = true;
-
-
-    this.router.navigate(['/SellerDashboard']);
-    this.pstockForm.reset();
   }
 
   selectedFile:File=null;
   onFileChange(event:any)
   {
-    // console.log(event);
     this.selectedFile=event.target.files[0];
-    console.log("heheh");
     console.log(this.selectedFile);
   }
-  onUpload()
-  {
-    
-    if(this.selectedFile)
-    {
-      console.log("On upload Selected");
-      this.uploadService.uploadfile(this.selectedFile).subscribe(res=>{
-        alert("uploaded")
-      })
-    }
-    else{
-      alert("please select a file")
-    }
+
+
+  async addProductStock() {
+    let response;
+    let prdName = this.pstockForm.value.pname;
+    let prdDescription = this.pstockForm.value.description;
+    let prdSellerId = this.ap.loginSellerId.toString();
+    let prdBrandId = this.pstockForm.value.brandid;
+    let prdCategoryId = this.pstockForm.value.categoryid;
+    let prdBuyPrice = this.pstockForm.value.buyPrice;
+    let prdSellPrice = this.pstockForm.value.sellPrice;
+    let prdDiscountPercentage = this.pstockForm.value.discount;
+    let formParams = new FormData(); // This is for image
+    formParams.append('image', this.selectedFile) // This is for image
+    formParams.append("prdName", prdName);
+    formParams.append("prdDescription", prdDescription);
+    formParams.append("prdSellerId", prdSellerId);
+    formParams.append("prdBrandId", prdBrandId);
+    formParams.append("prdCategoryId", prdCategoryId);
+    formParams.append("prdBuyPrice", prdBuyPrice);
+    formParams.append("prdSellPrice", prdSellPrice);
+    formParams.append("prdDiscountPercentage", prdDiscountPercentage);
+    await this.service.insertProductStock(formParams).subscribe(res => {
+      response = res.data;
+      if(response != null)
+      {
+        this.ap.showTextInMessageModal = "New Product Successfully Saved";
+        this.ap.navigateOnNextPage = "SellerDashboard";
+        // this.ap.goSellerDashboardPage();
+        this.ap.goMessageModalPage();
+        this.pstockForm.reset();
+      }
+    });
 
 
 
-    // const fd=new FormData();
-    // fd.append('image',this.selectedFile,this.selectedFile.name);
-    // this.http.post('C:/Users/rizwa/Documents/GitHub/E-Commerce-website/src/assets/upload_images',fd,{
-    //   reportProgress: true,
-    //   observe:'events'
-    // })
-    // .subscribe(event=>{
-    //   if (event.type===HttpEventType.UploadProgress)
-    //   {
-    //     console.log('Upload progress:'+Math.round(event.loaded/event.total*100)+'%')
-    //   }
-    //   else if (event.type===HttpEventType.Response)
-    //   {
-    //     console.log(event);
-    //   }
-      
-    // });
+
   }
+
+
 }

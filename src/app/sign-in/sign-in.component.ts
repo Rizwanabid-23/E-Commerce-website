@@ -23,7 +23,6 @@ export class SignInComponent implements OnInit {
   uLogin:Boolean;
   ngOnInit(): void {
     // this.service.getUserData().subscribe((res) =>{
-    //   console.log('User Data');
     //   this.readData = res.data;
     // })
     this.ap.appOpen = false;
@@ -46,13 +45,8 @@ export class SignInComponent implements OnInit {
       }
       else{
         this.ap.loginBuyerId = this.readData;
-        // this.service.getSingleBuyerUserData(this.ap.loginBuyerId).subscribe((res) => {
-        //   this.readData = res.data;
-        // });
         localStorage.setItem('buyerLoginId',this.ap.loginBuyerId.toString());
-        // this.locaId = localStorage.getItem('buyerLoginId');
-        // console.log("local id  ",this.locaId);
-        // console.log(this.readData);
+  
         this.ap.appOpen = false;
         this.ap.sellerLogin = false;
         this.ap.buyerLogin = true;
@@ -68,7 +62,14 @@ export class SignInComponent implements OnInit {
       }
 
     });
-
+  }
+  openSignUpPage()
+  {
+    this.ap.goBuyerSignUpPage();
+  }
+  openForgetPasswordPage()
+  {
+    
   }
 
 }

@@ -53,6 +53,11 @@ export class SellerDashboardComponent implements OnInit {
       console.log(this.saleData);
     })
   }
+
+  openAddStockPage()
+  {
+    this.ap.goAddStockPagePage();
+  }
   
 
 }
