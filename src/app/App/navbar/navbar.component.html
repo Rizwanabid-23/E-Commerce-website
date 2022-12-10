@@ -1,4 +1,55 @@
-<div *ngIf="this.isAppOpen"  style="background-color: white;  height: 100px;"  class=" mb-2">
+
+<div *ngIf="this.isAppOpen">
+   <nav>
+        <label routerLink="/" class="logo animate">Home</label>
+        <ul >
+            <!-- <li><a class="animate"  >Home</a></li> -->
+            <li><button class="cartPic" (click)="openProductCartPage()"><img src="assets/cart.jpg" alt="" style="width: 40px;"></button></li>
+            <li><a class="animate" routerLink="/SignIn">Sign In</a></li>
+            <li><a class="animate" routerLink="/customerSupport">Customer Support</a></li>
+            <li><a class="animate" routerLink="/SignInSeller">Become Seller</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div *ngIf="this.isBuyerLogin">
+    <nav>
+         <label routerLink="/" class="logo animate">Home</label>
+         <ul >
+             <!-- <li><a class="animate"  >Home</a></li> -->
+             <li><a class="cartPic" routerLink="/productCart"><img src="assets/cart.jpg" alt="" style="width: 40px;"></a></li>
+             <li><a class="animate" routerLink="/customerSupport">Customer Support</a></li>
+             <li><a class="animate" routerLink="/SignInSeller">Become Seller</a></li>
+         </ul>
+     </nav>
+ </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div *ngIf="this.isAppOpen"  style="background-color: white;  height: 100px;"  class=" mb-2">
     <nav class="navbar topnav" style="background-color: rgba(255, 255, 255, 0);color: black;" id="navbar">
         <div class="row container">
             <div class="col-3">
@@ -21,7 +72,6 @@
             </div>
             <div class="col-2">
                 <a routerLink="/SignInSeller">Become a seller</a>
-                <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()"></a> -->
             </div>
 
         </div>
@@ -45,10 +95,9 @@
             </div>
             <div class="col-2">
                 <a routerLink="/SignInSeller">Become a seller</a>
-                <!-- <a href="javascript:void(0);" class="icon" onclick="myFunction()"></a> -->
             </div>
 
         </div>
         <br> 
     </nav>
-</div>
+</div> -->

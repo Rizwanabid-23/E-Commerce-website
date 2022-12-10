@@ -32,7 +32,7 @@ export class MessageModalComponent implements OnInit {
   ordered()
   {
     setTimeout (() => {
-      this.closeModal()
+      this.closeModal();
     }, 2000);
   }
   closeModal()

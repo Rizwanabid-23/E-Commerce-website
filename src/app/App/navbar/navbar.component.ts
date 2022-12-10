@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { flush } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { GlobalData } from './GlobalData';
@@ -13,22 +14,31 @@ export class NavbarComponent implements OnInit {
   constructor( private router:Router, private ap:AppComponent) { }
 
   isAppOpen:any;
-  isBuyerLogin:any;
+  isBuyerLogin;
   ngOnInit(): void {
     this.pushLocalDataInVariablesOnLoad();
-    console.log("Buyer  ", this.isBuyerLogin);
   }
 
-  pushLocalDataInVariablesOnLoad(){ // This will load state of buyer login in variables from localstorage
-    this.ap.loginBuyerId = parseInt(localStorage.getItem('buyerLoginId'));
-    console.log("Login   ", this.ap.loginBuyerId);
-    if(this.ap.loginBuyerId > 0)
+  pushLocalDataInVariablesOnLoad()
+  { // This will load state of buyer login in variables from localstorage
+    console.log(localStorage.getItem('buyerLoginId'), "dddssss");
+    if(localStorage.getItem('buyerLoginId') == null)
     {
+      this.ap.buyerLogin = false;
+      this.ap.appOpen = true;
+      this.isAppOpen = true;
+      this.isBuyerLogin = false;
+    }
+    else{
       this.ap.buyerLogin = true;
       this.ap.appOpen = false;
+      this.isAppOpen = false;
+      this.isBuyerLogin = true;
     }
-    this.isAppOpen = this.ap.appOpen;
-    this.isBuyerLogin = this.ap.buyerLogin;
+  }
+  openProductCartPage()
+  {
+    this.ap.goProductCartPage();
   }
 
 

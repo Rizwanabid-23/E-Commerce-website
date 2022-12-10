@@ -45,7 +45,7 @@ export class SignInComponent implements OnInit {
       }
       else{
         this.ap.loginBuyerId = this.readData;
-        localStorage.setItem('buyerLoginId',this.ap.loginBuyerId.toString());
+        this.ap.saveRecentLoginBuyerId();
   
         this.ap.appOpen = false;
         this.ap.sellerLogin = false;

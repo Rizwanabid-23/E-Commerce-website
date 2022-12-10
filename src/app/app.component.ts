@@ -25,6 +25,7 @@ export class AppComponent {
   public productCartPageOpenThroughAddToCartBtn = false;
   public showTextInMessageModal = '';
   public navigateOnNextPage = '';
+  public openMessageModal = false;
 
 
   // ----------------------------------------//
@@ -72,16 +73,15 @@ export class AppComponent {
     this.router.navigate(['productAndSellerDetails']);
   }
   // This will open product cart page
-  public goProductCartPage()
+  public async goProductCartPage()
   {
-    if(this.buyerLogin)
-    {
-      this.router.navigate(['/productCart']);
-    }
-    else
+    if(localStorage.getItem('buyerLoginId') == null)
     {
       this.buyerLoginThroughAddToCart = true;
       this.router.navigate(['/SignIn']);
+    }
+    else{
+      this.router.navigate(['/productCart']);
     }
   }
   // This will Open Customer Support Page
@@ -138,16 +138,23 @@ export class AppComponent {
   {
     localStorage.setItem('buyerLoginId',this.loginBuyerId.toString());
   }
+  public getRecentLoginBuyerId()
+  {
+    if(localStorage.getItem('buyerLoginId') == null)
+    {
+      return this.loginBuyerId = null;
+    }
+    else{
+      return this.loginBuyerId = parseInt(localStorage.getItem('buyerLoginId'));
+    }
+  }
   // This will save recentLoginSellerid
   public saveRecentLoginSellerId()
   {
     localStorage.setItem('sellerLoginId',this.loginSellerId.toString());
   }  
-    // This will get recentLoginBuyerId 
-    public getRecentLoginBuyerId()
-    {
+  // This will get recentLoginBuyerId 
 
-    }
 
 
     // this.localProducts = localStorage.getItem("addToCartProducts");
