@@ -18,6 +18,7 @@ import { AddressBookComponent } from './address-book/address-book.component';
 import { MyReturnsComponent } from './my-returns/my-returns.component';
 import { TrackOrderComponent } from './track-order/track-order.component';
 import { MessageModalComponent } from './Shared/message-modal/message-modal.component';
+import { NavbarComponent } from './App/navbar/navbar.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -38,6 +39,7 @@ const routes: Routes = [
   { path: 'myReturns', component: MyReturnsComponent },
   { path: 'trackOrder', component: TrackOrderComponent },
   { path: 'ShowMessageModal', component: MessageModalComponent },
+  { path: 'navbar', component: NavbarComponent },
 ];
 
 @NgModule({
