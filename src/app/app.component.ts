@@ -41,6 +41,11 @@ export class AppComponent {
   {
     this.router.navigate(['']);
   }
+  //This will open Navbar
+  public refreshRecentWindow()
+  {
+    window.location.reload();
+  }
   // This wiil open buyer sign in page
   public goBuyerSignInPage()
   {
@@ -136,16 +141,17 @@ export class AppComponent {
   // This will save Login Buyer Id
   public saveRecentLoginBuyerId()
   {
-    localStorage.setItem('buyerLoginId',this.loginBuyerId.toString());
+    this.refreshRecentWindow();
+    sessionStorage.setItem('buyerLoginId',this.loginBuyerId.toString());
   }
   public getRecentLoginBuyerId()
   {
-    if(localStorage.getItem('buyerLoginId') == null)
+    if(sessionStorage.getItem('buyerLoginId') == null)
     {
       return this.loginBuyerId = null;
     }
     else{
-      return this.loginBuyerId = parseInt(localStorage.getItem('buyerLoginId'));
+      return this.loginBuyerId = parseInt(sessionStorage.getItem('buyerLoginId'));
     }
   }
   // This will save recentLoginSellerid

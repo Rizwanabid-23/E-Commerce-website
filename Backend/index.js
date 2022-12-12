@@ -550,18 +550,22 @@ app.post('/saveBuyerAddress/:buyerId', (req, res) => {
     let buyer_Address_City = req.body.city;
     let buyer_Address_Building = req.body.buiHouFloStr;
     let buyer_Id = req.params.buyerId;
+    console.log("Bsefor ",  buyer_Id);
     buyer_Id = buyer_Id.replaceAll('"', '');
+    console.log("Iddddddddddd ",  buyer_Id);
 
     let postQuery = "INSERT INTO `buyer_address` (`FullName`, `PhoneNo`, `Buildin_House_Street_Floor`, `Colony_Submark_Locality_Landmark`, `Province`, `City`, `Buyer_User_Id`, `NickName`) VALUES ('"+buyer_Address_Name+"', '"+buyer_Address_Phone+"', '"+buyer_Address_Building+"', '"+buyer_Address_Colony+"', '"+buyer_Address_Province+"', '"+buyer_Address_City+"', '"+buyer_Id+"', '"+buyer_Address_NickName+"')";
 
     con.query(postQuery, (err, result) =>{
         if (err){
+            console.log("eeeeeeerrrrr");
             res.send({
                 message:'Data Inserted',
                 data:null
             })
         }
         else{
+            console.log("saaaaaaaaaa");
             res.send({
                 message:'Data Inserted',
                 data:result.insertId

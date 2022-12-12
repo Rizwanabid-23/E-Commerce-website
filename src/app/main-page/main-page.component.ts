@@ -53,6 +53,7 @@ export class MainPageComponent implements OnInit {
     this.getCategories();
     this.getSubCategories();
     // localStorage.removeItem('buyerLoginId');
+    // localStorage.removeItem('sellerLoginId');
   }
 
   // This will load catogaries on main page

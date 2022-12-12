@@ -69,7 +69,7 @@ export class ProductCartComponent implements OnInit {
       items['prdQuantity'] = 1;
       items['isCheckBoxChecked'] = false;
     });
-    this.recentLoginBuyerId = parseInt(localStorage.getItem('buyerLoginId')); // Get Login Buyer Id
+    this.recentLoginBuyerId = parseInt(sessionStorage.getItem('buyerLoginId')); // Get Login Buyer Id
   }
 
   getSelectedProductData() // This function will get data against selected product 
@@ -163,7 +163,10 @@ export class ProductCartComponent implements OnInit {
     var isChecked = element.checked;
     if(isChecked)
     {
-      this.placeOrderButtonPropertyDisable = false;
+      if(this.alreadyAddressExists)
+      {
+        this.placeOrderButtonPropertyDisable = false;
+      }
       this.addToCartProduct.forEach((items) =>
       {
         var element = document.getElementById("productheckBox"+items['prdId']+"") as HTMLInputElement;
@@ -196,7 +199,18 @@ export class ProductCartComponent implements OnInit {
       }
     });
     this.calculateBill();
-    this.placeOrderButtonPropertyDisable = this.isAnyProductCheckBoxSelected();
+    if(this.isAnyProductCheckBoxSelected())
+    {
+      this.placeOrderButtonPropertyDisable = true;
+    }
+    else
+    {
+      if(this.alreadyAddressExists)
+      {
+        this.placeOrderButtonPropertyDisable = false;
+      }
+    }
+
   }
 
   // This will check if any product check box is selected will return false otherwise true
@@ -207,11 +221,13 @@ export class ProductCartComponent implements OnInit {
     {
       if (items['isCheckBoxChecked']){
         productSelected = true;
+        console.log("In if");
         return false;
       }
     });
     if(!productSelected)
     {
+      console.log("out if");
       return true;
     }
    
@@ -390,7 +406,9 @@ export class ProductCartComponent implements OnInit {
   }
   saveBuyerAddress()
   {
+    console.log("Innnnnnnnnnnnnnnn ",this.recentLoginBuyerId);
     this.service.insertBuyerAddress(this.buyerAddressForm.value, this.recentLoginBuyerId).subscribe((res) => {
+      console.log("SAAAAAAAAAAAAAAAAAAAA");
       this.readData = res.data;
       this.deliveryAddressModal.hide();
       this.buyerAddressForm.reset();
