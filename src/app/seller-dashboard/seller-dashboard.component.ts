@@ -17,6 +17,10 @@ export class SellerDashboardComponent implements OnInit {
   sellerName:any;
   prdData:any;
   saleData:any
+  annualSale:any
+  annualExpense:any
+  annualProfit:any
+  monthlyProfit:any
 
 
   ngOnInit(): void {
@@ -24,6 +28,10 @@ export class SellerDashboardComponent implements OnInit {
     this.getProductData();
     this.pushLocalDataInVariablesOnLoad();
     this.getSaleData();
+    this.getAnnualSale();
+    this.getAnnualExpense();
+    this.getAnnualProfit();
+    this.getMonthlyProfit();
   }
   pushLocalDataInVariablesOnLoad(){ // This will load items in array from localstorage that are already selected by user
     this.ap.loginSellerId = parseInt(localStorage.getItem('sellerLoginId'));
@@ -46,6 +54,38 @@ export class SellerDashboardComponent implements OnInit {
     })
   }
 
+  getAnnualExpense()
+  {
+    this.service.annualExpense().subscribe((res)=>{
+      this.annualExpense=res.data;
+      console.log("annual expense:",this.annualExpense);
+    })
+  }
+
+  getAnnualProfit()
+  {
+    this.service.annualProfit().subscribe((res)=>{
+      this.annualProfit=res.data;
+      console.log("annual profit:",this.annualProfit);
+    })
+  }
+
+  getMonthlyProfit()
+  {
+    this.service.monthlyProfit().subscribe((res)=>{
+      this.monthlyProfit=res.data;
+      console.log("monthly profit:",this.monthlyProfit);
+    })
+  }
+
+  getAnnualSale()
+  {
+
+    this.service.annualSale().subscribe((res)=>{
+      this.annualSale=res.data;
+      console.log("annual sale:",this.annualSale);
+    })
+  }
   getSaleData()
   {
     this.service.getAllSaleData().subscribe((res)=>{

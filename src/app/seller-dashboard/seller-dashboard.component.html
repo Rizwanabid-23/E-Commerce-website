@@ -43,7 +43,26 @@
 
     <div class="wrapper">
         <div class="page-wrapper">
+            <style>
+                .dropdown {
+                    position: relative;
+                    display: inline-block;
+                }
 
+                .dropdown-content {
+                    display: none;
+                    position: absolute;
+                    background-color: #f9f9f9;
+                    min-width: 160px;
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                    padding: 12px 16px;
+                    z-index: 1;
+                }
+
+                .dropdown:hover .dropdown-content {
+                    display: block;
+                }
+            </style>
             <!-- Header -->
             <header class="main-header" id="header">
                 <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
@@ -72,6 +91,10 @@
                                         alt="User Image" />
                                     <span class="d-none d-lg-inline-block">{{sellerName}}</span>
                                 </button>
+                                <div class="dropdown-content">
+                                    <button>Log out</button>
+                                </div>
+
                             </li>
                         </ul>
                     </div>
@@ -86,11 +109,11 @@
                         <div class="col-xl-3 col-sm-6">
                             <div class="card card-default card-mini">
                                 <div class="card-header">
-                                    <h2>$18,699</h2>
+                                    <h2><b> Rs. 0{{annualSale[0].sale}}</b></h2>
 
                                     <div class="sub-title">
-                                        <span class="mr-1">Sales of this year</span> |
-                                        <span class="mx-1">45%</span>
+                                        <span class="mr-1">Sales of this year</span>
+                                        <span class="mx-1"></span>
                                         <i class="mdi mdi-arrow-up-bold text-success"></i>
                                     </div>
                                 </div>
@@ -106,11 +129,11 @@
                         <div class="col-xl-3 col-sm-6">
                             <div class="card card-default card-mini">
                                 <div class="card-header">
-                                    <h2>$14,500</h2>
+                                    <h2><b>RS. 0{{annualExpense[0].expense}}</b></h2>
 
                                     <div class="sub-title">
-                                        <span class="mr-1">Expense of this year</span> |
-                                        <span class="mx-1">50%</span>
+                                        <span class="mr-1">Expense of this year</span>
+                                        <span class="mx-1"></span>
                                         <i class="mdi mdi-arrow-down-bold text-danger"></i>
                                     </div>
                                 </div>
@@ -126,11 +149,11 @@
                         <div class="col-xl-3 col-sm-6">
                             <div class="card card-default card-mini">
                                 <div class="card-header">
-                                    <h2>$4199</h2>
+                                    <h2><b>Rs. 0{{annualProfit[0].profit}}</b></h2>
 
                                     <div class="sub-title">
-                                        <span class="mr-1">Profit of this year</span> |
-                                        <span class="mx-1">20%</span>
+                                        <span class="mr-1">Profit of this year</span>
+                                        <span class="mx-1"></span>
                                         <i class="mdi mdi-arrow-down-bold text-danger"></i>
                                     </div>
                                 </div>
@@ -146,11 +169,11 @@
                         <div class="col-xl-3 col-sm-6">
                             <div class="card card-default card-mini">
                                 <div class="card-header">
-                                    <h2>$20,199</h2>
+                                    <h2><b>Rs. 0{{monthlyProfit[0].profit}}</b></h2>
 
                                     <div class="sub-title">
-                                        <span class="mr-1">Revenue of this year</span> |
-                                        <span class="mx-1">35%</span>
+                                        <span class="mr-1">Profit of this month</span>
+                                        <span class="mx-1"></span>
                                         <i class="mdi mdi-arrow-up-bold text-success"></i>
                                     </div>
                                 </div>
@@ -164,6 +187,14 @@
                             </div>
                         </div>
                     </div>
+                    <style>
+                        div.ex3 {
+                            /* background-color: lightblue; */
+                            width: 100%;
+                            height: 90%;
+                            overflow: auto;
+                        }
+                    </style>
 
                     <!-- Table Product -->
                     <div class="row">
@@ -173,7 +204,8 @@
                                     <h2>Products Inventory</h2>
                                     <div class="dropdown">
 
-                                        <a (click)="openAddStockPage()" class="btn btn-primary btn-pill">Add Product</a>
+                                        <a (click)="openAddStockPage()" class="btn btn-primary btn-pill"
+                                            style="color: black;">Add Product</a>
                                         <!-- <a class="dropdown-toggle" href="" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Yearly
                                             Chart
@@ -187,56 +219,62 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="card-body">
-                                    <ng-container *ngIf="this.prdData">
-                                    <table id="productsTable" class="table table-hover table-product"
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>Product Name</th>
-                                                <th>ID</th>
-                                                <th>Qty</th>
-                                                <th>Buy Price</th>
-                                                <th>Sell Price</th>
-                                                <th>Description</th>
-                                                <th>Adding Date</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        
-                                        <tbody *ngFor="let prd of prdData">
-                                            <tr>
-                                                <td class="py-0">
-                                                     <img src="http://localhost:3000/{{prd.Picture}}" style="height: 60px;width: 50px;margin-top: 8px;" alt="Product Image">
-                                                </td>
-                                                <td>{{prd.Name}}</td>
-                                                <td>{{prd.Id}}</td>
-                                                <td>{{prd.Quantity}}</td>
-                                                <td>{{prd.BuyPrice}}</td>
-                                                <td>{{prd.SellPrice}}</td>
-                                                <td>{{prd.Description}}</td>
-                                                <td>{{prd.AddStockDate}}</td>
-                                                <td>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <div ngbDropdown class="d-inline-block">
-                                                                <button type="button" class="btn btn-secondary" id="dropdownBasic1" ngbDropdownToggle>
-                                                                    
-                                                                </button>
-                                                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                                                    <button ngbDropdownItem>Update</button>
-                                                                    <button ngbDropdownItem>Delete</button>
+                                    <div class="container ex3">
+                                        <ng-container *ngIf="this.prdData">
+                                            <table id="productsTable" class="table table-hover table-product"
+                                                style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Product Name</th>
+                                                        <th>ID</th>
+                                                        <th>Qty</th>
+                                                        <th>Buy Price</th>
+                                                        <th>Sell Price</th>
+                                                        <th>Description</th>
+                                                        <th>Adding Date</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody *ngFor="let prd of prdData">
+                                                    <tr>
+                                                        <td class="py-0">
+                                                            <img src="http://localhost:3000/{{prd.Picture}}"
+                                                                style="height: 60px;width: 50px;margin-top: 8px;"
+                                                                alt="Image">
+                                                        </td>
+                                                        <td>{{prd.Name}}</td>
+                                                        <td>{{prd.Id}}</td>
+                                                        <td>{{prd.Quantity}}</td>
+                                                        <td>{{prd.BuyPrice}}</td>
+                                                        <td>{{prd.SellPrice}}</td>
+                                                        <td>{{prd.Description}}</td>
+                                                        <td>{{prd.AddStockDate}}</td>
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div ngbDropdown class="d-inline-block">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            id="dropdownBasic1" ngbDropdownToggle>
+
+                                                                        </button>
+                                                                        <div ngbDropdownMenu
+                                                                            aria-labelledby="dropdownBasic1">
+                                                                            <button ngbDropdownItem>Update</button>
+                                                                            <button ngbDropdownItem>Delete</button>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </ng-container>
-
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -253,38 +291,38 @@
                                 </div>
                                 <div class="card-body">
                                     <ng-container *ngIf="this.saleData">
-                                    <table class="table table-borderless table-thead-border">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th class="text-right">Income</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-dark font-weight-bold">Gunter Reich</td>
-                                                <td class="text-right">$2,560</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark font-weight-bold">Anke Kirsch</td>
-                                                <td class="text-right">$1,720</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark font-weight-bold">Karolina Beer</td>
-                                                <td class="text-right">$1,230</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark font-weight-bold">Lucia Christ</td>
-                                                <td class="text-right">$875</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot class="border-top">
-                                            <tr>
-                                                <td><a href="#" class="text-uppercase">See All</a></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </ng-container>
+                                        <table class="table table-borderless table-thead-border">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th class="text-right">Income</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-dark font-weight-bold">Gunter Reich</td>
+                                                    <td class="text-right">$2,560</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-dark font-weight-bold">Anke Kirsch</td>
+                                                    <td class="text-right">$1,720</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-dark font-weight-bold">Karolina Beer</td>
+                                                    <td class="text-right">$1,230</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-dark font-weight-bold">Lucia Christ</td>
+                                                    <td class="text-right">$875</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot class="border-top">
+                                                <tr>
+                                                    <td><a href="#" class="text-uppercase">See All</a></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </ng-container>
                                 </div>
                             </div>
 
@@ -293,40 +331,43 @@
                             <div class="card card-default">
                                 <div class="card-header align-items-center">
                                     <h2 class="">Sales by Product</h2>
-                                    <a  class="btn btn-primary  btn-pill">Add Stock</a>
+                                    <a class="btn btn-primary  btn-pill" style="color: black;">Add Stock</a>
                                 </div>
                                 <div class="card-body">
                                     <div class="tab-content">
                                         <ng-container *ngIf="this.saleData">
-                                        <table id="product-sale" class="table table-product " style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Product Name</th>
-                                                    <th>Sale date</th>
-                                                    <th>Quantity</th>
-                                                    <th>%sold</th>
-                                                    <th class="th-width-250"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody *ngFor="let sale of saleData">
+                                            <table id="product-sale" class="table table-product " style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product Name</th>
+                                                        <th>Product ID</th>
+                                                        <th>Quantity</th>
+                                                        <th>%sold</th>
+                                                        <th class="th-width-250"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody *ngFor="let sale of saleData">
 
-                                                <tr>
-                                                    <td>{{sale.productID}}</td>
-                                                    <!-- <td>{{sale.sellerID}}</td> -->
-                                                    <td>{{sale.saleTime}}</td>
-                                                    <td>{{sale.quantity}}</td>
-                                                    <td>{{sale.percentage}}</td>
-                                                    <td>
-                                                        <div class="progress progress-md rounded-2">
-                                                            <div class="progress-bar progress-bar-striped" role="progressbar"
-                                                              aria-valuenow=""  aria-valuemin="0"
-                                                                aria-valuemax=100></div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </ng-container>
+                                                    <tr>
+                                                        <td>{{sale.productName}}</td>
+                                                        <!-- <td>{{sale.sellerID}}</td> -->
+                                                        <td>{{sale.productID}}</td>
+                                                        <td>{{sale.quantity}}</td>
+                                                        <td>{{sale.percentage}}</td>
+                                                        <td>
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-success progress-bar-striped"
+                                                                    role="progressbar" [ariaValueNow]="sale.percentage"
+                                                                    aria-valuemin="0" aria-valuemax="100"
+                                                                    [style.width.%]="sale.percentage">
+                                                                    {{sale.percentage}}%
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </ng-container>
                                     </div>
                                 </div>
                             </div>
@@ -399,23 +440,6 @@
                                                     <label class="d-block" for="sale-price">Product Type <i
                                                             class="mdi mdi-help-circle-outline"></i> </label>
                                                     <div>
-
-                                                        <div
-                                                            class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                            <input type="radio" id="customRadio1" name="customRadio"
-                                                                class="custom-control-input" checked="checked">
-                                                            <label class="custom-control-label"
-                                                                for="customRadio1">Physical Good</label>
-                                                        </div>
-
-                                                        <div
-                                                            class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                                            <input type="radio" id="customRadio2" name="customRadio"
-                                                                class="custom-control-input">
-                                                            <label class="custom-control-label"
-                                                                for="customRadio2">Digital Good</label>
-                                                        </div>
-
                                                         <div
                                                             class="custom-control custom-radio d-inline-block mr-3 mb-3">
                                                             <input type="radio" id="customRadio3" name="customRadio"
@@ -495,114 +519,6 @@
         </div>
     </div>
 
-    <!-- Card Offcanvas -->
-    <div class="card card-offcanvas" id="contact-off">
-        <div class="card-header">
-            <h2>Contacts</h2>
-            <a href="#" class="btn btn-primary btn-pill px-4">Add New</a>
-        </div>
-        <div class="card-body">
-
-            <div class="mb-4">
-                <input type="text" class="form-control form-control-lg form-control-secondary rounded-0"
-                    placeholder="Search contacts...">
-            </div>
-
-            <div class="media media-sm">
-                <div class="media-sm-wrapper">
-                    <a href="user-profile.html">
-                        <img src="assets/user-sm-01.jpg" alt="User Image">
-                        <span class="active bg-primary"></span>
-                    </a>
-                </div>
-                <div class="media-body">
-                    <a href="user-profile.html">
-                        <span class="title">Selena Wagner</span>
-                        <span class="discribe">Designer</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="media media-sm">
-                <div class="media-sm-wrapper">
-                    <a href="user-profile.html">
-                        <img src="assets/user-sm-02.jpg" alt="User Image">
-                        <span class="active bg-primary"></span>
-                    </a>
-                </div>
-                <div class="media-body">
-                    <a href="user-profile.html">
-                        <span class="title">Walter Reuter</span>
-                        <span>Developer</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="media media-sm">
-                <div class="media-sm-wrapper">
-                    <a href="user-profile.html">
-                        <img src="assets/user-sm-03.jpg" alt="User Image">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <a href="user-profile.html">
-                        <span class="title">Larissa Gebhardt</span>
-                        <span>Cyber Punk</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="media media-sm">
-                <div class="media-sm-wrapper">
-                    <a href="user-profile.html">
-                        <img src="assets/user-sm-04.jpg" alt="User Image">
-                    </a>
-
-                </div>
-                <div class="media-body">
-                    <a href="user-profile.html">
-                        <span class="title">Albrecht Straub</span>
-                        <span>Photographer</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="media media-sm">
-                <div class="media-sm-wrapper">
-                    <a href="user-profile.html">
-                        <img src="assets/user-sm-05.jpg" alt="User Image">
-                        <span class="active bg-danger"></span>
-                    </a>
-                </div>
-                <div class="media-body">
-                    <a href="user-profile.html">
-                        <span class="title">Leopold Ebert</span>
-                        <span>Fashion Designer</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="media media-sm">
-                <div class="media-sm-wrapper">
-                    <a href="user-profile.html">
-                        <img src="assets/user-sm-06.jpg" alt="User Image">
-                        <span class="active bg-primary"></span>
-                    </a>
-                </div>
-                <div class="media-body">
-                    <a href="user-profile.html">
-                        <span class="title">Selena Wagner</span>
-                        <span>Photographer</span>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-
-
     <script src="plugins/jquery/jquery.min.js"></script>
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="plugins/simplebar/simplebar.min.js"></script>
@@ -653,7 +569,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-    <!--  -->
 
 
 </body>

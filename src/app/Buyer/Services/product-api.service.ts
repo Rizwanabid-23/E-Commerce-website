@@ -28,6 +28,25 @@ export class ProductApiService {
   {
     return this._http.get("http://localhost:3000/getSaleData")
   }
+  annualSale():Observable<any>
+  {
+    return this._http.get("http://localhost:3000/getAnnualSale")
+  }
+
+  annualExpense():Observable<any>
+  {
+    return this._http.get("http://localhost:3000/getAnnualExpense")
+  }
+
+  annualProfit():Observable<any>
+  {
+    return this._http.get("http://localhost:3000/getAnnualProfit")
+  }
+
+  monthlyProfit():Observable<any>
+  {
+    return this._http.get("http://localhost:3000/getMonthlyProfit")
+  }
 
   getProductQuantity(prdId):Observable<any>
   {

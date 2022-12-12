@@ -8,6 +8,7 @@ const nodemailer = require('nodemailer');
 const details = require('./details.json');
 const fileUpload = require("./fileUpload");
 const { escape } = require('querystring');
+const { get } = require('http');
 
 app.use(cors({origin: "*"}));
 app.use(cors());
@@ -428,7 +429,7 @@ app.get('/getSellerProduct', (req, res) => {
 })
 
 app.get('/getSaleData', (req, res) => {
-    let getQuery = 'Select productID,sellerID,quantity,saleTime,quantity/(select sum(quantity) from sold_products)*100 as percentage from sold_products GROUP by productID,sellerID,quantity,saleTime;';
+    let getQuery = 'Select B.Name as productName,A.pid as productID,A.qty as quantity,A.stime as saleTime,A.percentage from (Select productID as pid,sellerID as sid,quantity as qty,saleTime as stime,quantity/(select sum(quantity) from sold_products where sold_products.sellerID=1)*100 as percentage from sold_products where sellerID=1 GROUP by productID,sellerID,quantity,saleTime) as A join product as B where A.pid=B.Id';
     con.query(getQuery, (err, result) =>{
         if (err){
             res.send({
@@ -439,6 +440,75 @@ app.get('/getSaleData', (req, res) => {
             res.send({
                 message:'Data',
                 data:result
+            });
+        }
+    })
+})
+
+app.get('/getAnnualExpense',(req,res)=>{
+    let getQuery='select SUM(A.expense) as expense from (select P.Id,sum(P.BuyPrice)*P.Quantity as expense from product P where P.Seller_Id=1 and year(P.AddStockDate)=2022 group by P.Id) as A'
+    con.query(getQuery,(err,result)=>{
+        if(err)
+        {
+            res.send({
+                data:null
+            })
+        }
+        else{
+            res.send({
+                message:'Data',data:result
+            });
+        }
+    })
+})
+
+app.get('/getAnnualProfit',(req,res)=>{
+    let getQuery='select(select sum(B.sale) from (select A.productID as productID,A.qty*P.SellPrice as sale,A.sid as sellerID from (select productID,SUM(SP.Quantity) qty,SP.sellerID as sid from sold_products SP where year(SP.saleTime)=year(CURRENT_TIME) and SP.sellerID=1 group by sellerID,productID ) A join product P where A.productID=P.Id) as B)-(select sum(B.buy) from (select A.productID as productID,A.qty*P.BuyPrice as buy,A.sid as sellerID from (select productID,SUM(SP.Quantity) qty,SP.sellerID as sid from sold_products SP where year(SP.saleTime)=year(CURRENT_TIME) and SP.sellerID=1 group by sellerID,productID ) A join product P where A.productID=P.Id) as B) as profit'
+    con.query(getQuery,(err,result)=>{
+        if(err)
+        {
+            res.send({
+                data:null
+            })
+        }
+        else{
+            res.send({
+                message:'Data',data:result
+            });
+        }
+    })
+})
+
+app.get('/getMonthlyProfit',(req,res)=>{
+    let getQuery='select(select sum(B.sale) from (select A.productID as productID,A.qty*P.SellPrice as sale,A.sid as sellerID from (select productID,SUM(SP.Quantity) qty,SP.sellerID as sid from sold_products SP where month(SP.saleTime)=month(CURRENT_TIME) and SP.sellerID=1 group by sellerID,productID ) A join product P where A.productID=P.Id) as B)-(select sum(B.buy) from (select A.productID as productID,A.qty*P.BuyPrice as buy,A.sid as sellerID from (select productID,SUM(SP.Quantity) qty,SP.sellerID as sid from sold_products SP where month(SP.saleTime)=month(CURRENT_TIME) and SP.sellerID=1 group by sellerID,productID ) A join product P where A.productID=P.Id) as B) as profit'
+    con.query(getQuery,(err,result)=>{
+        if(err)
+        {
+            res.send({
+                data:null
+            })
+        }
+        else{
+            res.send({
+                message:'Data',data:result
+            });
+        }
+    })
+})
+
+
+app.get('/getAnnualSale',(req,res)=>{
+    let getQuery='select sum(B.sale) as sale from (select A.productID as productID,A.qty*P.SellPrice as sale,A.sid as sellerID from (select productID,SUM(SP.Quantity) qty,SP.sellerID as sid from sold_products SP where year(SP.saleTime)=year(CURRENT_TIME) and SP.sellerID=1 group by sellerID,productID ) A join product P where A.productID=P.Id) as B '
+    con.query(getQuery,(err,result)=>{
+        if(err)
+        {
+            res.send({
+                data:null
+            })
+        }
+        else{
+            res.send({
+                message:'Data',data:result
             });
         }
     })
