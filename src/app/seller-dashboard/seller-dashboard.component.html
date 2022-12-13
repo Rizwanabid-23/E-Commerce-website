@@ -22,10 +22,8 @@
     <link href="/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <link href="/plugins/toaster/toastr.min.css" rel="stylesheet" />
-    <!-- MONO CSS -->
     <link id="main-css-href" rel="stylesheet" href="/css/style.css" />
 
-    <!-- FAVICON -->
     <link href="assets/favicon.png" rel="shortcut icon" />
 
     <script src="/plugins/nprogress/nprogress.js"></script>
@@ -94,7 +92,6 @@
                                 <div class="dropdown-content">
                                     <button>Log out</button>
                                 </div>
-
                             </li>
                         </ul>
                     </div>
@@ -263,8 +260,8 @@
                                                                         </button>
                                                                         <div ngbDropdownMenu
                                                                             aria-labelledby="dropdownBasic1">
-                                                                            <button ngbDropdownItem>Update</button>
-                                                                            <button ngbDropdownItem>Delete</button>
+                                                                            <button id={{prd.Id}}  ngbDropdownItem>Update</button>
+                                                                            <button id={{prd.Id}} (click)="deleteProduct(prd.Id,prd.Seller_Id)" ngbDropdownItem>Delete</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>

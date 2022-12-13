@@ -53,7 +53,9 @@ export class SignInSellerComponent implements OnInit {
       }
       else{
         this.ap.loginSellerId = this.readData;
+        // console.log(this.ap.loginSellerId);
         localStorage.setItem('sellerLoginId',this.ap.loginSellerId.toString());
+        // localStorage.getItem()
         this.getLoginSellerName();
       }
 
