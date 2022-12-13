@@ -298,8 +298,9 @@ app.post('/buyerUser', (req, res) => {
 
 app.get('/getLoginSellerName/:Id', (req, res) => {
     let id = req.params.Id;
-    id = id.replaceAll('"', '');
-    let getQuery = "Select * From seller_user WHERE Id = '"+id+"'";
+    // id = id.replaceAll('"', '');
+    console.log("id", id);
+    let getQuery = `Select * From seller_user WHERE Id = ${id}`;
     con.query(getQuery, (err, result) =>{
         if (err){
             console.log("Error");
@@ -901,10 +902,9 @@ app.post('/editBuyerUserData',(req,res)=>{
 })
 
 app.get('/myReturns/:Id',(req,res)=>{
-    let id =  req.params.Id;
-    // console.log('hello')
-    // console.log(id)
-    let getQuery = `Select * from buyer_user_returns where Buyer_User_Id = ${id}`;
+    
+    // let getQuery = `Select * from buyer_user_returns where Buyer_User_Id = ${id}`;
+    let getQuery = `SELECT product.Name AS ProductName,R1.Quantity AS ProductQuantity,product.BuyPrice AS ProductBuyPrice,product.SellPrice AS ProductSellPrice,R1.Order_Id AS OrderId FROM (SELECT orderdetail.Quantity,orderdetail.Product_Id,orderdetail.Order_Id FROM orderdetail WHERE orderdetail.Order_Id = (SELECT order.Id FROM ecommercedb.order WHERE Buyer_Id = ${req.params.Id})) AS R1 JOIN product ON product.Id = R1.Product_Id `;
     con.query(getQuery, (err, result) =>{
         if (err){
             // console.log("Error");
