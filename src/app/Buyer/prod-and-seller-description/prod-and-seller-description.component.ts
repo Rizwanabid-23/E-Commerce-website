@@ -37,7 +37,6 @@ export class ProdAndSellerDescriptionComponent implements OnInit {
   manageLocalStorage()
   {
     this.clickedProduct = parseInt(sessionStorage.getItem('clickedPrdInPrdndSellerDescrip'));
-    console.log("clicccc ", this.clickedProduct);
   }
 
   public getSelectedProductData() // This function will get data against selected product 
@@ -54,7 +53,6 @@ export class ProdAndSellerDescriptionComponent implements OnInit {
       this.sellerCity = this.readData[0].SellerCity;
       this.discountedPrice = this.calculatediscountedPrice(this.totalPrice, this.discount);
       this.prdImage = this.readData[0].Picture;
-      console.log("Image clickeddd  ",this.prdImage);
 
     })
   }

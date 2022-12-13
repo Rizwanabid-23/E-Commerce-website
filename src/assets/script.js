@@ -8,9 +8,6 @@ function myFunction() {
     }
 }
 
-
-
-
 (function ($) {
     "use strict";
     $.fn.sliderResponsive = function (settings) {

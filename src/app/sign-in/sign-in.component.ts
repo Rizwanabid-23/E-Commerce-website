@@ -22,12 +22,6 @@ export class SignInComponent implements OnInit {
   successfullyLogIn:Boolean = false;
   uLogin:Boolean;
   ngOnInit(): void {
-    // this.service.getUserData().subscribe((res) =>{
-    //   this.readData = res.data;
-    // })
-    this.ap.appOpen = false;
-    this.ap.sellerLogin = false;
-    this.ap.buyerLogin = true;
 
   }
 

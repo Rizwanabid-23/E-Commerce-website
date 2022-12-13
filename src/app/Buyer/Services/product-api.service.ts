@@ -18,6 +18,11 @@ export class ProductApiService {
   {
     return this._http.get('http://localhost:3000/getProduct');
   }
+  // This will get product by categories
+  getProductDataByCategory(categoryId):Observable<any>
+  {
+    return this._http.get('http://localhost:3000/getProductByCategory/"'+categoryId+'"');
+  }
 
   getSellerProductData(sid:any):Observable<any>
   {
@@ -82,7 +87,6 @@ export class ProductApiService {
 
   insertOrderDetails(orderDetail):Observable<any>
   {
-    console.log("In service detail service ", orderDetail);
     return this._http.post('http://localhost:3000/saveOrderDetail/', orderDetail);
   }
 }

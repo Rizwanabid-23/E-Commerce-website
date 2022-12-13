@@ -23,16 +23,26 @@ export class SignUpComponent implements OnInit {
   verificationCodeVaildTime:any;
   signUpButtonText = "Sign Up";
   verificationCodeButtonText = "Get Code";
+  verificationTime = 0;
+  intervalId:any;
   ngOnInit(): void { 
     this.signUpButtonText = "Sign Up";
     this.verificationCodeButtonText = "Get Code";
-    this.verificationCodeVaildTime = 120;
+    this.verificationCodeVaildTime = 10;
   } 
 
-
-
   // pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-
+  
+  setVerificationValidTime()
+  {
+    let intervalId = setInterval (() => {
+      this.verificationCodeVaildTime = this.verificationCodeVaildTime-1;
+      if(this.verificationCodeVaildTime <=0)
+      {
+        clearInterval(intervalId);
+      }
+    }, 1000);
+  }
   signUpForm = new FormGroup({
     'email': new FormControl('', Validators.required),
     'password': new FormControl('', Validators.required),
@@ -44,12 +54,19 @@ export class SignUpComponent implements OnInit {
   sendVerificationCode(){
     this.verificationCodeButtonText = "Get Code ...";
     this.getCodeButtonProperty = true;
-    this.service.sendVerificationCode(this.signUpForm.value).subscribe((res) => {
+    let formData = new FormData(); //This will send signup data
+    this.verificationCodeGenerated = Math.floor(100000 + Math.random() * 900000);
+    let verificationCode = this.verificationCodeGenerated.toString();
+    let email = this.signUpForm.value.email;
+    formData.append('verificationCode', (verificationCode));
+    formData.append('email', email);
+    this.service.sendVerificationCode(formData).subscribe((res) => {
       this.verificationCodeGenerated = res.data;
       if(this.verificationCodeGenerated != null)
       {
         console.log(this.verificationCodeGenerated);
         this.verificationCodeButtonText = "Resend It";
+        this.setVerificationValidTime();
         this.verificationCodeSended = true;
         this.signUpButton = true;
       }
@@ -64,39 +81,39 @@ export class SignUpComponent implements OnInit {
   // This function check that if account with this email id is already exist then show message 
   // that 'Account With This Email Id Already Exist' other wise create account.
   async checkDetailValidSignUpForm(){
-    await this.service.checkValidSignUpUser(this.signUpForm.value).subscribe(res => {
-      this.readData = res.data;
-      if (this.readData == null){
-
-        this.submitSignUpForm();
-      }
-      else{
-        this.showMsg = 'Account With This Email Id Already Exist';
-      }
-
-    });
+    if(parseInt(this.signUpForm.value.verificationCode) == parseInt(this.verificationCodeGenerated)){
+      await this.service.checkValidSignUpUser(this.signUpForm.value).subscribe(res => {
+        this.readData = res.data;
+        if (this.readData == null){
+          this.submitSignUpForm();
+        }
+        else{
+          this.showMsg = 'Account With This Email Id Already Exist';
+        }
+  
+      });
+    }
+    else
+    {
+      this.showMsg = 'Enter right verification code';
+    }
 
   }
 
   // This function will submit form
   submitSignUpForm() {
-    if(this.verificationCodeGenerated == this.signUpForm.value.verificationCode)
-    {
-      this.service.insertUserData(this.signUpForm.value).subscribe((res) => {
-        this.readData = res.data;
-          this.ap.appOpen = false;
-          this.ap.sellerLogin = false;
-          this.ap.buyerLogin = true;
-          this.ap.loginBuyerId = this.readData;
-          localStorage.setItem('buyerLoginId',this.ap.loginBuyerId.toString());
-          this.ap.goHomePage();
-          this.signUpForm.reset();
-      });
-    }
-    else
-    {
-      this.showMsg = 'Enter Right Verification Code or Resend It';
-    }
+
+    this.service.insertUserData(this.signUpForm.value).subscribe((res) => {
+      this.readData = res.data;
+        this.ap.appOpen = false;
+        this.ap.sellerLogin = false;
+        this.ap.buyerLogin = true;
+        this.ap.loginBuyerId = this.readData;
+        sessionStorage.setItem('buyerLoginId',this.ap.loginBuyerId.toString());
+        this.ap.goHomePage();
+        this.signUpForm.reset();
+    });
+
   }
   openSignInPage()
   {

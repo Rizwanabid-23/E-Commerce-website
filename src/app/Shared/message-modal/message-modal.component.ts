@@ -33,13 +33,13 @@ export class MessageModalComponent implements OnInit {
   {
     setTimeout (() => {
       this.closeModal();
-    }, 2000);
+    }, 8000);
   }
   closeModal()
   {
     this.showMessageModal.hide();
     this.navigateOnNextPage = this.ap.navigateOnNextPage;
-    if(this.navigateOnNextPage == "SellerDashboard")
+    if(this.navigateOnNextPage == "SellerDashboard") 
     {
       this.ap.goSellerDashboardPage();
     }
