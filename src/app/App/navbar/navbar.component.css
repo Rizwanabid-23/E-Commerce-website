@@ -8,7 +8,8 @@
 
 nav{
     font-family: montserrat;
-    background: #0082e6;
+    /* background: #0082e6; */
+    background: white;
     height: 80px;
     width: 100%;
 }
@@ -31,10 +32,13 @@ nav ul li{
     display: inline-block;
     line-height: 80px;
     margin: 0 5px;
+
+    
 }
 
 nav ul li a{
-    color: white;
+    color: #0082e6;
+    /* color: white; */
     font-size: 20px;
     padding: 7px 13px;
     border-radius: 3px;
@@ -42,7 +46,8 @@ nav ul li a{
 }
 
 #hometab{
-    color: white;
+    /* color: white; */
+    color: #0082e6;
     font-size: 30px;
     line-height: 80px;
     padding: 0 50px;
@@ -51,16 +56,19 @@ nav ul li a{
 .cartPic{
     width: 40px;
     height: 10px;
-    background-color: #0082e6;
+     background-color: white;
+    /* background-color: #0082e6; */
     border: none;
 }
 
 .animate{
-    transition-property: backgroud-color;
+    transition-property: all;
 }
 
 .animate:hover{
+
     background-color: #1b9bff;
+    color: white;
     transition: .5s;
 }
 .checkbtn{
@@ -91,11 +99,9 @@ nav ul li a{
         padding-right: 80px;
     } */
     #hometab{
-        color: white;
         font-size: 20px;
         line-height: 80px;
         padding: 0 40px;
-        font-weight: bold;
     }
     /* nav ul{
         margin-right: 18px;
@@ -106,7 +112,7 @@ nav ul li a{
     }
 }
 
-@media (max-width:606px){
+@media (max-width:630px){
     /* label.logo{
         padding-right: 60px;
     } */
@@ -114,11 +120,9 @@ nav ul li a{
         margin-right: 16px;
     } */
     #hometab{
-        color: white;
         font-size: 18px;
         line-height: 80px;
         padding: 0 25px;
-        font-weight: bold;
     }
     nav ul li a{
         font-size: 13px;
@@ -131,11 +135,9 @@ nav ul li a{
         padding-right: 40px;
     } */
     #hometab{
-        color: white;
         font-size: 15px;
         line-height: 80px;
         padding: 0 15px;
-        font-weight: bold;
     }
     nav ul li a{
         font-size: 12px;
@@ -148,11 +150,9 @@ nav ul li a{
         padding-right: 40px;
     }
     #hometab{
-        color: white;
         font-size: 13px;
         line-height: 80px;
         padding: 0 10px;
-        font-weight: bold;
     }
 
     nav ul li a{

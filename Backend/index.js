@@ -191,10 +191,11 @@ app.post('/buyerUserSignInValid', (req, res) => {
 
 })
 
-app.post('/sendVerificationCode', (req, res) => {
+app.post('/sendVerificationCode/:code', (req, res) => {
     try{
-        let user = req.body.email;
-        let verificationCode = req.body.verificationCode;
+        let user = req.body;
+        let verificationCode = req.params.code;
+        verificationCode = verificationCode.replaceAll('"', '');
         console.log("mamamam ",user);
         console.log("vfvfvvfvfvf ",verificationCode);
         
@@ -234,7 +235,7 @@ async function sendMail(user , code, callback) {
             from: '"Ecommerce Website"', // sender address
             to: user.email,
             subject: "Hello", // Subject line
-            html: "<b>Thank You For Joininng Us. Use this '"+code+"' OTP against '"+user+"' to create account</b> ", // html body
+            html: "<b>Thank You For Joininng Us. Use this '"+code+"' OTP against '"+user.email+"' to create account</b> ", // html body
         };
         let info =  await transporter.sendMail(mailOptions);
         mailsend = true;

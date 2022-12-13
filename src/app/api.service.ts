@@ -105,8 +105,8 @@ export class APIService {
   }
 
   // Send Verification code to email
-  sendVerificationCode(userData: any): Observable<any> {
-    return this._http.post('http://localhost:3000/sendVerificationCode', userData);
+  sendVerificationCode(userData: any, code:any): Observable<any> {
+    return this._http.post('http://localhost:3000/sendVerificationCode/"'+code+'"', userData);
   }
 //  This will get sub categories
   getSubCategories():Observable<any>

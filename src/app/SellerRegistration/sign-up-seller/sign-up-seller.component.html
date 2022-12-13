@@ -88,6 +88,7 @@
                             <div *ngIf="verificationCodeSended" class="col-md-5 mt-4">
                                 <button type="button" class="btn btn-danger w-100 my-2" 
                                 (click)="sendVerificationCode()" style="height: 40px;">{{verificationCodeButtonText}}</button>
+                                <p>{{verificationCodeVaildTime}}</p>
                             </div>
                             <div  *ngIf="!verificationCodeSended" class="col-md-12 mt-4">
                                 <button type="button" [disabled]="getCodeButtonProperty" class="btn btn-danger w-100 my-2 me-5" (click)="sendVerificationCode()"

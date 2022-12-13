@@ -22,8 +22,8 @@
                         <div class="form-group">
                             <label class="label inputBoxHeadingColor" for="exampleInputPassword1">Password*</label>
                             <input type="password" class="form-control w-100" id="exampleInputPassword1" formControlName="password"
+                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$"
                                 placeholder="Please enter your password" 
-                                
                                 title="Password Must contain Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character" required>
                         </div>
                     </div>
@@ -55,7 +55,6 @@
                             <div  *ngIf="!verificationCodeSended" class="col-md-12 mt-4">
                                 <button type="button" [disabled]="getCodeButtonProperty" class="btn btn-danger w-100 my-2 me-5" (click)="sendVerificationCode()"
                                 style="height: 40px;">{{verificationCodeButtonText}}</button>
-                                <!-- <p>{{verificationCodeVaildTime}}</p> -->
                             </div>
                        </div>
                        

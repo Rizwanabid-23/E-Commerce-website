@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { APIService } from 'src/app/api.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppComponent } from 'src/app/app.component';
-import { HttpClient, HttpEventType } from '@angular/common/http';
 import { UploadFileService } from '../upload-file.service';
-import { GlobalData } from 'src/app/App/navbar/GlobalData';
 
 
 
@@ -85,45 +83,49 @@ export class AddStockComponent implements OnInit {
   onFileChange(event:any)
   {
     this.selectedFile=event.target.files[0];
-    console.log(this.selectedFile);
   }
 
 
   async addProductStock() {
-    let response;
-    let prdName = this.pstockForm.value.pname;
-    let prdDescription = this.pstockForm.value.description;
-    let prdSellerId = this.ap.loginSellerId.toString();
-    let prdBrandId = this.pstockForm.value.brandid;
-    let prdCategoryId = this.pstockForm.value.categoryid;
-    let prdBuyPrice = this.pstockForm.value.buyPrice;
-    let prdSellPrice = this.pstockForm.value.sellPrice;
-    let prdDiscountPercentage = this.pstockForm.value.discount;
-    let formParams = new FormData(); // This is for image
-    formParams.append('image', this.selectedFile) // This is for image
-    formParams.append("prdName", prdName);
-    formParams.append("prdDescription", prdDescription);
-    formParams.append("prdSellerId", prdSellerId);
-    formParams.append("prdBrandId", prdBrandId);
-    formParams.append("prdCategoryId", prdCategoryId);
-    formParams.append("prdBuyPrice", prdBuyPrice);
-    formParams.append("prdSellPrice", prdSellPrice);
-    formParams.append("prdDiscountPercentage", prdDiscountPercentage);
-    await this.service.insertProductStock(formParams).subscribe(res => {
-      response = res.data;
-      if(response != null)
-      {
-        this.ap.showTextInMessageModal = "New Product Successfully Saved";
-        this.ap.navigateOnNextPage = "SellerDashboard";
-        // this.ap.goSellerDashboardPage();
-        this.ap.goMessageModalPage();
-        this.pstockForm.reset();
-      }
-    });
-
-
-
-
+    let fname = this.selectedFile.name;
+    console.log("dddd ",fname.split(".").pop())
+    if(fname == "jpeg" || fname == "png" || fname == "jpg")
+    {
+      let response;
+      let prdName = this.pstockForm.value.pname;
+      let prdDescription = this.pstockForm.value.description;
+      let prdSellerId = this.ap.loginSellerId.toString();
+      let prdBrandId = this.pstockForm.value.brandid;
+      let prdCategoryId = this.pstockForm.value.categoryid;
+      let prdBuyPrice = this.pstockForm.value.buyPrice;
+      let prdSellPrice = this.pstockForm.value.sellPrice;
+      let prdDiscountPercentage = this.pstockForm.value.discount;
+      let formParams = new FormData(); // This is for image
+      formParams.append('image', this.selectedFile) // This is for image
+      formParams.append("prdName", prdName);
+      formParams.append("prdDescription", prdDescription);
+      formParams.append("prdSellerId", prdSellerId);
+      formParams.append("prdBrandId", prdBrandId);
+      formParams.append("prdCategoryId", prdCategoryId);
+      formParams.append("prdBuyPrice", prdBuyPrice);
+      formParams.append("prdSellPrice", prdSellPrice);
+      formParams.append("prdDiscountPercentage", prdDiscountPercentage);
+      await this.service.insertProductStock(formParams).subscribe(res => {
+        response = res.data;
+        if(response != null)
+        {
+          this.ap.showTextInMessageModal = "New Product Successfully Saved";
+          this.ap.navigateOnNextPage = "SellerDashboard";
+          // this.ap.goSellerDashboardPage();
+          this.ap.goMessageModalPage();
+          this.pstockForm.reset();
+        }
+      });
+    }
+    else
+    {
+      this.showMsg = "Image type should be png, jpg or jpeg";
+    }
   }
 
 

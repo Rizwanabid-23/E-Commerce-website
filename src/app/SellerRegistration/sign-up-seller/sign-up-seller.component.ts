@@ -20,8 +20,10 @@ export class SignUpSellerComponent implements OnInit {
   signUpButton:Boolean = false;
   verificationCodeGenerated: any;
   verificationCodeButtonText = "Get Code";
+  verificationCodeVaildTime = 120;
   uLogin:Boolean;
   ngOnInit(): void {
+    this.verificationCodeVaildTime = 120;
   }
   sellerSignUpForm = new FormGroup({
 
@@ -36,15 +38,28 @@ export class SignUpSellerComponent implements OnInit {
     'verificationCode': new FormControl('', Validators.required),
   })
 
+  setVerificationValidTime()
+  {
+    let intervalId = setInterval (() => {
+      this.verificationCodeVaildTime = this.verificationCodeVaildTime-1;
+      if(this.verificationCodeVaildTime <=0)
+      {
+        this.verificationCodeVaildTime = null;
+        clearInterval(intervalId);
+      }
+    }, 1000);
+  }
   sendVerificationCode(){
-    
+    let response = null;
     this.verificationCodeButtonText = "Get Code ...";
     this.getCodeButtonProperty = true;
-    this.service.sendVerificationCode(this.sellerSignUpForm.value).subscribe((res) => {
-      this.verificationCodeGenerated = res.data;
-      if(this.verificationCodeGenerated != null)
+    this.verificationCodeGenerated = Math.floor(100000 + Math.random() * 900000);
+    this.service.sendVerificationCode(this.sellerSignUpForm.value, this.verificationCodeGenerated).subscribe((res) => {
+      response = res.data;
+      if(response != null)
       {
         this.verificationCodeButtonText = "Resend It";
+        this.setVerificationValidTime();
         this.verificationCodeSended = true;
         this.signUpButton = true;
       }
@@ -88,7 +103,7 @@ export class SignUpSellerComponent implements OnInit {
     }
     else
     {
-      this.showMsg = 'Account With This Email Id Already Exist';
+      this.showMsg = 'Enter right verification code or resend it';
     }
   }
 

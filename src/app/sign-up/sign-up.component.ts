@@ -28,7 +28,7 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void { 
     this.signUpButtonText = "Sign Up";
     this.verificationCodeButtonText = "Get Code";
-    this.verificationCodeVaildTime = 10;
+    this.verificationCodeVaildTime = 120;
   } 
 
   // pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
@@ -52,17 +52,13 @@ export class SignUpComponent implements OnInit {
   })
 
   sendVerificationCode(){
+    let response = null;
     this.verificationCodeButtonText = "Get Code ...";
     this.getCodeButtonProperty = true;
-    let formData = new FormData(); //This will send signup data
     this.verificationCodeGenerated = Math.floor(100000 + Math.random() * 900000);
-    let verificationCode = this.verificationCodeGenerated.toString();
-    let email = this.signUpForm.value.email;
-    formData.append('verificationCode', (verificationCode));
-    formData.append('email', email);
-    this.service.sendVerificationCode(formData).subscribe((res) => {
-      this.verificationCodeGenerated = res.data;
-      if(this.verificationCodeGenerated != null)
+    this.service.sendVerificationCode(this.signUpForm.value, this.verificationCodeGenerated).subscribe((res) => {
+      response = res.data;
+      if(response != null)
       {
         console.log(this.verificationCodeGenerated);
         this.verificationCodeButtonText = "Resend It";
@@ -81,6 +77,8 @@ export class SignUpComponent implements OnInit {
   // This function check that if account with this email id is already exist then show message 
   // that 'Account With This Email Id Already Exist' other wise create account.
   async checkDetailValidSignUpForm(){
+    console.log("Form  ", parseInt(this.signUpForm.value.verificationCode));
+    console.log("generated  ", parseInt(this.verificationCodeGenerated));
     if(parseInt(this.signUpForm.value.verificationCode) == parseInt(this.verificationCodeGenerated)){
       await this.service.checkValidSignUpUser(this.signUpForm.value).subscribe(res => {
         this.readData = res.data;

@@ -47,6 +47,8 @@ export class MainPageComponent implements OnInit {
 
   prdData:any;
   ngOnInit(): void {
+    let h = this.ap.getRecentLoginBuyerId();
+    console.log("recent ", h );
     this.getProductData();
     this.getCategories();
     this.getSubCategories();
