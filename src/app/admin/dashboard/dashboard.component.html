@@ -1,1 +1,450 @@
-<p>dashboard works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <base href="/">
+    <title>Admin Dashboard</title>
+    <meta name="theme-name" content="mono" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Karla:400,700|Roboto" rel="stylesheet">
+    <link href="/plugins/material/css/materialdesignicons.min.css" type="text/css" rel="stylesheet" />
+    <link href="/plugins/simplebar/simplebar.css" rel="stylesheet" />
+
+    <link href="/plugins/nprogress/nprogress.css" rel="stylesheet" />
+
+    <link href="/plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="/plugins/jvectormap/jquery-jvectormap-2.0.3.css" rel="stylesheet" />
+    <link href="/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link href="/plugins/toaster/toastr.min.css" rel="stylesheet" />
+    <link id="main-css-href" rel="stylesheet" href="/css/style.css" />
+
+    <link href="assets/favicon.png" rel="shortcut icon" />
+
+    <script src="/plugins/nprogress/nprogress.js"></script>
+</head>
+
+
+<body>
+    <script>
+        NProgress.configure({ showSpinner: false });
+        NProgress.start();
+    </script>
+
+
+    <div id="toaster"></div>
+
+    <div class="wrapper">
+        <div class="page-wrapper">
+            <style>
+                .dropdown {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                .dropdown-content {
+                    display: none;
+                    position: absolute;
+                    background-color: #f9f9f9;
+                    min-width: 160px;
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                    padding: 12px 16px;
+                    z-index: 1;
+                }
+
+                .dropdown:hover .dropdown-content {
+                    display: block;
+                }
+            </style>
+            <!-- Header -->
+            <header class="main-header" id="header">
+                <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+                    <!-- Sidebar toggle button -->
+                    <button id="sidebar-toggler" style="margin-left:30px;">
+                        <span class="sr-only">Toggle navigation</span>
+                    </button>
+
+                    <span class="page-title">Admin Dashboard</span>
+
+                    <div class="navbar-right ">
+
+                        <ul class="nav navbar-nav">
+                            <!-- Offcanvas -->
+                            <li class="custom-dropdown">
+                                <a class="offcanvas-toggler active custom-dropdown-toggler" data-offcanvas="contact-off"
+                                    href="javascript:">
+                                    <i class="mdi mdi-contacts icon"></i>
+                                </a>
+                            </li>
+
+                            <!-- User Account -->
+                            <li class="dropdown">
+                                <button class="dropdown-toggle nav-link" data-toggle="dropdown">
+                                    <img src="assets/user-xs-01.jpg" class="user-image rounded-circle"
+                                        alt="User Image" />
+                                    <span class="d-none d-lg-inline-block">Admin</span>
+                                </button>
+                                <div class="dropdown-content">
+                                    <button>Log out</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+            </header>
+
+            <div class="content-wrapper">
+                <div class="content">
+                    <!-- Top Statistics -->
+                    <div class="row">
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-default card-mini">
+                                <div class="card-header">
+                                    <h2><b> Rs. 0{{registeredSellers}}</b></h2>
+
+                                    <div class="sub-title">
+                                        <span class="mr-1">Number of sellers registered</span>
+                                        <span class="mx-1"></span>
+                                        <i class="mdi mdi-arrow-up-bold text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-wrapper">
+                                        <div>
+                                            <div id="spline-area-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-default card-mini">
+                                <div class="card-header">
+                                    <h2><b>RS. 0{{registeredBuyers}}</b></h2>
+
+                                    <div class="sub-title">
+                                        <span class="mr-1">Number of registered buyers</span>
+                                        <span class="mx-1"></span>
+                                        <i class="mdi mdi-arrow-down-bold text-danger"></i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-wrapper">
+                                        <div>
+                                            <div id="spline-area-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-default card-mini">
+                                <div class="card-header">
+                                    <h2><b>Rs. 0{{monthlyRevenue}}</b></h2>
+
+                                    <div class="sub-title">
+                                        <span class="mr-1">Revenue of this month</span>
+                                        <span class="mx-1"></span>
+                                        <i class="mdi mdi-arrow-down-bold text-danger"></i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-wrapper">
+                                        <div>
+                                            <div id="spline-area-3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-6">
+                            <div class="card card-default card-mini">
+                                <div class="card-header">
+                                    <h2><b>Rs. 0{{annualRevenue}}</b></h2>
+
+                                    <div class="sub-title">
+                                        <span class="mr-1">Revenue of this year</span>
+                                        <span class="mx-1"></span>
+                                        <i class="mdi mdi-arrow-up-bold text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-wrapper">
+                                        <div>
+                                            <div id="spline-area-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <style>
+                        div.ex3 {
+                            /* background-color: lightblue; */
+                            width: 100%;
+                            height: 100%;
+                            padding-bottom: 100px;
+                            overflow: auto;
+                        }
+                    </style>
+
+                    <!-- Table Product -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <h2>Top Products</h2>
+                                    <div class="dropdown">
+
+                                        <!-- <a  class="btn btn-primary btn-pill"
+                                            style="color: black;">Add Product</a> -->
+                                        <!-- <a class="dropdown-toggle" href="" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Yearly
+                                            Chart
+                                        </a> -->
+
+                                        <div class="dropdown-menu dropdown-menu-right"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="container ex3">
+                                        <!-- <ng-container *ngIf="this.prdData"> -->
+                                            <table id="productsTable" class="table table-hover table-product"
+                                                style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Product Name</th>
+                                                        <th>Product ID</th>
+                                                        <th>Sold Qty</th>
+                                                        <th>Seller Name</th>
+                                                        <th>Seller ID</th>
+                                                        <th>Sold%</th>
+                                                        <!-- <th>Adding Date</th> -->
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody *ngFor="let prd of prdData">
+                                                    <tr>
+                                                        <td class="py-0">
+                                                            <img src="http://localhost:3000/{{prd.Picture}}"
+                                                                style="height: 60px;width: 50px;margin-top: 8px;"
+                                                                alt="Image">
+                                                        </td>
+                                                        <td>{{prd.name}}</td>
+                                                        <td>{{prd.id}}</td>
+                                                        <td>{{prd.quantity}}</td>
+                                                        <td>{{prd.sellerName}}</td>
+                                                        <td>{{prd.sellerId}}</td>
+                                                        <td>{{prd.sold}}</td>
+                                                        <!-- <td>{{prd.AddStockDate}}</td> -->
+                                                        <td>
+                                                            <!-- <div class="row">
+                                                                <div class="col">
+                                                                    <div ngbDropdown class="d-inline-block">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            id="dropdownBasic1" ngbDropdownToggle>
+
+                                                                        </button>
+                                                                        <div ngbDropdownMenu
+                                                                            aria-labelledby="dropdownBasic1">
+                                                                            <button id={{prd.Id}}  ngbDropdownItem>Update</button>
+                                                                            <button id={{prd.Id}} (click)="deleteProduct(prd.Id,prd.Seller_Id)" ngbDropdownItem>Delete</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> -->
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        <!-- </ng-container> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="col-xl-4">
+                            <!-- Top Customers -->
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <h2>Top Customers</h2>
+                                </div>
+                                <div class="card-body">
+                                    <!-- <ng-container *ngIf="this.saleData"> -->
+                                        <table class="table table-borderless table-thead-border">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th >ID</th>
+                                                    <th>Products bought</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            </tbody>
+                                            <tfoot class="border-top">
+                                                <tr>
+                                                    <td><a href="#" class="text-uppercase">See All</a></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    <!-- </ng-container> -->
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xl-8">
+                            <div class="card card-default">
+                                <div class="card-header align-items-center">
+                                    <h2 class="">Top Sellers</h2>
+                                    <!-- <a class="btn btn-primary  btn-pill" style="color: black;">Add Stock</a> -->
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content">
+                                        <!-- <ng-container *ngIf="this.saleData"> -->
+                                            <table id="product-sale" class="table table-product " style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Seller Name</th>
+                                                        <th>Seller ID</th>
+                                                        <th>Profit</th>
+                                                        <th>%sold</th>
+                                                        <th class="th-width-250"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody *ngFor="let sale of saleData">
+
+                                                    <tr>
+                                                        <td>{{sale.sellerName}}</td>
+                                                        <td>{{sale.sellerID}}</td>
+                                                        <td>{{sale.profit}}</td>
+                                                        <!-- <td>{{sale.quantity}}</td> -->
+                                                        <td>{{sale.percentage}}</td>
+                                                        <td>
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-success progress-bar-striped"
+                                                                    role="progressbar" [ariaValueNow]="sale.percentage"
+                                                                    aria-valuemin="0" aria-valuemax="100"
+                                                                    [style.width.%]="sale.percentage">
+                                                                    {{sale.percentage}}%
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        <!-- </ng-container> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-8">
+
+                            <!-- Sales by Product -->
+
+
+                        </div>
+
+                    </div>
+
+                    <!-- Stock Modal -->
+                    <div class="modal fade modal-stock" id="modal-stock" aria-labelledby="modal-stock"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                            <form action="/src/app/SellerRegistration/add-stock/add-stock.component.html">
+                                <div class="modal-content">
+                                    <div class="modal-header align-items-center p3 p-md-5">
+                                        <h2 class="modal-title" id="exampleModalGridTitle">Add Stock</h2>
+                                        <div>
+                                            <button type="button" class="btn btn-light btn-pill mr-1 mr-md-2"
+                                                data-dismiss="modal"> cancel </button>
+                                            <button type="submit" class="btn btn-primary  btn-pill"
+                                                data-dismiss="modal"> save </button>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="plugins/simplebar/simplebar.min.js"></script>
+    <script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
+
+    <script src="plugins/apexcharts/apexcharts.js"></script>
+
+    <script src="plugins/DataTables/DataTables-1.10.18/js/jquery.dataTables.min.js"></script>
+
+    <script src="plugins/jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
+    <script src="plugins/jvectormap/jquery-jvectormap-world-mill.js"></script>
+    <script src="plugins/jvectormap/jquery-jvectormap-us-aea.js"></script>
+
+    <script src="plugins/daterangepicker/moment.min.js"></script>
+    <script src="plugins/daterangepicker/daterangepicker.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery('input[name="dateRange"]').daterangepicker({
+                autoUpdateInput: false,
+                singleDatePicker: true,
+                locale: {
+                    cancelLabel: 'Clear'
+                }
+            });
+            jQuery('input[name="dateRange"]').on('apply.daterangepicker', function (ev, picker) {
+                jQuery(this).val(picker.startDate.format('MM/DD/YYYY'));
+            });
+            jQuery('input[name="dateRange"]').on('cancel.daterangepicker', function (ev, picker) {
+                jQuery(this).val('');
+            });
+        });
+    </script>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+    <script src="plugins/toaster/toastr.min.js"></script>
+
+    <script src="js/mono.js"></script>
+    <script src="js/chart.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>
