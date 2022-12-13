@@ -10,13 +10,17 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor( private router:Router, private ap:AppComponent) { }
+  constructor( private router:Router, private ap:AppComponent) {
+
+   }
 
   isAppOpen:any;
   isBuyerLogin;
   ngOnInit(): void {
-    console.log("Looooooooooooooooo");
-    this.pushLocalDataInVariablesOnLoad();
+    this.router.events.subscribe((val:any)=>{
+      this.pushLocalDataInVariablesOnLoad();
+    })
+
   }
 
   pushLocalDataInVariablesOnLoad()
@@ -36,6 +40,7 @@ export class NavbarComponent implements OnInit {
       this.isAppOpen = false;
       this.isBuyerLogin = true;
     }
+    this.ap. goNavbar();
   }
   openProductCartPage()
   {

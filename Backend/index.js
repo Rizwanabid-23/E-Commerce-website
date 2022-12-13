@@ -73,6 +73,7 @@ app.get('/getCategories', (req, res) => {
 
 app.get('/getSubCategories', (req, res) => {
     let getQuery = 'SELECT * FROM `product_category` ORDER BY `product_category`.`Sub_Category` ASC';
+    // let getQuery = "SELECT Distinct Id, Sub_Category FROM product_category Left Join product ON product_category.Id=product.Category_Id And product.Quantity >=1  ORDER BY product_category.Sub_Category ASC";
     con.query(getQuery, (err, result) =>{
         if (err){
             res.send
@@ -192,13 +193,16 @@ app.post('/buyerUserSignInValid', (req, res) => {
 
 app.post('/sendVerificationCode', (req, res) => {
     try{
-        let user = req.body;
-        let verificationCode = Math.floor(100000 + Math.random() * 900000);
+        let user = req.body.email;
+        let verificationCode = req.body.verificationCode;
+        console.log("mamamam ",user);
+        console.log("vfvfvvfvfvf ",verificationCode);
+        
+        // let verificationCode = Math.floor(100000 + Math.random() * 900000);
         sendMail(user, verificationCode,  info => {
             if(mailsend)
             {
-                console.log(verificationCode);
-                res.send({data:verificationCode});
+                res.send({data:"sended"});
             }
             else
             {
@@ -230,7 +234,7 @@ async function sendMail(user , code, callback) {
             from: '"Ecommerce Website"', // sender address
             to: user.email,
             subject: "Hello", // Subject line
-            html: "<b>Thank You For Joininng Us. Use this '"+code+"' OTP against '"+user.email+"' to create account</b> ", // html body
+            html: "<b>Thank You For Joininng Us. Use this '"+code+"' OTP against '"+user+"' to create account</b> ", // html body
         };
         let info =  await transporter.sendMail(mailOptions);
         mailsend = true;
@@ -394,7 +398,26 @@ app.post('/sellerSignInUserValid', (req, res) => {
 app.get('/getProduct', (req, res) => {
     let getQuery = 'Select Id, Name, Picture, SellPrice, Discount, Description From product Where Quantity >= 1';
     con.query(getQuery, (err, result) =>{
-        console.log("rrrrrrrrrr ",result);
+        if (err){
+            console.log("Error");
+            res.send({
+                data:null
+            })
+        }
+        else{
+            res.send({
+                message:'Data',
+                data:result
+            });
+        }
+    })
+})
+
+app.get('/getProductByCategory/:id', (req, res) => {
+    id = req.params.id;
+    id = id.replaceAll('"', '');
+    let getQuery = "Select Id, Name, Picture, SellPrice, Discount, Description From product Where Quantity >= 1 AND Category_Id = '"+id+"'";
+    con.query(getQuery, (err, result) =>{
         if (err){
             console.log("Error");
             res.send({
@@ -414,13 +437,15 @@ app.get('/getSellerProduct', (req, res) => {
     let getQuery = 'Select Id, Name, Picture, SellPrice,BuyPrice,Quantity,AddStockDate, Discount, Description From product';
     con.query(getQuery, (err, result) =>{
         if (err){
-            console.log("Error");
-            res.send({
+            res.send
+            ({
                 data:null
             })
         }
-        else{
-            res.send({
+        else
+        {
+            res.send
+            ({
                 message:'Data',
                 data:result
             });
@@ -431,13 +456,17 @@ app.get('/getSellerProduct', (req, res) => {
 app.get('/getSaleData', (req, res) => {
     let getQuery = 'Select B.Name as productName,A.pid as productID,A.qty as quantity,A.stime as saleTime,A.percentage from (Select productID as pid,sellerID as sid,quantity as qty,saleTime as stime,quantity/(select sum(quantity) from sold_products where sold_products.sellerID=1)*100 as percentage from sold_products where sellerID=1 GROUP by productID,sellerID,quantity,saleTime) as A join product as B where A.pid=B.Id';
     con.query(getQuery, (err, result) =>{
-        if (err){
-            res.send({
+        if (err)
+        {
+            res.send
+            ({
                 data:null
             })
         }
-        else{
-            res.send({
+        else
+        {
+            res.send
+            ({
                 message:'Data',
                 data:result
             });

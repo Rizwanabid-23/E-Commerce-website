@@ -221,13 +221,11 @@ export class ProductCartComponent implements OnInit {
     {
       if (items['isCheckBoxChecked']){
         productSelected = true;
-        console.log("In if");
         return false;
       }
     });
     if(!productSelected)
     {
-      console.log("out if");
       return true;
     }
    
@@ -406,9 +404,7 @@ export class ProductCartComponent implements OnInit {
   }
   saveBuyerAddress()
   {
-    console.log("Innnnnnnnnnnnnnnn ",this.recentLoginBuyerId);
     this.service.insertBuyerAddress(this.buyerAddressForm.value, this.recentLoginBuyerId).subscribe((res) => {
-      console.log("SAAAAAAAAAAAAAAAAAAAA");
       this.readData = res.data;
       this.deliveryAddressModal.hide();
       this.buyerAddressForm.reset();

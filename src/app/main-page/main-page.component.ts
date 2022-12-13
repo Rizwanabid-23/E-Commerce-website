@@ -6,7 +6,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from '../app.component';
 import { ProductApiService } from '../Buyer/Services/product-api.service';
 import { ProdAndSellerDescriptionComponent } from '../Buyer/prod-and-seller-description/prod-and-seller-description.component';
-import { GlobalData } from '../App/navbar/GlobalData';
 
 
 @Component({
@@ -14,7 +13,6 @@ import { GlobalData } from '../App/navbar/GlobalData';
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css']
 })
-
 
 export class MainPageComponent implements OnInit {
 
@@ -75,13 +73,14 @@ export class MainPageComponent implements OnInit {
   getProductData(){
     this.service.getAllProductData().subscribe((res) =>{
       this.prdData = res.data;
-      console.log(this.prdData,"dsd");
-
     })
   }
-  getCategoryProducts(id)
+  getCategoryProducts(subCatId)
   {
-    console.log("ijoewhq ", id);
+    subCatId = parseInt(subCatId);
+    this.service.getProductDataByCategory(subCatId).subscribe((res) =>{
+      this.prdData = res.data;
+    })
   }
 
   // This will load data of selected picture in product and seller description page by calling
@@ -128,7 +127,6 @@ export class MainPageComponent implements OnInit {
     dots[this.slideIndex-1].className += " active";
   }
 
-  
   myFunctiondrop(@Inject(DOCUMENT) document: Document) {
     document.getElementById("myDropdown")?.classList.toggle("show");
   }

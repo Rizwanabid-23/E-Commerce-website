@@ -29,7 +29,7 @@
                                 class="bi small bi-caret-down-fill"></i> </a>
                         <ul id="menu{{cat.Id}}" class="submenu collapse" data-bs-parent="#nav_accordion">
                             <div  *ngFor="let sub_cat of subCategories">
-                                <li *ngIf="sub_cat.Categor_Id === cat.Id" ><a class="nav-link" href="#" (click)="getCategoryProducts(sub_cat.Categor_Id)" >{{sub_cat.Sub_Category}}</a></li>
+                                <li *ngIf="sub_cat.Categor_Id === cat.Id" ><a class="nav-link" href="#" (click)="getCategoryProducts(sub_cat.Id)" >{{sub_cat.Sub_Category}}</a></li>
                             </div>
                         </ul>
                     </li>

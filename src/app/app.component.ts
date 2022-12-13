@@ -42,9 +42,9 @@ export class AppComponent {
     this.router.navigate(['']);
   }
   //This will open Navbar
-  public refreshRecentWindow()
+  public goNavbar()
   {
-    window.location.reload();
+    this.router.navigate[('navbar')]
   }
   // This wiil open buyer sign in page
   public goBuyerSignInPage()
@@ -78,9 +78,9 @@ export class AppComponent {
     this.router.navigate(['productAndSellerDetails']);
   }
   // This will open product cart page
-  public async goProductCartPage()
+  public goProductCartPage()
   {
-    if(localStorage.getItem('buyerLoginId') == null)
+    if(sessionStorage.getItem('buyerLoginId') == null)
     {
       this.buyerLoginThroughAddToCart = true;
       this.router.navigate(['/SignIn']);
@@ -141,8 +141,9 @@ export class AppComponent {
   // This will save Login Buyer Id
   public saveRecentLoginBuyerId()
   {
-    this.refreshRecentWindow();
     sessionStorage.setItem('buyerLoginId',this.loginBuyerId.toString());
+    console.log("dsasdas");
+    this.goNavbar();
   }
   public getRecentLoginBuyerId()
   {
