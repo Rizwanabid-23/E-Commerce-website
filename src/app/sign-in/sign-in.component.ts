@@ -57,7 +57,7 @@ export class SignInComponent implements OnInit {
         }
         else
         {
-          this.router.navigate(['/']);
+          this.router.navigate(['']);
         }
         this.signInForm.reset();
       }

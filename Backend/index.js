@@ -197,7 +197,7 @@ app.post('/sendVerificationCode', (req, res) => {
         sendMail(user, verificationCode,  info => {
             if(mailsend)
             {
-                console.log(verificationCode);
+                // console.log(verificationCode);
                 res.send({data:verificationCode});
             }
             else
@@ -250,7 +250,7 @@ app.post('/buyerUserSignUpValid', (req, res) => {
     let check_buyer_email = req.body.email;
     let getQuery = "Select Id From buyer_user WHERE Email = '"+check_buyer_email+"'";
     con.query(getQuery, (err, userResult) =>{
-        console.log("userresult", userResult);
+        // console.log("userresult", userResult);
         if(userResult.length == 0){
             res.send({
 
@@ -446,7 +446,7 @@ app.get('/getSaleData/:Id', (req, res) => {
 })
 
 app.get('/getAnnualExpense/:Id',(req,res)=>{
-    console.log("seller id:",req.params.Id);
+    // console.log("seller id:",req.params.Id);
     let getQuery='select SUM(A.expense) as expense from (select P.Id,sum(P.BuyPrice)*P.Quantity as expense from product P where P.Seller_Id=Id and year(P.AddStockDate)=year(CURRENT_TIME) group by P.Id) as A'
     con.query(getQuery,(err,result)=>{
         if(err)
@@ -681,7 +681,7 @@ app.get('/getBuyerAddress/:buyerId', (req, res) => {
 /*------------------------------------------ */
 
 app.post('/addProductValid', (req, res) => {
-    console.log("addProductValid   ");
+    // console.log("addProductValid   ");
     let pname=req.body.pname;
     let postQuery = "SELECT Name from product WHERE Name='"+pname+"' ";
     con.query(postQuery, (err, result) =>{
