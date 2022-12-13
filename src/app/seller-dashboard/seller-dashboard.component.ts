@@ -44,11 +44,15 @@ export class SellerDashboardComponent implements OnInit {
       this.ap.sellerLogin = true;
     }
 
-  }
+  } 
+deleteProduct(pid:any,sid:any)
+{
+  console.log("prod id:",pid,"Sell id:",sid);
 
+}
   // This function will get all product categories data
   getProductData(){
-    this.service.getSellerProductData().subscribe((res) =>{
+    this.service.getSellerProductData(localStorage.getItem('sellerLoginId')).subscribe((res) =>{
       this.prdData = res.data;
       console.log(this.prdData)
     })
@@ -56,7 +60,7 @@ export class SellerDashboardComponent implements OnInit {
 
   getAnnualExpense()
   {
-    this.service.annualExpense().subscribe((res)=>{
+    this.service.annualExpense(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.annualExpense=res.data;
       console.log("annual expense:",this.annualExpense);
     })
@@ -64,7 +68,7 @@ export class SellerDashboardComponent implements OnInit {
 
   getAnnualProfit()
   {
-    this.service.annualProfit().subscribe((res)=>{
+    this.service.annualProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.annualProfit=res.data;
       console.log("annual profit:",this.annualProfit);
     })
@@ -72,7 +76,7 @@ export class SellerDashboardComponent implements OnInit {
 
   getMonthlyProfit()
   {
-    this.service.monthlyProfit().subscribe((res)=>{
+    this.service.monthlyProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.monthlyProfit=res.data;
       console.log("monthly profit:",this.monthlyProfit);
     })
@@ -81,14 +85,14 @@ export class SellerDashboardComponent implements OnInit {
   getAnnualSale()
   {
 
-    this.service.annualSale().subscribe((res)=>{
+    this.service.annualSale(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.annualSale=res.data;
       console.log("annual sale:",this.annualSale);
     })
   }
   getSaleData()
   {
-    this.service.getAllSaleData().subscribe((res)=>{
+    this.service.getAllSaleData(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.saleData=res.data;
       console.log(this.saleData);
     })

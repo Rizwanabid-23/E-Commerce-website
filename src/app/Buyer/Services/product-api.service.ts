@@ -19,33 +19,35 @@ export class ProductApiService {
     return this._http.get('http://localhost:3000/getProduct');
   }
 
-  getSellerProductData():Observable<any>
+  getSellerProductData(sid:any):Observable<any>
   {
-    return this._http.get('http://localhost:3000/getSellerProduct');
+    return this._http.get('http://localhost:3000/getSellerProduct/'+sid);
   }
 
-  getAllSaleData():Observable<any>
+  getAllSaleData(sid:any):Observable<any>
   {
-    return this._http.get("http://localhost:3000/getSaleData")
+    return this._http.get("http://localhost:3000/getSaleData/"+sid)
   }
-  annualSale():Observable<any>
+  annualSale(sid:any):Observable<any>
   {
-    return this._http.get("http://localhost:3000/getAnnualSale")
-  }
-
-  annualExpense():Observable<any>
-  {
-    return this._http.get("http://localhost:3000/getAnnualExpense")
+    return this._http.get("http://localhost:3000/getAnnualSale/"+sid)
   }
 
-  annualProfit():Observable<any>
+  annualExpense(sid:any):Observable<any>
   {
-    return this._http.get("http://localhost:3000/getAnnualProfit")
+    // console.log(sid);
+    return this._http.get("http://localhost:3000/getAnnualExpense/"+sid)
   }
 
-  monthlyProfit():Observable<any>
+  annualProfit(sid:any):Observable<any>
   {
-    return this._http.get("http://localhost:3000/getMonthlyProfit")
+    console.log("sid:",sid);
+    return this._http.get("http://localhost:3000/getAnnualProfit/"+sid)
+  }
+
+  monthlyProfit(sid:any):Observable<any>
+  {
+    return this._http.get("http://localhost:3000/getMonthlyProfit/"+sid)
   }
 
   getProductQuantity(prdId):Observable<any>

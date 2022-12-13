@@ -43,7 +43,8 @@ export class SignInComponent implements OnInit {
       if (this.readData == null){
         this.showMsg = 'Enter Right Email Id And Password';
       }
-      else{
+      else
+      {
         this.ap.loginBuyerId = this.readData;
         this.ap.saveRecentLoginBuyerId();
   
