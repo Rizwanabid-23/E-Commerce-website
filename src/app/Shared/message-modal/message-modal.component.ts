@@ -33,7 +33,7 @@ export class MessageModalComponent implements OnInit {
   {
     setTimeout (() => {
       this.closeModal();
-    }, 8000);
+    }, 1000);
   }
   closeModal()
   {

@@ -58,32 +58,56 @@ deleteProduct(pid:any,sid:any)
   // This function will get all product categories data
   getProductData(){
     this.service.getSellerProductData(localStorage.getItem('sellerLoginId')).subscribe((res) =>{
-      this.prdData = res.data;
-      console.log("prd data: ",this.prdData);
+      if(res.data == null)
+      {
+        this.prdData = null;
+      }
+      else
+      {
+        this.prdData = res.data;
+      }
     })
   }
 
   getAnnualExpense()
   {
     this.service.annualExpense(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
-      this.annualExpense=res.data;
-      console.log("annual expense:",this.annualExpense);
+      if(res.data == null)
+      {
+        this.annualExpense = null;
+      }
+      else
+      {
+        this.annualExpense = res.data;
+      }
     })
   }
 
   getAnnualProfit()
   {
     this.service.annualProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
-      this.annualProfit=res.data;
-      console.log("annual profit:",this.annualProfit);
+      if(res.data == null)
+      {
+        this.annualProfit = null;
+      }
+      else
+      {
+        this.annualProfit = res.data;
+      }
     })
   }
 
   getMonthlyProfit()
   {
     this.service.monthlyProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
-      this.monthlyProfit=res.data;
-      console.log("monthly profit:",this.monthlyProfit);
+      if(res.data == null)
+      {
+        this.monthlyProfit = null;
+      }
+      else
+      {
+        this.monthlyProfit = res.data;
+      }
     })
   }
 
@@ -91,8 +115,14 @@ deleteProduct(pid:any,sid:any)
   {
 
     this.service.annualSale(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
-      this.annualSale=res.data;
-      console.log("annual sale:",this.annualSale);
+      if(res.data == null)
+      {
+        this.annualSale = null;
+      }
+      else
+      {
+        this.annualSale = res.data;
+      }
     })
   }
   getSaleData()
@@ -121,9 +151,20 @@ deleteProduct(pid:any,sid:any)
     'prdId': new FormControl('', Validators.required),
     'prdQuantity': new FormControl('', Validators.required)
   })
-  saveProductStock()
+  async saveProductStock()
   {
-
+    let response = null;
+    await this.service.saveProductStock(this.addStockForm.value ,localStorage.getItem('sellerLoginId')).subscribe(res => {
+      response = res.data;
+      if(response != null)
+      {
+        this.closeAddStockModal();
+        this.ap.showTextInMessageModal = "Stock Successfully Saved";
+        this.ap.navigateOnNextPage = "SellerDashboard";
+        this.ap.goMessageModalPage();
+        this.addStockForm.reset();
+      }
+    });
   }
   
 

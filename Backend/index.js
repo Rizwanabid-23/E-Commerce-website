@@ -712,7 +712,6 @@ app.get('/getBuyerAddress/:buyerId', (req, res) => {
 /*------------------------------------------ */
 
 app.post('/addProductValid', (req, res) => {
-    // console.log("addProductValid   ");
     let pname=req.body.pname;
     let postQuery = "SELECT Name from product WHERE Name='"+pname+"' ";
     con.query(postQuery, (err, result) =>{
@@ -786,6 +785,34 @@ app.post('/addProduct', fileUpload.single("image"), (req, res) => {
     })
 })
 
+app.post('/saveProductStock/:sid',(req,res) =>{
+    let seller_Id = req.params.sid;
+    let qty = parseInt(req.body.prdQuantity);
+    let prdId = parseInt(req.body.prdId);
+    let getQuery = "UPDATE `product` SET `Quantity` = Quantity+'"+qty+"', `AllTimeQuantity` = AllTimeQuantity+'"+qty+"' WHERE `product`.`Id` = '"+prdId+"'  And product.Seller_Id= '"+seller_Id+"'";
+    con.query(getQuery, (err, result) =>{
+        console.log(result)
+        if(!result){
+            res.send({
+                data:null
+            })
+        }
+        else{
+            res.send({
+                data:result
+            });
+        }
+        if (err){
+            console.log(err);
+            res.send('Error')
+            
+        }
+    })
+})
+
+
+
+
     
 app.post('/resetBuyerPassword',(req,res) =>{
     let email = req.body.email;
@@ -801,7 +828,6 @@ app.post('/resetBuyerPassword',(req,res) =>{
             })
         }
         else{
-            // console.log(result)
             res.send({
                 data:result
             });

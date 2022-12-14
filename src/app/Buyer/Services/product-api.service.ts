@@ -94,4 +94,9 @@ export class ProductApiService {
   {
     return this._http.post('http://localhost:3000/saveOrderDetail/', orderDetail);
   }
+  // This will add product stock
+  saveProductStock(formData, sId):Observable<any>
+  {
+    return this._http.post("http://localhost:3000/saveProductStock/"+sId, formData);
+  }
 }
