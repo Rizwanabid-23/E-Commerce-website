@@ -59,7 +59,7 @@ deleteProduct(pid:any,sid:any)
   getProductData(){
     this.service.getSellerProductData(localStorage.getItem('sellerLoginId')).subscribe((res) =>{
       this.prdData = res.data;
-      console.log(this.prdData);
+      console.log("prd data: ",this.prdData);
     })
   }
 
@@ -99,7 +99,7 @@ deleteProduct(pid:any,sid:any)
   {
     this.service.getAllSaleData(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.saleData=res.data;
-      // console.log(this.saleData);
+      console.log("sale data:",this.saleData);
     })
   }
 

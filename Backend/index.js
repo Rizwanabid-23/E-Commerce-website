@@ -299,7 +299,7 @@ app.get('/getLoginSellerName/:Id', (req, res) => {
     let id = req.params.Id;
     // id = id.replaceAll('"', '');
     console.log("id", id);
-    let getQuery = `Select * From seller_user WHERE Id = ${id}`;
+    let getQuery = `Select * From seller_user WHERE Id = ${req.params.Id}`;
     con.query(getQuery, (err, result) =>{
         if (err){
             console.log("Error");
@@ -477,7 +477,7 @@ app.get('/getSaleData/:Id', (req, res) => {
 
 app.get('/getAnnualExpense/:Id',(req,res)=>{
     // console.log("seller id:",req.params.Id);
-    let getQuery='select SUM(A.expense) as expense from (select P.Id,sum(P.BuyPrice)*P.Quantity as expense from product P where P.Seller_Id=Id and year(P.AddStockDate)=year(CURRENT_TIME) group by P.Id) as A'
+    let getQuery=`select SUM(A.expense) as expense from (select P.Id,sum(P.BuyPrice)*P.Quantity as expense from product P where P.Seller_Id='${req.params.Id}' and year(P.AddStockDate)=year(CURRENT_TIME) group by P.Id) as A`
     con.query(getQuery,(err,result)=>{
         if(err)
         {
@@ -495,7 +495,7 @@ app.get('/getAnnualExpense/:Id',(req,res)=>{
 
 app.get('/getAnnualProfit/:sellID',(req,res)=>{
     // console.log(req.params.sellID)
-    let getQuery=`select (select sum(B.sale) from (select A.productID as productID,A.qty*P.SellPrice as sale,A.sid as sellerID from (select productID,SUM(SP.Quantity) qty,SP.sellerID as sid from sold_products SP where year(SP.saleTime)=year(CURRENT_TIME) and SP.sellerID=${req.params.sellID} group by sellerID,productID ) A join product P where A.productID=P.Id) as B)-(select sum(B.buy) from (select A.productID as productID,A.qty*P.BuyPrice as buy,A.sid as sellerID from (select productID,SUM(SP.Quantity) qty,SP.sellerID as sid from sold_products SP where year(SP.saleTime)=year(CURRENT_TIME) and SP.sellerID='${req.params.sellID}' group by sellerID,productID ) A join product P where A.productID=P.Id) as B) as profit`
+    let getQuery=`select SUM(B.d) as annualProfit from (SELECT A.productID,(A.quantity*P.SellPrice)-((P.SellPrice*P.Discount)/100)*A.quantity as d from (SELECT OD.Quantity as quantity,OD.Product_Id productID from ecommercedb.order O join orderdetail OD on O.Id=OD.Order_Id where year(O.ShippedDate)=year(CURRENT_DATE) ) as A join product P on A.productID=P.Id where P.Seller_Id='${req.params.sellID}') as B`
     con.query(getQuery,(err,result)=>{
         if(err)
         {
@@ -514,7 +514,7 @@ app.get('/getAnnualProfit/:sellID',(req,res)=>{
 })
 
 app.get('/getMonthlyProfit/:sellID',(req,res)=>{
-    let getQuery=`select(select sum(B.sale) from (select A.productID as productID,A.qty*P.SellPrice as sale,A.sid as sellerID from (select productID,SUM(SP.Quantity) qty,SP.sellerID as sid from sold_products SP where month(SP.saleTime)=month(CURRENT_TIME) and SP.sellerID='${req.params.sellID}' group by sellerID,productID ) A join product P where A.productID=P.Id) as B)-(select sum(B.buy) from (select A.productID as productID,A.qty*P.BuyPrice as buy,A.sid as sellerID from (select productID,SUM(SP.Quantity) qty,SP.sellerID as sid from sold_products SP where month(SP.saleTime)=month(CURRENT_TIME) and SP.sellerID='${req.params.sellID}' group by sellerID,productID ) A join product P where A.productID=P.Id) as B) as profit`
+    let getQuery=`select SUM(B.d) as monthlyProfit from (SELECT A.productID,(A.quantity*P.SellPrice)-((P.SellPrice*P.Discount)/100)*A.quantity as d from (SELECT OD.Quantity as quantity,OD.Product_Id productID from ecommercedb.order O join orderdetail OD on O.Id=OD.Order_Id where month(O.ShippedDate)=month(CURRENT_DATE) ) as A join product P on A.productID=P.Id where P.Seller_Id='${req.params.sellID}') as B`
     con.query(getQuery,(err,result)=>{
         if(err)
         {
