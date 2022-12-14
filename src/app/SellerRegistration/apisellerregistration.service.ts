@@ -28,7 +28,7 @@ export class ApisellerregistrationService {
 
   getLoginSellerFNameLName(sId:any):Observable<any>
   {
-    return this._http.get('http://localhost:3000/getLoginSellerName/"'+sId+'"');
+    return this._http.get('http://localhost:3000/getLoginSellerName/'+sId);
   }
   // Send Verification code to email
   sendVerificationCode(userData: any, code:any): Observable<any> {

@@ -8,8 +8,35 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
 
   constructor() { }
-
+registeredSellers:any
+registeredBuyers:any
+monthlyRevenue:any
+annualRevenue:any
   ngOnInit(): void {
+    this.getRegisteredSellers();
+    this.getRegisteredBuyers();
+    this.getMonthlyRevenue();
+    this.getAnnualRevenue();
+  }
+
+  getRegisteredSellers()
+  {
+
+  }
+
+  getRegisteredBuyers()
+  {
+
+  }
+
+  getMonthlyRevenue()
+  {
+
+  }
+
+  getAnnualRevenue()
+  {
+    
   }
 
 }

@@ -32,7 +32,7 @@ export class APIService {
 
   getBuyerUserReturnData(userData : any):Observable<any>
   {
-    // console.log(userData);
+    console.log(userData);
     return this._http.get('http://localhost:3000/myReturns/'+ userData);
   }
 

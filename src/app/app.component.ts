@@ -18,6 +18,7 @@ export class AppComponent {
   public buyerLogin = false; // This will true when buyer will login
   public buyerLoginThroughAddToCart = false;
   public sellerLogin = false; // This will true when seller will login
+  public adminLogin=false;
   public loginBuyerId = -10; // This will store login buyer Id
   public loginSellerId = -10; // This will store login seller Id
   public loginSellerName = "Any"; 
