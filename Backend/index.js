@@ -57,7 +57,6 @@ app.get('/', (req, res) => {
 app.get('/getCategories', (req, res) => {
     let getQuery = 'Select * From lookup Where Category = "ProductCategory"';
     con.query(getQuery, (err, result) =>{
-        console.log(" dis category ", result);
         if (err){
             res.send('Error')
         }

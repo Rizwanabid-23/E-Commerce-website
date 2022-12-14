@@ -329,8 +329,68 @@
                             <div class="card card-default">
                                 <div class="card-header align-items-center">
                                     <h2 class="">Sales by Product</h2>
-                                    <a class="btn btn-primary  btn-pill" style="color: black;">Add Stock</a>
+                                    <a class="btn btn-primary btn-pill" (click)="openAddStockModal()" style="color: black;">Add Stock</a>  
                                 </div>
+                                <!-- Add Stock Modal -->
+                                <div class="modal fade" id="addStockModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Add Stock</h5>
+                                        <button type="button" class="close" (click)="closeAddStockModal()" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form [formGroup]="addStockForm" (ngSubmit)="saveProductStock()" ngNativeValidate>
+                                                <div class="row">
+                                                <div class="col-lg-12 " >
+                                                    <div class="row mx-2 mt-2" style="background-color: whitesmoke;">
+                                                        <div class="mb-3">
+                                                            <label for="validationCity" class="form-label">Select Product</label>
+                                                            <select class="form-select" formControlName="prdId" id="validationCity" required>
+                                                                <!-- <option selected>Select City</option> -->
+                                                                <option [value]="prd.Id" *ngFor="let prd of prdData">{{prd.Name}}</option>
+                                                                <option value="1" >0</option>
+                                                                <option value="1" >2</option>
+                                                            </select>
+                                                            <div class="invalid-feedback">
+                                                            Please select a valid state.
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                        <label for="formGroupExampleInput" class="form-label">Quantity</label>
+                                                        <input type="number" class="form-control" formControlName="prdQuantity"
+                                                            id="formGroupExampleInput" placeholder="Enter Product Quantity" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mx-2 mb-3" style="background-color: whitesmoke;">
+                                                        <div class="col-lg-8"></div>
+                                                        <div class="col-lg-4">
+                                                            <div class="d-grid m-4">
+                                                                <button class="btn btn-primary" type="submit">Save</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
                                 <div class="card-body">
                                     <div class="tab-content">
                                         <ng-container *ngIf="this.saleData">
@@ -371,6 +431,22 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                     <div class="row">
                         <div class="col-xl-8">

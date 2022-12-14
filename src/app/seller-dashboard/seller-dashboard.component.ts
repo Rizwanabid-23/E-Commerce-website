@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppComponent } from '../app.component';
-import { GlobalData } from '../App/navbar/GlobalData';
 import { ProductApiService } from '../Buyer/Services/product-api.service';
+declare var window:any;
 
 
 @Component({
@@ -21,6 +22,7 @@ export class SellerDashboardComponent implements OnInit {
   annualExpense:any
   annualProfit:any
   monthlyProfit:any
+  addStockModal:any;
 
 
   ngOnInit(): void {
@@ -32,6 +34,9 @@ export class SellerDashboardComponent implements OnInit {
     this.getAnnualExpense();
     this.getAnnualProfit();
     this.getMonthlyProfit();
+    this.addStockModal = new window.bootstrap.Modal(
+      document.getElementById("addStockModal")
+    );
   }
   pushLocalDataInVariablesOnLoad(){ // This will load items in array from localstorage that are already selected by user
     this.ap.loginSellerId = parseInt(localStorage.getItem('sellerLoginId'));
@@ -54,7 +59,7 @@ deleteProduct(pid:any,sid:any)
   getProductData(){
     this.service.getSellerProductData(localStorage.getItem('sellerLoginId')).subscribe((res) =>{
       this.prdData = res.data;
-      console.log(this.prdData)
+      console.log(this.prdData);
     })
   }
 
@@ -98,9 +103,27 @@ deleteProduct(pid:any,sid:any)
     })
   }
 
+  openAddStockModal()
+  {
+    this.addStockModal.show();
+  }
+  closeAddStockModal()
+  {
+    this.addStockModal.hide();
+  }
+
   openAddStockPage()
   {
     this.ap.goAddStockPagePage();
+  }
+
+  addStockForm = new FormGroup({
+    'prdId': new FormControl('', Validators.required),
+    'prdQuantity': new FormControl('', Validators.required)
+  })
+  saveProductStock()
+  {
+
   }
   
 

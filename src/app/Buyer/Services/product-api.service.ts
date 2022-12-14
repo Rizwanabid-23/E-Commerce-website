@@ -18,6 +18,10 @@ export class ProductApiService {
   {
     return this._http.get('http://localhost:3000/getProduct');
   }
+  // getLoginSellerProducts(sid):Observable<any>
+  // {
+  //   return this._http.get('http://localhost:3000/getLoginSellerProducts/"'+sid+'"');
+  // }
   // This will get product by categories
   getProductDataByCategory(categoryId):Observable<any>
   {
