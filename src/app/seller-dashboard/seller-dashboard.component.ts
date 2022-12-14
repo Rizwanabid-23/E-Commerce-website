@@ -116,6 +116,7 @@ export class SellerDashboardComponent implements OnInit {
   getAnnualSale()
   {
 
+    console.log('annual');
     this.service.annualSale(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       if(res.data == null)
       {

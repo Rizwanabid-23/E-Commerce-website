@@ -404,8 +404,10 @@ export class ProductCartComponent implements OnInit {
   }
   saveBuyerAddress()
   {
-    this.service.insertBuyerAddress(this.buyerAddressForm.value, this.recentLoginBuyerId).subscribe((res) => {
+    // console.log(this.buyerAddressForm.value);
+    this.service.insertBuyerAddress(sessionStorage.getItem('buyerLoginId'),this.buyerAddressForm.value).subscribe((res) => {
       this.readData = res.data;
+      // console.log(this.readData);
       this.deliveryAddressModal.hide();
       this.buyerAddressForm.reset();
       this.getBuyerAddress();
@@ -422,7 +424,6 @@ export class ProductCartComponent implements OnInit {
         this.alreadyAddressExists = true;
         this.buyerDeliverAddresses = this.readData;
       }
-
     });
   }
 
@@ -458,8 +459,9 @@ export class ProductCartComponent implements OnInit {
 //  This will save buyer order
   saveBuyerOrder()
   {
-    this.service.insertOrder(this.buyerOrderForm.value, this.recentLoginBuyerId).subscribe((res) => {
+    this.service.insertOrder(this.recentLoginBuyerId,this.buyerOrderForm.value).subscribe((res) => {
       this.readData = res.data;
+      // console.log(this.readData)
       this.saveBuyerOrderDetail(this.readData);
     });
   }

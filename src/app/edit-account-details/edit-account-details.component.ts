@@ -39,9 +39,10 @@ export class EditAccountDetailsComponent implements OnInit {
       password : Cells[2].innerText
     }
     this.service.editBuyerUserDetails(data).subscribe((res) =>{
-      this.service.getSingleBuyerUserData(sessionStorage.getItem('loginBuyerId')).subscribe((res) => {
-        this.readData = res.data;
-      });
+      // this.service.getSingleBuyerUserData(sessionStorage.getItem('loginBuyerId')).subscribe((res) => {
+      //   this.readData = res.data;
+      // });
+      this.ngOnInit();
     });
   }
 }

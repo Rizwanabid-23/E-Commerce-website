@@ -20,9 +20,9 @@
                     <tbody>
                         <tr *ngFor="let us of readData" id="details">
                             <th scope="row" style="display: none;">{{us.Id}}</th>
-                            <td>{{us.FullName}}</td>
+                            <td contenteditable="true">{{us.FullName}}</td>
                             <td contenteditable="false">{{us.Email}}</td>
-                            <td>{{us.Password}}</td>
+                            <td contenteditable="true">{{us.Password}}</td>
                             <td><button class="btn btn-dark ml-1" (click)="editAccountDetails()"><i
                                         class="bi bi-pencil-square"></i></button></td>
                         </tr>

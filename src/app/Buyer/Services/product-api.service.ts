@@ -39,19 +39,19 @@ export class ProductApiService {
   }
   annualSale(sid:any):Observable<any>
   {
-
+    // console.log("sssiiidddd:",sid);
     return this._http.get("http://localhost:3000/getAnnualSale/"+sid)
   }
 
   annualExpense(sid:any):Observable<any>
   {
-    console.log("idddd  ", sid);
+    // console.log("idddd  ", sid);
     return this._http.get("http://localhost:3000/getAnnualExpense/"+sid)
   }
 
   annualProfit(sid:any):Observable<any>
   {
-    console.log("sid:",sid);
+    // console.log("sid:",sid);
     return this._http.get("http://localhost:3000/getAnnualProfit/"+sid)
   }
 
@@ -65,14 +65,14 @@ export class ProductApiService {
     return this._http.get('http://localhost:3000/getProductQuantity/"'+prdId+'"');
   }
 
-  insertBuyerAddress(buyerAddressData, recentLoginBuyer):Observable<any>
+  insertBuyerAddress(recentLoginBuyer,buyerAddressData):Observable<any>
   {
-    return this._http.post('http://localhost:3000/saveBuyerAddress/"'+ recentLoginBuyer+'"', buyerAddressData);
+    return this._http.post('http://localhost:3000/saveBuyerAddress/'+ recentLoginBuyer, buyerAddressData);
   }
 
   getBuyerAddress(recentLoginBuyer):Observable<any>
   {
-    return this._http.get('http://localhost:3000/getBuyerAddress/"'+ recentLoginBuyer+'"');
+    return this._http.get('http://localhost:3000/getBuyerAddress/'+ recentLoginBuyer);
   }
 
   getCategories():Observable<any>
@@ -85,9 +85,9 @@ export class ProductApiService {
     return this._http.get('http://localhost:3000/getSubCategories');
   }
 
-  insertOrder(formData, recentLoginBuyer):Observable<any>
+  insertOrder(recentLoginBuyer,formData):Observable<any>
   {
-    return this._http.post('http://localhost:3000/saveOrder/"'+recentLoginBuyer+'"', formData);
+    return this._http.post('http://localhost:3000/saveOrder/'+recentLoginBuyer, formData);
   }
 
   insertOrderDetails(orderDetail):Observable<any>
