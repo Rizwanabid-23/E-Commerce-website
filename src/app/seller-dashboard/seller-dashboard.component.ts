@@ -59,7 +59,7 @@ deleteProduct(pid:any,sid:any)
   getProductData(){
     this.service.getSellerProductData(localStorage.getItem('sellerLoginId')).subscribe((res) =>{
       this.prdData = res.data;
-      console.log(this.prdData);
+      console.log("mddmsmsms ",this.prdData);
     })
   }
 
@@ -67,7 +67,7 @@ deleteProduct(pid:any,sid:any)
   {
     this.service.annualExpense(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.annualExpense=res.data;
-      // console.log("annual expense:",this.annualExpense);
+      console.log("annual expense:",this.annualExpense);
     })
   }
 
@@ -75,7 +75,7 @@ deleteProduct(pid:any,sid:any)
   {
     this.service.annualProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.annualProfit=res.data;
-      // console.log("annual profit:",this.annualProfit);
+      console.log("annual profit:",this.annualProfit);
     })
   }
 
@@ -83,7 +83,7 @@ deleteProduct(pid:any,sid:any)
   {
     this.service.monthlyProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.monthlyProfit=res.data;
-      // console.log("monthly profit:",this.monthlyProfit);
+      console.log("monthly profit:",this.monthlyProfit);
     })
   }
 
@@ -92,14 +92,14 @@ deleteProduct(pid:any,sid:any)
 
     this.service.annualSale(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.annualSale=res.data;
-      // console.log("annual sale:",this.annualSale);
+      console.log("annual sale:",this.annualSale);
     })
   }
   getSaleData()
   {
     this.service.getAllSaleData(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.saleData=res.data;
-      // console.log(this.saleData);
+      console.log("selele data ",this.saleData);
     })
   }
 

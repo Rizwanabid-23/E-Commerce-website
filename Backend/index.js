@@ -476,8 +476,7 @@ app.get('/getSaleData/:Id', (req, res) => {
 })
 
 app.get('/getAnnualExpense/:Id',(req,res)=>{
-    // console.log("seller id:",req.params.Id);
-    let getQuery='select SUM(A.expense) as expense from (select P.Id,sum(P.BuyPrice)*P.Quantity as expense from product P where P.Seller_Id=Id and year(P.AddStockDate)=year(CURRENT_TIME) group by P.Id) as A'
+    let getQuery="SELECT SUM(product.BuyPrice*product.AllTimeQuantity) As ExenseOfYear FROM `product` WHERE product.Seller_Id = '"+req.params.Id+"'  And Year(product.AddStockDate) = Year(CURRENT_TIME)";
     con.query(getQuery,(err,result)=>{
         if(err)
         {
@@ -532,8 +531,10 @@ app.get('/getMonthlyProfit/:sellID',(req,res)=>{
 
 
 app.get('/getAnnualSale/:sellerID',(req,res)=>{
-    let getQuery=`select sum(B.sale) as sale from (select A.productID as productID,A.qty*P.SellPrice as sale,A.sid as sellerID from (select productID,SUM(SP.Quantity) qty,SP.sellerID as sid from sold_products SP where year(SP.saleTime)=year(CURRENT_TIME) and SP.sellerID='${req.params.sellerID}' group by sellerID,productID ) A join product P where A.productID=P.Id) as B `
+    console.log("sellerr idd ", parseInt(req.params.sellerID));
+    let getQuery="Select SUM((product.SellPrice - ((product.SellPrice*product.Discount)/100))*Quantity) As SaleOFYear From (SELECT orderdetail.Product_Id As pID, orderdetail.Quantity As pQty FROM `orderdetail`, `order` WHERE `orderdetail`.Order_Id = `order`.Id AND Year(ShippedDate) = Year(CURRENT_TIME) ) As ordered, `product` Where ordered.pID = product.Id And product.Seller_Id = '"+req.params.sellerID+"'";
     con.query(getQuery,(err,result)=>{
+        console.log("annualalal ",result);
         if(err)
         {
             res.send({
@@ -763,7 +764,8 @@ app.post('/addProduct', fileUpload.single("image"), (req, res) => {
     let p_SellPrice=req.body.prdSellPrice;
     let p_Discount=req.body.prdDiscountPercentage;
     let p_Quantity=0;
-    let postQuery = "INSERT INTO `product` (`Name`, `Description`, `BuyPrice`, `SellPrice`, `Discount`, `Quantity`, `AddStockDate`, `Picture`, `Seller_Id`, `Category_Id`, `Brand_Id`) VALUES ('"+p_Name+"', '"+p_Description+"', '"+p_BuyPrice+"', '"+p_SellPrice+"', '"+p_Discount+"', '"+p_Quantity+"', '"+currentDate+"', '"+picture_Path+"', '"+seller_Id+"', '"+category_Id+"', '"+brand_Id+"')";
+    let all_Time_Quantity = 0;
+    let postQuery = "INSERT INTO `product` (`Name`, `Description`, `BuyPrice`, `SellPrice`, `Discount`, `Quantity`, `AddStockDate`, `Picture`, `Seller_Id`, `Category_Id`, `Brand_Id`, `AllTimeQuantity`) VALUES ('"+p_Name+"', '"+p_Description+"', '"+p_BuyPrice+"', '"+p_SellPrice+"', '"+p_Discount+"', '"+p_Quantity+"', '"+currentDate+"', '"+picture_Path+"', '"+seller_Id+"', '"+category_Id+"', '"+brand_Id+"', '"+all_Time_Quantity+"')";
     con.query(postQuery, (err, result) =>{
         if (err)
         {

@@ -62,6 +62,7 @@
                 }
             </style>
             <!-- Header -->
+            
             <header class="main-header" id="header">
                 <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
                     <!-- Sidebar toggle button -->
@@ -106,7 +107,7 @@
                         <div class="col-xl-3 col-sm-6">
                             <div class="card card-default card-mini">
                                 <div class="card-header">
-                                    <h2><b> Rs. 0{{annualSale[0].sale}}</b></h2>
+                                    <h2><b> Rs. {{annualSale[0].SaleOFYear}}</b></h2>
 
                                     <div class="sub-title">
                                         <span class="mr-1">Sales of this year</span>
@@ -126,8 +127,7 @@
                         <div class="col-xl-3 col-sm-6">
                             <div class="card card-default card-mini">
                                 <div class="card-header">
-                                    <h2><b>RS. 0{{annualExpense[0].expense}}</b></h2>
-
+                                    <h2><b>RS. {{annualExpense[0].ExenseOfYear}}</b></h2>
                                     <div class="sub-title">
                                         <span class="mr-1">Expense of this year</span>
                                         <span class="mx-1"></span>
