@@ -69,11 +69,8 @@
                     <button id="sidebar-toggler" style="margin-left:30px;">
                         <span class="sr-only">Toggle navigation</span>
                     </button>
-
                     <span class="page-title">Seller Dashboard</span>
-
                     <div class="navbar-right ">
-
                         <ul class="nav navbar-nav">
                             <!-- Offcanvas -->
                             <li class="custom-dropdown">
@@ -82,7 +79,6 @@
                                     <i class="mdi mdi-contacts icon"></i>
                                 </a>
                             </li>
-
                             <!-- User Account -->
                             <li class="dropdown">
                                 <button class="dropdown-toggle nav-link" data-toggle="dropdown">
@@ -245,7 +241,7 @@
                                                                 alt="Image">
                                                         </td>
                                                         <td>{{prd.Name}}</td>
-                                                        <td>{{prd.Id}}</td>
+                                                        <!-- <td>{{prd.Id}}</td> -->
                                                         <td>{{prd.Quantity}}</td>
                                                         <td>{{prd.BuyPrice}}</td>
                                                         <td>{{prd.SellPrice}}</td>
@@ -261,8 +257,8 @@
                                                                         </button>
                                                                         <div ngbDropdownMenu
                                                                             aria-labelledby="dropdownBasic1">
-                                                                            <button ngbDropdownItem>Update</button>
-                                                                            <button ngbDropdownItem>Delete</button>
+                                                                            <button (click)="updateProduct(prd.Id, prd.Quantity, prd.Name)" ngbDropdownItem>Update</button>
+                                                                            <button (click)="deleteProduct(prd.Id)" ngbDropdownItem>Delete</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -277,7 +273,6 @@
                             </div>
                         </div>
                     </div>
-
                     <br>
                     <br>
                     <div class="row">

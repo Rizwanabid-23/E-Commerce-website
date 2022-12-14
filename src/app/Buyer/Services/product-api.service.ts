@@ -99,4 +99,8 @@ export class ProductApiService {
   {
     return this._http.post("http://localhost:3000/saveProductStock/"+sId, formData);
   }
+  deleteSelectedProduct(data):Observable<any>
+  {
+    return this._http.post("http://localhost:3000/deleteSelectedProduct/",data)
+  }
 }

@@ -97,6 +97,166 @@
 
             </header>
 
+            <!--Modals start from here-->
+            <!-------------------------->
+            <!-------------------------->
+            <!-- Add Category Modal strarts -->
+            <div class="modal fade" id="addCategoryModalId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Add Category</h5>
+                            <button type="button" class="close" (click)="closeAddCategoryModal()"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form [formGroup]="addCategoryForm" (ngSubmit)="saveCategory()" ngNativeValidate>
+                                <div class="row">
+                                    <div class="col-lg-12 ">
+                                        <div class="row mx-2 mt-2"
+                                            style="background-color: whitesmoke;">
+                                            <div class="mb-3">
+                                                <label for="formGroupExampleInput"
+                                                    class="form-label">Category Name</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="categoryName"
+                                                    id="formGroupExampleInput"
+                                                    placeholder="Enter Category" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-2 mb-3"
+                                            style="background-color: whitesmoke;">
+                                            <div class="col-lg-8"></div>
+                                            <div class="col-lg-4">
+                                                <div class="d-grid m-4">
+                                                    <button class="btn btn-primary"
+                                                        type="submit">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add Category Modal ends -->
+
+            <!-- Add SubCategoryModal Starts -->
+            <div class="modal fade" id="addSubCategoryModalId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Add Sub Category</h5>
+                            <button type="button" class="close" (click)="closeAddSubCategoryModal()"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form [formGroup]="addSubCategoryForm" (ngSubmit)="saveSubCategory()" ngNativeValidate>
+                                <div class="row">
+                                    <div class="col-lg-12 ">
+                                        <div class="row mx-2 mt-2"
+                                            style="background-color: whitesmoke;">
+                                            <div class="mb-3">
+                                                <label for="validationCity"
+                                                    class="form-label">Select Category</label>
+                                                <select class="form-select" formControlName="categoryId"
+                                                    id="validationCity" required>
+                                                    <option [value]="cat.Id" *ngFor="let cat of categories">{{cat.Name}} </option>
+
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Please select a valid state.
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="formGroupExampleInput"
+                                                    class="form-label">Enter Sub Category Name</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="subCategoryName"
+                                                    id="formGroupExampleInput"
+                                                    placeholder="Enter Sub Category" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-2 mb-3"
+                                            style="background-color: whitesmoke;">
+                                            <div class="col-lg-8"></div>
+                                            <div class="col-lg-4">
+                                                <div class="d-grid m-4">
+                                                    <button class="btn btn-primary"
+                                                        type="submit">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add SubCategoryModal ends -->
+
+            <!-- Add Brand Modal strarts -->
+            <div class="modal fade" id="addBrandModalId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Add Brand</h5>
+                            <button type="button" class="close" (click)="closeAddBrandModal()"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form [formGroup]="addBrandForm" (ngSubmit)="saveBrand()" ngNativeValidate>
+                                <div class="row">
+                                    <div class="col-lg-12 ">
+                                        <div class="row mx-2 mt-2"
+                                            style="background-color: whitesmoke;">
+                                            <div class="mb-3">
+                                                <label for="formGroupExampleInput"
+                                                    class="form-label">Brand Name</label>
+                                                <input type="text" class="form-control"
+                                                    formControlName="brandName"
+                                                    id="formGroupExampleInput"
+                                                    placeholder="Enter Brand" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-2 mb-3"
+                                            style="background-color: whitesmoke;">
+                                            <div class="col-lg-8"></div>
+                                            <div class="col-lg-4">
+                                                <div class="d-grid m-4">
+                                                    <button class="btn btn-primary"
+                                                        type="submit">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add Brand Modal ends -->
+
+
+
+
+            <!--Modals ends here-------->
+            <!-------------------------->
+            <!-------------------------->
+
+
+
+
             <div class="content-wrapper">
                 <div class="content">
                     <!-- Top Statistics -->
@@ -200,12 +360,14 @@
                                     <h2>Top Products</h2>
                                     <div class="dropdown">
 
-                                        <!-- <a  class="btn btn-primary btn-pill"
-                                            style="color: black;">Add Product</a> -->
-                                        <!-- <a class="dropdown-toggle" href="" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Yearly
-                                            Chart
-                                        </a> -->
+                                        <a class="btn btn-primary btn-pill" (click)="openAddCategoryModal()"
+                                        style="color: black;">Add Category </a>
+
+                                        <a class="btn btn-primary btn-pill" (click)="openAddSubCategoryModal()"
+                                        style="color: black;">Add Sub Category </a>
+
+                                        <a class="btn btn-primary btn-pill" (click)="openAddBrandModal()"
+                                        style="color: black;">Add Brand </a>
 
                                         <div class="dropdown-menu dropdown-menu-right"
                                             aria-labelledby="dropdownMenuLink">
@@ -219,56 +381,6 @@
                                 <div class="card-body">
                                     <div class="container ex3">
                                         <!-- <ng-container *ngIf="this.prdData"> -->
-                                            <table id="productsTable" class="table table-hover table-product"
-                                                style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th></th>
-                                                        <th>Product Name</th>
-                                                        <th>Product ID</th>
-                                                        <th>Sold Qty</th>
-                                                        <th>Seller Name</th>
-                                                        <th>Seller ID</th>
-                                                        <th>Sold%</th>
-                                                        <!-- <th>Adding Date</th> -->
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody *ngFor="let prd of prdData">
-                                                    <tr>
-                                                        <td class="py-0">
-                                                            <img src="http://localhost:3000/{{prd.Picture}}"
-                                                                style="height: 60px;width: 50px;margin-top: 8px;"
-                                                                alt="Image">
-                                                        </td>
-                                                        <td>{{prd.name}}</td>
-                                                        <td>{{prd.id}}</td>
-                                                        <td>{{prd.quantity}}</td>
-                                                        <td>{{prd.sellerName}}</td>
-                                                        <td>{{prd.sellerId}}</td>
-                                                        <td>{{prd.sold}}</td>
-                                                        <!-- <td>{{prd.AddStockDate}}</td> -->
-                                                        <td>
-                                                            <!-- <div class="row">
-                                                                <div class="col">
-                                                                    <div ngbDropdown class="d-inline-block">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            id="dropdownBasic1" ngbDropdownToggle>
-
-                                                                        </button>
-                                                                        <div ngbDropdownMenu
-                                                                            aria-labelledby="dropdownBasic1">
-                                                                            <button id={{prd.Id}}  ngbDropdownItem>Update</button>
-                                                                            <button id={{prd.Id}} (click)="deleteProduct(prd.Id,prd.Seller_Id)" ngbDropdownItem>Delete</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div> -->
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
                                         <!-- </ng-container> -->
                                     </div>
                                 </div>
@@ -318,37 +430,7 @@
                                 <div class="card-body">
                                     <div class="tab-content">
                                         <!-- <ng-container *ngIf="this.saleData"> -->
-                                            <table id="product-sale" class="table table-product " style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Seller Name</th>
-                                                        <th>Seller ID</th>
-                                                        <th>Profit</th>
-                                                        <th>%sold</th>
-                                                        <th class="th-width-250"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody *ngFor="let sale of saleData">
 
-                                                    <tr>
-                                                        <td>{{sale.sellerName}}</td>
-                                                        <td>{{sale.sellerID}}</td>
-                                                        <td>{{sale.profit}}</td>
-                                                        <!-- <td>{{sale.quantity}}</td> -->
-                                                        <td>{{sale.percentage}}</td>
-                                                        <td>
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-success progress-bar-striped"
-                                                                    role="progressbar" [ariaValueNow]="sale.percentage"
-                                                                    aria-valuemin="0" aria-valuemax="100"
-                                                                    [style.width.%]="sale.percentage">
-                                                                    {{sale.percentage}}%
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
                                         <!-- </ng-container> -->
                                     </div>
                                 </div>

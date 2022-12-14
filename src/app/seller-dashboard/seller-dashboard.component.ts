@@ -23,6 +23,9 @@ export class SellerDashboardComponent implements OnInit {
   annualProfit:any
   monthlyProfit:any
   addStockModal:any;
+  confirmationMessageModal:any;
+  showMessage:any;
+  selectedProductForDelete:any;
 
 
   ngOnInit(): void {
@@ -37,6 +40,9 @@ export class SellerDashboardComponent implements OnInit {
     this.addStockModal = new window.bootstrap.Modal(
       document.getElementById("addStockModal")
     );
+    this.confirmationMessageModal = new window.bootstrap.Modal(
+      document.getElementById("showMessageModal")
+    );
   }
   pushLocalDataInVariablesOnLoad(){ // This will load items in array from localstorage that are already selected by user
     this.ap.loginSellerId = parseInt(localStorage.getItem('sellerLoginId'));
@@ -50,11 +56,7 @@ export class SellerDashboardComponent implements OnInit {
     }
 
   } 
-deleteProduct(pid:any,sid:any)
-{
-  console.log("prod id:",pid,"Sell id:",sid);
 
-}
   // This function will get all product categories data
   getProductData(){
     this.service.getSellerProductData(localStorage.getItem('sellerLoginId')).subscribe((res) =>{
@@ -151,6 +153,7 @@ deleteProduct(pid:any,sid:any)
     'prdId': new FormControl('', Validators.required),
     'prdQuantity': new FormControl('', Validators.required)
   })
+
   async saveProductStock()
   {
     let response = null;
@@ -166,6 +169,67 @@ deleteProduct(pid:any,sid:any)
       }
     });
   }
-  
+
+
+  // cliclOnCancelButtonInModal()
+  // {
+  //   console.log("cliclOnCancelButton");
+  //   this.closeConfimationMessageModal();
+  // }
+
+  // clickOnOkButtonInModal()
+  // {
+  //   console.log("clickOnOkButton");
+  //   let response = null;
+  //   let formData = new FormData()
+  //   formData.append('prdId', this.selectedProductForDelete);
+  //   formData.append('sellerId', localStorage.getItem('sellerLoginId'));
+  //   this.service.deleteSelectedProduct(formData).subscribe(res => {
+  //     response = res.data;
+  //     if(response != null)
+  //     {
+  //       this.ap.showTextInMessageModal = "Successfully Deleted";
+  //       this.ap.navigateOnNextPage = "SellerDashboard";
+  //       this.ap.goMessageModalPage();
+  //       this.addStockForm.reset();
+  //     }
+  //   });
+  //   this.closeConfimationMessageModal();
+  // }
+
+  // openConfimationMessageModal()
+  // {
+  //   this.confirmationMessageModal.show();
+  // }
+  // closeConfimationMessageModal()
+  // {
+  //   this.confirmationMessageModal.hide();
+  // }
+
+  deleteProduct(prdId, qty, prdName)
+  {
+        console.log("clickOnOkButton");
+        let response = null;
+        let formData = new FormData()
+        formData.append('prdId', this.selectedProductForDelete);
+        formData.append('sellerId', localStorage.getItem('sellerLoginId'));
+        this.service.deleteSelectedProduct(formData).subscribe(res => {
+          response = res.data;
+          if(response != null)
+          {
+            this.ap.showTextInMessageModal = "Successfully Deleted";
+            this.ap.navigateOnNextPage = "SellerDashboard";
+            this.ap.goMessageModalPage();
+            this.addStockForm.reset();
+          }
+        });
+    console.log("selected ",prdId , localStorage.getItem('sellerLoginId'));
+  }
+
+  updateProduct(prdId)
+  {
+    this.ap.navigateOnNextPage = "SellerDashboard";
+    console.log("selected ",prdId , localStorage.getItem('sellerLoginId'));
+  }
 
 }

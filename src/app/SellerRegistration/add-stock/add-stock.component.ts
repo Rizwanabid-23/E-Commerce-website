@@ -85,7 +85,6 @@ export class AddStockComponent implements OnInit {
     this.selectedFile=event.target.files[0];
   }
 
-
   async addProductStock() {
     let fname = this.selectedFile.name;
     console.log("dddd ",fname.split(".").pop())

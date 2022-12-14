@@ -498,13 +498,11 @@ app.get('/getAnnualProfit/:sellID',(req,res)=>{
     con.query(getQuery,(err,result)=>{
         if(err)
         {
-            console.log("error annual profit",result)
             res.send({
                 data:null
             })
         }
         else{
-            console.log("regular annual profit",result)
             res.send({
                 message:'Data',data:result
             })
@@ -531,7 +529,6 @@ app.get('/getMonthlyProfit/:sellID',(req,res)=>{
 
 
 app.get('/getAnnualSale/:sellerID',(req,res)=>{
-    console.log("sellerr idd ", parseInt(req.params.sellerID));
     let getQuery="Select SUM((product.SellPrice - ((product.SellPrice*product.Discount)/100))*Quantity) As SaleOFYear From (SELECT orderdetail.Product_Id As pID, orderdetail.Quantity As pQty FROM `orderdetail`, `order` WHERE `orderdetail`.Order_Id = `order`.Id AND Year(ShippedDate) = Year(CURRENT_TIME) ) As ordered, `product` Where ordered.pID = product.Id And product.Seller_Id = '"+req.params.sellerID+"'";
     con.query(getQuery,(err,result)=>{
         console.log("annualalal ",result);
@@ -810,7 +807,31 @@ app.post('/saveProductStock/:sid',(req,res) =>{
     })
 })
 
-
+app.post('/deleteSelectedProduct',(req,res) =>{
+    let sellerId = parseInt(req.body.sellerId);
+    let prdId = parseInt(req.body.prdId);
+    console.log("dsdsd ", sellerId);
+    console.log("dddd ", prdId);
+    // let getQuery = "";
+    // con.query(getQuery, (err, result) =>{
+    //     console.log(result)
+    //     if(!result){
+    //         res.send({
+    //             data:null
+    //         })
+    //     }
+    //     else{
+    //         res.send({
+    //             data:result
+    //         });
+    //     }
+    //     if (err){
+    //         console.log(err);
+    //         res.send('Error')
+            
+    //     }
+    // })
+})
 
 
     
@@ -1048,3 +1069,81 @@ app.post('/saveOrderDetail',(req, res) => {
 /*------------------------------------------ */
 /*------------------------------------------ */
 /*      For  Order code ends From here       */
+
+
+
+/*------------------------------------------ */
+/*------------------------------------------ */
+/*      For  Admin code  Start From here     */
+app.post('/saveCategory', (req, res) => {
+
+    let category = req.body.categoryName;
+    let postQuery = "INSERT INTO `lookup` (`Category`, `Name`) VALUES ('ProductCategory', '"+category+"')";
+    con.query(postQuery, (err, result) =>{
+        if (err)
+        {
+            res.send({
+                message:'Data Not Inserted',
+                data:null
+            })
+        }
+        else
+        {
+            res.send({
+                message:'Data Inserted',
+                data:result.insertId
+            })
+        }
+    })
+})
+
+app.post('/saveSubCategory', (req, res) => {
+    console.log("subb ");
+    let subCategory = req.body.subCategoryName;
+    let categoryId = req.body.categoryId;
+    let postQuery = "INSERT INTO `product_category` (`Sub_Category`, `Categor_Id`) VALUES ('"+subCategory+"', '"+categoryId+"')";
+    con.query(postQuery, (err, result) =>{
+        if (err)
+        {
+            res.send({
+                message:'Data Not Inserted',
+                data:null
+            })
+        }
+        else
+        {
+            res.send({
+                message:'Data Inserted',
+                data:result.insertId
+            })
+        }
+    })
+})
+
+app.post('/saveBrand', (req, res) => {
+
+    let brand = req.body.brandName;
+    let postQuery = "INSERT INTO `product_brand` (`Brand`) VALUES ('"+brand+"')";
+    con.query(postQuery, (err, result) =>{
+        if (err)
+        {
+            res.send({
+                message:'Data Not Inserted',
+                data:null
+            })
+        }
+        else
+        {
+            res.send({
+                message:'Data Inserted',
+                data:result.insertId
+            })
+        }
+    })
+})
+
+/*------------------------------------------ */
+/*------------------------------------------ */
+/*      For  Admin code ends From here       */
+
+

@@ -27,11 +27,20 @@ export class AppComponent {
   public showTextInMessageModal = '';
   public navigateOnNextPage = '';
   public openMessageModal = false;
+  public showSimpleMessageModal = false;
+  public showConfirmationModal = false;
+  public clickOnOkButtonInMessageModal = false;
+  public clickOnCancelButtonInMessageModal = false;
 
 
   // ----------------------------------------//
   // ----------------------------------------//
-  // Routing For Page Start from here        //
+  // Routing For Page Start from here       //
+  // This will open admin page
+  public goAdminDashboardPage()
+  {
+    this.router.navigate(['adminDashboard']);
+  }
    // This will open Seller Dashboard Page
   public goSellerDashboardPage()
   {
