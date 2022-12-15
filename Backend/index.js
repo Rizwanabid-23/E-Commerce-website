@@ -539,21 +539,21 @@ app.get("/getAnnualProfit/:sellID", (req, res) => {
   });
 });
 
-// app.get("/getMonthlyProfit/:sellID", (req, res) => {
-//   let getQuery = `select SUM(B.d) as monthlyProfit from (SELECT A.productID,(A.quantity*P.SellPrice)-((P.SellPrice*P.Discount)/100)*A.quantity as d from (SELECT OD.Quantity as quantity,OD.Product_Id productID from ecommercedb.order O join orderdetail OD on O.Id=OD.Order_Id where month(O.ShippedDate)=month(CURRENT_DATE) ) as A join product P on A.productID=P.Id where P.Seller_Id='${req.params.sellID}') as B`;
-//   con.query(getQuery, (err, result) => {
-//     if (err) {
-//       res.send({
-//         data: null,
-//       });
-//     } else {
-//       res.send({
-//         message: "Data",
-//         data: result,
-//       });
-//     }
-//   });
-// });
+app.get("/getMonthlyProfit/:sellID", (req, res) => {
+  let getQuery = `select SUM(B.d) as monthlyProfit from (SELECT A.productID,(A.quantity*P.SellPrice)-((P.SellPrice*P.Discount)/100)*A.quantity as d from (SELECT OD.Quantity as quantity,OD.Product_Id productID from ecommercedb.order O join orderdetail OD on O.Id=OD.Order_Id where month(O.ShippedDate)=month(CURRENT_DATE) ) as A join product P on A.productID=P.Id where P.Seller_Id='${req.params.sellID}') as B`;
+  con.query(getQuery, (err, result) => {
+    if (err) {
+      res.send({
+        data: null,
+      });
+    } else {
+      res.send({
+        message: "Data",
+        data: result,
+      });
+    }
+  });
+});
 
 app.get("/getAnnualSale/:sellerID", (req, res) => {
   console.log("sellerr idd ", req.params.sellerID);
