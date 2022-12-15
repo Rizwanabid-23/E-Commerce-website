@@ -30,6 +30,8 @@ import { CancelOrderComponent } from './cancel-order/cancel-order.component';
 import { SaveOrderAndSelectBillingComponent } from './Buyer/save-order-and-select-billing/save-order-and-select-billing.component';
 import { NavbarComponent } from './App/navbar/navbar.component';
 import { MessageModalComponent } from './Shared/message-modal/message-modal.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { AdminApiServiceService } from './admin/admin-api-service.service';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,7 @@ import { MessageModalComponent } from './Shared/message-modal/message-modal.comp
     SaveOrderAndSelectBillingComponent,
     NavbarComponent,
     MessageModalComponent,
+    DashboardComponent,
 
   ],
   imports: [ 
@@ -67,7 +70,8 @@ import { MessageModalComponent } from './Shared/message-modal/message-modal.comp
   providers: [
     APIService,
     ProductApiService,
-    ApisellerregistrationService
+    ApisellerregistrationService,
+    AdminApiServiceService
   ],
   bootstrap: [AppComponent]
 })

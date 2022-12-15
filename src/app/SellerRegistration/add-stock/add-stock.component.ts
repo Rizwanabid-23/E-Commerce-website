@@ -20,6 +20,7 @@ export class AddStockComponent implements OnInit {
   brands:any;
   picturePath:any;
   navigateOnNextPage:any;
+  allEntriesRight:any;
   constructor(private service: APIService, private ap:AppComponent, private uploadService:UploadFileService) { }
   ngOnInit(): void {
     this.ap.loginSellerId = parseInt(localStorage.getItem('sellerLoginId'));
@@ -52,21 +53,21 @@ export class AddStockComponent implements OnInit {
   })
   async checkProduct(){
     this.showMsg = '';
-    let allEntriesRight = true;
+    this.allEntriesRight = true;
     await this.service.checkProductStock(this.pstockForm.value).subscribe(res => {
       this.readData = res.data;
       if (this.readData == null) {
         if(this.pstockForm.value.sellPrice < this.pstockForm.value.buyPrice)
         {
-          allEntriesRight = false;
+          this.allEntriesRight = false;
           this.showMsg = 'Sell Price Should be Greater than Buying Price';
         }
         else if((parseInt(this.pstockForm.value.discount) < 0) || (parseInt(this.pstockForm.value.discount) > 99))
         {
-          allEntriesRight = false;
+          this.allEntriesRight = false;
           this.showMsg = 'Discount should between 1 and 99';
         }
-        if(allEntriesRight)
+        if(this.allEntriesRight)
         {
           this.addProductStock();
         }
@@ -84,7 +85,6 @@ export class AddStockComponent implements OnInit {
   {
     this.selectedFile=event.target.files[0];
   }
-
 
   async addProductStock() {
     let fname = this.selectedFile.name;

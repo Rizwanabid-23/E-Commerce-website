@@ -15,7 +15,10 @@ export class MessageModalComponent implements OnInit {
   showMessageModal:any;
   showMessage:any;
   navigateOnNextPage:any;
+  showMsgModal = false;
   ngOnInit(): void {
+
+    this.showMsgModal = false;
     this.showMessageModal = new window.bootstrap.Modal(
       document.getElementById("showMessageModal")
     );
@@ -28,6 +31,7 @@ export class MessageModalComponent implements OnInit {
     this.showMessageModal.show();
     this.ordered();
   }
+
 
   ordered()
   {
@@ -42,6 +46,11 @@ export class MessageModalComponent implements OnInit {
     if(this.navigateOnNextPage == "SellerDashboard") 
     {
       this.ap.goSellerDashboardPage();
+    }
+    if(this.navigateOnNextPage == "AdminDashboard") 
+    {
+      console.log("sssaaaaa");
+      this.ap.goAdminDashboardPage();
     }
 
   }

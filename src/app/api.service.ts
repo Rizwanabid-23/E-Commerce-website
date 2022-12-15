@@ -43,6 +43,15 @@ export class APIService {
     return this._http.post('http://localhost:3000/editBuyerUserData', userData);
   }
 
+  editBuyerUserAddressDetails(userData: any): Observable<any> {
+    // console.log(userData);
+    return this._http.post('http://localhost:3000/editBuyerUserAddressData', userData);
+  }
+
+  deleteBuyerUserAddressDetails(userData: any): Observable<any> {
+    return this._http.delete('http://localhost:3000/deleteBuyerUserAddressData', {body:{userData},headers:{"Content-Type": "application/json"}});
+  }
+
   // This will get single buyer user data from table
 
   getSingleBuyerUserData(userData: any): Observable<any> {
