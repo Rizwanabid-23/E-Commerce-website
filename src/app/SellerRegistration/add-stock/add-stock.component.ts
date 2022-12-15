@@ -61,7 +61,7 @@ export class AddStockComponent implements OnInit {
           allEntriesRight = false;
           this.showMsg = 'Sell Price Should be Greater than Buying Price';
         }
-        else if((parseInt(this.pstockForm.value.discount) < 1) || (parseInt(this.pstockForm.value.discount) > 99))
+        else if((parseInt(this.pstockForm.value.discount) < 0) || (parseInt(this.pstockForm.value.discount) > 99))
         {
           allEntriesRight = false;
           this.showMsg = 'Discount should between 1 and 99';

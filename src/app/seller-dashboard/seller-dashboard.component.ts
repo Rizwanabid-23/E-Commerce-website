@@ -23,7 +23,7 @@ export class SellerDashboardComponent implements OnInit {
   annualProfit:any
   monthlyProfit:any
   addStockModal:any;
-
+  buyerData:any
 
   ngOnInit(): void {
     this.sellerName = this.ap.loginSellerName;
@@ -34,6 +34,7 @@ export class SellerDashboardComponent implements OnInit {
     this.getAnnualExpense();
     this.getAnnualProfit();
     this.getMonthlyProfit();
+    this.getBuyerData();
     this.addStockModal = new window.bootstrap.Modal(
       document.getElementById("addStockModal")
     );
@@ -86,6 +87,20 @@ deleteProduct(pid:any,sid:any)
   getAnnualProfit()
   {
     this.service.annualProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+      if(res.data == null)
+      {
+        this.annualProfit = null;
+      }
+      else
+      {
+        this.annualProfit = res.data;
+      }
+    })
+  }
+
+  getBuyerData()
+  {
+    this.service.getBuyerData(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       if(res.data == null)
       {
         this.annualProfit = null;

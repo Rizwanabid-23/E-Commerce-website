@@ -492,6 +492,23 @@ app.get('/getAnnualExpense/:Id',(req,res)=>{
     })
 })
 
+app.get('/getBuyerData/:Id',(req,res)=>{
+    let getQuery=``;
+    con.query(getQuery,(err,result)=>{
+        if(err)
+        {
+            res.send({
+                data:null
+            })
+        }
+        else{
+            res.send({
+                message:'Data',data:result
+            });
+        }
+    })
+})
+
 app.get('/getAnnualProfit/:sellID',(req,res)=>{
     // console.log(req.params.sellID)
     let getQuery=`select SUM(B.d) as annualProfit from (SELECT A.productID,(A.quantity*P.SellPrice)-((P.SellPrice*P.Discount)/100)*A.quantity as d from (SELECT OD.Quantity as quantity,OD.Product_Id productID from ecommercedb.order O join orderdetail OD on O.Id=OD.Order_Id where year(O.ShippedDate)=year(CURRENT_DATE) ) as A join product P on A.productID=P.Id where P.Seller_Id='${req.params.sellID}') as B`

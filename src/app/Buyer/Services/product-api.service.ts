@@ -45,13 +45,17 @@ export class ProductApiService {
 
   annualExpense(sid:any):Observable<any>
   {
-    console.log("idddd  ", sid);
+    // console.log("idddd  ", sid);
     return this._http.get("http://localhost:3000/getAnnualExpense/"+sid)
   }
 
+  getBuyerData(sid:any):Observable<any>
+  {
+    return this._http.get("http://localhost:3000/getBuyerData/"+sid)
+  }
   annualProfit(sid:any):Observable<any>
   {
-    console.log("sid:",sid);
+    // console.log("sid:",sid);
     return this._http.get("http://localhost:3000/getAnnualProfit/"+sid)
   }
 

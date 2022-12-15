@@ -62,7 +62,7 @@
                 }
             </style>
             <!-- Header -->
-            
+
             <header class="main-header" id="header">
                 <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
                     <!-- Sidebar toggle button -->
@@ -185,11 +185,11 @@
                         </div>
                     </div>
                     <style>
-                        div.ex3 {
+                        .ex3 {
                             /* background-color: lightblue; */
-                            width: 100%;
+                            width: 50%;
                             height: 50%;
-                            padding-bottom: 100px;
+                            padding-bottom: 10px;
                             overflow: auto;
                         }
                     </style>
@@ -219,10 +219,10 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <ng-container *ngIf="this.prdData">
-                                            <div class="container ex3">
+                                    <div style="height: 350px; overflow: auto">
+                                        <ng-container *ngIf="this.prdData">
                                             <table id="productsTable" class="table table-hover table-product"
-                                                style="width:100%">
+                                                style="width:100%;height: 100%;">
                                                 <thead>
                                                     <tr>
                                                         <th></th>
@@ -271,8 +271,8 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                        </div>
-                                    </ng-container>
+                                        </ng-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -288,39 +288,26 @@
                                     <h2>Top Customers</h2>
                                 </div>
                                 <div class="card-body">
-                                    <ng-container *ngIf="this.saleData">
+                                    <!-- <ng-container *ngIf="this.saleData"> -->
                                         <table class="table table-borderless table-thead-border">
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
-                                                    <th class="text-right">Income</th>
+                                                    <th>ID</th>
+                                                    <th>Products Bought</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="text-dark font-weight-bold">Gunter Reich</td>
-                                                    <td class="text-right">$2,560</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-dark font-weight-bold">Anke Kirsch</td>
-                                                    <td class="text-right">$1,720</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-dark font-weight-bold">Karolina Beer</td>
-                                                    <td class="text-right">$1,230</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-dark font-weight-bold">Lucia Christ</td>
-                                                    <td class="text-right">$875</td>
-                                                </tr>
+                                            <tbody *ngFor="let buyer of buyerData">
+                                                <td></td>
+
                                             </tbody>
-                                            <tfoot class="border-top">
+                                            <!-- <tfoot class="border-top">
                                                 <tr>
                                                     <td><a href="#" class="text-uppercase">See All</a></td>
                                                 </tr>
-                                            </tfoot>
+                                            </tfoot> -->
                                         </table>
-                                    </ng-container>
+                                    <!-- </ng-container> -->
                                 </div>
                             </div>
 
