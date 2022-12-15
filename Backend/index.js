@@ -333,23 +333,23 @@ app.post("/insertSellerUser", (req, res) => {
 
   let postQuery =
     "INSERT INTO seller_user (FirstName, LastName, Email, PhoneNo, CnicNo, City, Address, Password, JoiningDate) VALUES ('" +
-    fName +
+    fName+
     "', '" +
-    lName +
+    lName+
     "', '" +
-    email +
+    email+
     "', '" +
-    phoneNo +
+    phoneNo+
     "', '" +
-    cnicNo +
+    cnicNo+
     "', '" +
-    city +
+    city+
     "', '" +
-    address +
+    address+
     "', '" +
-    password +
+    password+
     "', '" +
-    currentDate +
+    currentDate+
     "')";
   con.query(postQuery, (err, result) => {
     res.send({
@@ -467,8 +467,8 @@ app.get("/getSaleData/:Id", (req, res) => {
 
 app.get("/getAnnualExpense/:Id", (req, res) => {
   let getQuery =
-    "SELECT SUM(product.BuyPrice*product.AllTimeQuantity) As ExenseOfYear FROM `product` WHERE product.Seller_Id = '" +
-    req.params.Id +
+    "SELECT SUM(product.BuyPrice*product.AllTimeQuantity) As ExenseOfYear FROM `product` WHERE product.Seller_Id = '"+
+    req.params.Id+
     "'  And Year(product.AddStockDate) = Year(CURRENT_TIME)";
   con.query(getQuery, (err, result) => {
     if (err) {
@@ -643,14 +643,6 @@ app.post("/saveBuyerAddress/:buyerId", (req, res) => {
   let buyer_Address_City = req.body.city;
   let buyer_Address_Building = req.body.buiHouFloStr;
   let buyer_Id = req.params.buyerId;
-  // console.log(buyer_Address_Building);
-  // console.log(buyer_Address_City);
-  // console.log(buyer_Address_Colony);
-  // console.log(buyer_Address_Name);
-  // console.log(buyer_Address_NickName);
-  // console.log(buyer_Address_Phone);
-  // console.log(buyer_Address_Province);
-  // console.log(buyer_Id);
 
   let postQuery = `INSERT INTO buyer_address (FullName, PhoneNo, Buildin_House_Street_Floor, Colony_Submark_Locality_Landmark,Province,City,Buyer_User_Id,NickName) VALUES ('${buyer_Address_Name}','${buyer_Address_Phone}','${buyer_Address_Building}','${buyer_Address_Colony}','${buyer_Address_Province}','${buyer_Address_City}',${buyer_Id},'${buyer_Address_NickName}')`;
   // console.log('query excuted')
@@ -744,29 +736,29 @@ app.post("/addProduct", fileUpload.single("image"), (req, res) => {
   let all_Time_Quantity = 0;
   let postQuery =
     "INSERT INTO `product` (`Name`, `Description`, `BuyPrice`, `SellPrice`, `Discount`, `Quantity`, `AddStockDate`, `Picture`, `Seller_Id`, `Category_Id`, `Brand_Id`, `AllTimeQuantity`) VALUES ('" +
-    p_Name +
+    p_Name+
     "', '" +
-    p_Description +
+    p_Description+
     "', '" +
-    p_BuyPrice +
+    p_BuyPrice+
     "', '" +
-    p_SellPrice +
+    p_SellPrice+
     "', '" +
-    p_Discount +
+    p_Discount+
     "', '" +
-    p_Quantity +
+    p_Quantity+
     "', '" +
-    currentDate +
+    currentDate+
     "', '" +
-    picture_Path +
+    picture_Path+
     "', '" +
-    seller_Id +
+    seller_Id+
     "', '" +
-    category_Id +
+    category_Id+
     "', '" +
-    brand_Id +
-    "', '" +
-    all_Time_Quantity +
+    brand_Id+
+    "', '"+
+    all_Time_Quantity+
     "')";
   con.query(postQuery, (err, result) => {
     if (err) {
@@ -788,14 +780,14 @@ app.post("/saveProductStock/:sid", (req, res) => {
   let qty = parseInt(req.body.prdQuantity);
   let prdId = parseInt(req.body.prdId);
   let getQuery =
-    "UPDATE `product` SET `Quantity` = Quantity+'" +
-    qty +
-    "', `AllTimeQuantity` = AllTimeQuantity+'" +
-    qty +
-    "' WHERE `product`.`Id` = '" +
-    prdId +
-    "'  And product.Seller_Id= '" +
-    seller_Id +
+    "UPDATE `product` SET `Quantity` = Quantity+'"+
+    qty+
+    "', `AllTimeQuantity` = AllTimeQuantity+'"+
+    qty+
+    "' WHERE `product`.`Id` = '"+
+    prdId+
+    "'  And product.Seller_Id= '"+
+    seller_Id+
     "'";
   con.query(getQuery, (err, result) => {
     console.log(result);
@@ -1019,15 +1011,15 @@ app.post("/saveOrder/:buyerId", (req, res) => {
 
   let postQuery =
     "INSERT INTO `order` (`Date`, `ShippedDate`, `RequiredDate`, `Buyer_Id`, `BuyerAddress_Id`) VALUES ('" +
-    currentDate +
+    currentDate+
     "', '" +
-    currentDate +
+    currentDate+
     "', '" +
-    requiredDate +
+    requiredDate+
     "', '" +
-    buyer_Id +
+    buyer_Id+
     "', '" +
-    buyer_Address_Id +
+    buyer_Address_Id+
     "')";
   con.query(postQuery, (err, result) => {
     if (err) {
@@ -1058,14 +1050,7 @@ app.post("/saveOrderDetail", (req, res) => {
     prdId = items["selectedPrdId"];
     quantity = items["selectedPrdQuantity"];
 
-    postQuery =
-      "INSERT INTO `orderdetail` (`Quantity`, `Order_Id`, `Product_Id`) VALUES ('" +
-      quantity +
-      "', '" +
-      orderId +
-      "', '" +
-      prdId +
-      "')";
+    postQuery ="INSERT INTO `orderdetail` (`Quantity`, `Order_Id`, `Product_Id`) VALUES ('"+quantity+"', '" +orderId+"', '" +prdId +"')";
     queryExecuted = false;
     con.query(postQuery, (err, result) => {
       if (err) {
@@ -1088,3 +1073,77 @@ app.post("/saveOrderDetail", (req, res) => {
 /*------------------------------------------ */
 /*------------------------------------------ */
 /*      For  Order code ends From here       */
+
+/*------------------------------------------ */
+/*------------------------------------------ */
+/*      For  Admin code  Start From here     */
+app.post('/saveCategory', (req, res) => {
+
+  let category = req.body.categoryName;
+  let postQuery = "INSERT INTO `lookup` (`Category`, `Name`) VALUES ('ProductCategory', '"+category+"')";
+  con.query(postQuery, (err, result) =>{
+      if (err)
+      {
+          res.send({
+              message:'Data Not Inserted',
+              data:null
+          })
+      }
+      else
+      {
+          res.send({
+              message:'Data Inserted',
+              data:result.insertId
+          })
+      }
+  })
+})
+
+app.post('/saveSubCategory', (req, res) => {
+  console.log("subb ");
+  let subCategory = req.body.subCategoryName;
+  let categoryId = req.body.categoryId;
+  let postQuery = "INSERT INTO `product_category` (`Sub_Category`, `Categor_Id`) VALUES ('"+subCategory+"', '"+categoryId+"')";
+  con.query(postQuery, (err, result) =>{
+      if (err)
+      {
+          res.send({
+              message:'Data Not Inserted',
+              data:null
+          })
+      }
+      else
+      {
+          res.send({
+              message:'Data Inserted',
+              data:result.insertId
+          })
+      }
+  })
+})
+
+app.post('/saveBrand', (req, res) => {
+
+  let brand = req.body.brandName;
+  let postQuery = "INSERT INTO `product_brand` (`Brand`) VALUES ('"+brand+"')";
+  con.query(postQuery, (err, result) =>{
+      if (err)
+      {
+          res.send({
+              message:'Data Not Inserted',
+              data:null
+          })
+      }
+      else
+      {
+          res.send({
+              message:'Data Inserted',
+              data:result.insertId
+          })
+      }
+  })
+})
+
+/*------------------------------------------ */
+/*------------------------------------------ */
+/*      For  Admin code ends From here       */
