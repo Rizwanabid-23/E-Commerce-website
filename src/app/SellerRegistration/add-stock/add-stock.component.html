@@ -57,18 +57,25 @@
       
           <div class="form-row">
             <div class="form-group col-lg-6 col-md-6 col-sm-12">
-
-              <label class="label inputBoxHeadingColor" for="exampleInputDescription">Description</label>
-              <textarea type="description" class="form-control w-100" id="exampleInputDescription" row="2" formControlName="description" maxlength="300"
-                  required></textarea>
+              <label class="label inputBoxHeadingColor">Quantity</label>
+              <input type="number" minlength="1" maxlength="2" formControlName="quantity" class="form-control" required>
             </div>
             <div class="form-group col-lg-6 col-md-6 col-sm-12">
               <label class="label inputBoxHeadingColor">Add Image</label>
               <input type="file" accept="image/*" (change)="onFileChange($event)" formControlName="pimage" class="form-control" id="customFile" required/>
             </div> 
           </div>
+
+          <div class="form-row">
+            <div class="form-group col-lg-16 col-md-6 col-sm-12">
+
+              <label class="label inputBoxHeadingColor" for="exampleInputDescription">Description</label>
+              <textarea type="description" class="form-control w-100" id="exampleInputDescription" row="2" formControlName="description" maxlength="300"
+                  required></textarea>
+            </div>
+          </div>
           
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" [disabled]="!submitProductButtonProperty" class="btn btn-primary">{{submitProductButton}}</button>
         </form>
     </div>
     <!-- <div class="col-lg-1 col-md-1 col-sm-0"></div> -->

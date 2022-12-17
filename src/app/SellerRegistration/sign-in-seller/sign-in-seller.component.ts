@@ -33,7 +33,7 @@ export class SignInSellerComponent implements OnInit {
       this.readData = res.data;
       if (this.readData != null){
         this.ap.loginSellerName = this.readData;
-        localStorage.setItem('sellerLoginName', this.ap.loginSellerName.toString());
+        this.ap.saveRecentLoginSellerName();
         this.ap.appOpen = false;
         this.ap.sellerLogin = true;
         this.ap.buyerLogin = false;
@@ -53,9 +53,7 @@ export class SignInSellerComponent implements OnInit {
       }
       else{
         this.ap.loginSellerId = this.readData;
-        // console.log(this.ap.loginSellerId);
-        localStorage.setItem('sellerLoginId',this.ap.loginSellerId.toString());
-        // localStorage.getItem()
+        this.ap.saveRecentLoginSellerId();
         this.getLoginSellerName();
       }
 

@@ -29,7 +29,7 @@ export class ProductCartComponent implements OnInit {
   buyerDeliverAddresses:any;
   copyProducts =  [];
   alreadyAddressExists:any;
-  localProducts:string;
+  // localProducts:string;
   deliveryAddressModal:any;
   confirmationModal:any;
   recentLoginBuyerId:any;
@@ -43,42 +43,47 @@ export class ProductCartComponent implements OnInit {
     {
       this.getSelectedProductData();
     }
-    
+    this.getBuyerAddress();
     this.deliveryAddressModal = new window.bootstrap.Modal(
       document.getElementById("deliveryModal")
     );
     this.confirmationModal = new window.bootstrap.Modal(
       document.getElementById("confirmationModal")
     );
-    this.getBuyerAddress();
+  
 
   }
 
   pushInArrayOnLoad(){ // This will load items in array from localstorage that are already selected by user
-    this.localProducts = localStorage.getItem("addToCartProducts");
-    if(this.localProducts == null)
+    let localProducts = localStorage.getItem("addToCartProducts");
+    console.log("loading  ",localStorage.getItem("addToCartProducts"));
+    if(localProducts == null)
     {
       this.addToCartProduct = [];
+      console.log("Not exists");
     }
-    else
+    else if((localProducts.length != 0))
     {
-      this.addToCartProduct = JSON.parse(this.localProducts);
+      console.log("exists");
+      this.addToCartProduct = JSON.parse(localProducts);
+      this.addToCartProduct.forEach((items) =>
+      {
+        items['prdQuantity'] = 1;
+        items['isCheckBoxChecked'] = false;
+      });
     }
-    this.addToCartProduct.forEach((items) =>
-    {
-      items['prdQuantity'] = 1;
-      items['isCheckBoxChecked'] = false;
-    });
     this.recentLoginBuyerId = parseInt(sessionStorage.getItem('buyerLoginId')); // Get Login Buyer Id
   }
 
   getSelectedProductData() // This function will get data against selected product 
   {
     let isPrdAlreadyExist = false;
+    
     this.service.getProductData(this.ap.clickedProductPictureId).subscribe((res) =>{
       this.readData = res.data;
       let product = {
         prdId:this.readData[0].Id,
+        prdStockId:this.readData[0].StockId,
         prdName:this.readData[0].Name,
         prdBrandName:this.readData[0].Brand,
         prdTotalPrice:this.readData[0].SellPrice,
@@ -236,6 +241,7 @@ export class ProductCartComponent implements OnInit {
     this.copyProducts = [];
     this.addToCartProduct.forEach((items) =>
     {
+      console.log("Copyy ");
       this.copyProducts.push(items);
     });
   }
@@ -404,10 +410,8 @@ export class ProductCartComponent implements OnInit {
   }
   saveBuyerAddress()
   {
-    // console.log(this.buyerAddressForm.value);
-    this.service.insertBuyerAddress(sessionStorage.getItem('buyerLoginId'),this.buyerAddressForm.value).subscribe((res) => {
+    this.service.insertBuyerAddress(this.recentLoginBuyerId,this.buyerAddressForm.value).subscribe((res) => {
       this.readData = res.data;
-      // console.log(this.readData);
       this.deliveryAddressModal.hide();
       this.buyerAddressForm.reset();
       this.getBuyerAddress();
@@ -433,10 +437,7 @@ export class ProductCartComponent implements OnInit {
   {
     this.confirmationModal.show();
   }
-  // closeConfirmationModal()
-  // {
-  
-  // }
+
   ordered(time)
   {
     setTimeout (() => {
@@ -451,17 +452,18 @@ export class ProductCartComponent implements OnInit {
 
   buyerOrderForm = new FormGroup({
     'addressId':new FormControl('',Validators.required),
-    // 'pricePerProduct':new FormControl('',Validators.required),
-    // 'deliveryFees':new FormControl('',Validators.required),
-    // 'priceOfBill':new FormControl('',Validators.required),
   })
 
 //  This will save buyer order
   saveBuyerOrder()
   {
-    this.service.insertOrder(this.recentLoginBuyerId,this.buyerOrderForm.value).subscribe((res) => {
+    let orderData = 
+    {
+      'buyerId':this.recentLoginBuyerId,
+      'addressId':this.buyerOrderForm.value.addressId,
+    }
+    this.service.insertOrder(orderData).subscribe((res) => {
       this.readData = res.data;
-      // console.log(this.readData)
       this.saveBuyerOrderDetail(this.readData);
     });
   }
@@ -478,24 +480,22 @@ export class ProductCartComponent implements OnInit {
 
       if(element.checked)
       {
+        console.log("Stockckck ",items['prdStockId'])
         let orderedProduct = {
-          orderId:parseInt(orderId),
-          selectedPrdId:parseInt(items['prdId']),
-          selectedPrdQuantity:parseInt(qty),
+          'orderId':parseInt(orderId),
+          'selectedPrdId':parseInt(items['prdId']),
+          'selectedPrdQuantity':parseInt(qty),
+          'selectedPrdStockId':items['prdStockId'],
         }
 
         selectedProducts.push(orderedProduct);
       }
     });
-    
     this.service.insertOrderDetails(selectedProducts).subscribe((res) => {
       response = res.data;
       if(response != null)
       {
-        this.showMessage = "Order Deliver Started";
-        this.openConfirmationModal();
-        this.removeOrderedProduct();
-        this.ordered(1000);
+        this.removeOrderedProduct()
       }
       else
       {
@@ -507,9 +507,12 @@ export class ProductCartComponent implements OnInit {
     });
   }
 
+
+
   removeOrderedProduct() // This wil remove product from add to cart page which is ordered by buyer
   {
     this.copyInCopyProducts();
+    // console.log("before  ",this.addToCartProduct.length , this.addToCartProduct);
     this.copyProducts.forEach((items) =>
     {
       if(items['isCheckBoxChecked'])
@@ -519,6 +522,10 @@ export class ProductCartComponent implements OnInit {
       }
     });
     localStorage.setItem("addToCartProducts", JSON.stringify(this.addToCartProduct));
+    this.showMessage = "Order Deliver started";
+    this.openConfirmationModal();
+    this.ordered(1000);
+    // this.ap.goMessageModalPage();
   }
 
 }

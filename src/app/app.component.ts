@@ -16,9 +16,9 @@ export class AppComponent {
   // // globalVariables
   public appOpen = true; // This will true when app will open
   public buyerLogin = false; // This will true when buyer will login
-  public buyerLoginThroughAddToCart = false;
   public sellerLogin = false; // This will true when seller will login
   public adminLogin=false;
+  public buyerLoginThroughAddToCart = false;
   public loginBuyerId = -10; // This will store login buyer Id
   public loginSellerId = -10; // This will store login seller Id
   public loginSellerName = "Any"; 
@@ -152,8 +152,6 @@ export class AppComponent {
   public saveRecentLoginBuyerId()
   {
     sessionStorage.setItem('buyerLoginId',this.loginBuyerId.toString());
-    console.log("dsasdas");
-    this.goNavbar();
   }
   public getRecentLoginBuyerId()
   {
@@ -170,19 +168,20 @@ export class AppComponent {
   {
     localStorage.setItem('sellerLoginId',this.loginSellerId.toString());
   }  
-  // This will get recentLoginBuyerId 
+    // This will save recentLoginSellerid
+  public saveRecentLoginSellerName()
+  {
+    localStorage.setItem('sellerLoginName', this.loginSellerName.toString());
+  }
 
-
-
-    // this.localProducts = localStorage.getItem("addToCartProducts");
-
-    // this.clickedProduct = parseInt(sessionStorage.getItem('clickedPrdInPrdndSellerDescrip'));
- 
-    // // This will save 
-    // public save()
-    // {
-  
-    // }
+  public saveClickPrdPictureIdForAddToCart()
+  {
+    sessionStorage.setItem('clickedPrdInPrdndSellerDescrip',this.clickedProductPictureId.toString());
+  }
+  public saveClickPrdPictureIdForProductCart()
+  {
+    sessionStorage.setItem('clickedPrdInPrdCart',this.clickedProductPictureId.toString());
+  }
 
   // ----------------------------------------//
   // ----------------------------------------//

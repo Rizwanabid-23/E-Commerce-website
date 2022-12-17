@@ -49,10 +49,12 @@ export class MessageModalComponent implements OnInit {
     }
     if(this.navigateOnNextPage == "AdminDashboard") 
     {
-      console.log("sssaaaaa");
       this.ap.goAdminDashboardPage();
     }
-
+    if(this.navigateOnNextPage == "Home") 
+    {
+      this.ap.goHomePage();
+    }
   }
 
 

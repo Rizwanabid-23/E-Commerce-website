@@ -40,8 +40,6 @@ export class SignInComponent implements OnInit {
       else
       {
         this.ap.loginBuyerId = this.readData;
-        // console.log(this.ap.loginBuyerId);
-        sessionStorage.setItem('loginBuyerId',this.ap.loginBuyerId.toString());
         this.ap.saveRecentLoginBuyerId();
   
         this.ap.appOpen = false;

@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.ap.buyerLogin = false;
+    this.ap.appOpen = false;
     this.getRegisteredSellers();
     this.getRegisteredBuyers();
     this.getMonthlyRevenue();

@@ -96,23 +96,27 @@ export class APIService {
 
   // This will check that sign in user is valid or not
   checkValidSignInUser(userData: any): Observable<any> {
-    return this._http.post(
-      'http://localhost:3000/buyerUserSignInValid', userData);
+    return this._http.post('http://localhost:3000/buyerUserSignInValid', userData);
   }
 
   // This will check that sign up user detail is valid or not
-  checkValidSignUpUser(userData: any): Observable<any> {
+  checkValidSignUpUser(userData: any): Observable<any>
+  {
     return this._http.post('http://localhost:3000/buyerUserSignUpValid', userData);
   }
 
   // This will insert data in table
-  checkProductStock(userData: any): Observable<any> {
+  checkProductStock(userData: any): Observable<any>
+  {
     return this._http.post('http://localhost:3000/addProductValid', userData);
   }
-  insertProductStock(userData:any): Observable<any> {
+  insertProduct(userData:any): Observable<any>
+  {
     return this._http.post('http://localhost:3000/addProduct', userData);
   }
-
+  insertProductStock(userData:any, prdId): Observable<any> {
+    return this._http.post('http://localhost:3000/addProductStock/'+prdId, userData);
+  }
   // Send Verification code to email
   sendVerificationCode(userData: any, code:any): Observable<any> {
     return this._http.post('http://localhost:3000/sendVerificationCode/"'+code+'"', userData);

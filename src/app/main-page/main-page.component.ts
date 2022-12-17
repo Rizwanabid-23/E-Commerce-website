@@ -75,6 +75,7 @@ export class MainPageComponent implements OnInit {
   getProductData(){
     this.service.getAllProductData().subscribe((res) =>{
       this.prdData = res.data;
+      console.log(" ghsjdsah ", this.prdData);
     })
   }
   getCategoryProducts(subCatId)
@@ -90,7 +91,8 @@ export class MainPageComponent implements OnInit {
   setSelctedProductGlobalAndOpenNextPage(selected_prd_id)
   {
     this.ap.clickedProductPictureId = selected_prd_id;
-    sessionStorage.setItem('clickedPrdInPrdndSellerDescrip',this.ap.clickedProductPictureId.toString());
+    this.ap.saveClickPrdPictureIdForAddToCart();
+    // sessionStorage.setItem('clickedPrdInPrdndSellerDescrip',this.ap.clickedProductPictureId.toString());
     this.ap.goProductAndSellerDetailPage();
   }
 

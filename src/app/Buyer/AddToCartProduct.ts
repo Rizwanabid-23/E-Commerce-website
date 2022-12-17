@@ -1,6 +1,7 @@
 export class AddToCartProduct
 {
     prdId:any;
+    prdStockId:any;
     prdName:any
     prdBrandName:any;
     prdTotalPrice:any;

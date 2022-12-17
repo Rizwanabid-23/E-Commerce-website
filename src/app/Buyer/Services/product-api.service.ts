@@ -12,7 +12,7 @@ export class ProductApiService {
   }
   getProductData(prdId):Observable<any>
   {
-    return this._http.get('http://localhost:3000/getProduct/"'+prdId+'"');
+    return this._http.get('http://localhost:3000/getSelectedProduct/'+prdId);
   }
   getAllProductData():Observable<any>
   {
@@ -89,9 +89,9 @@ export class ProductApiService {
     return this._http.get('http://localhost:3000/getSubCategories');
   }
 
-  insertOrder(recentLoginBuyer,formData):Observable<any>
+  insertOrder(data:any):Observable<any>
   {
-    return this._http.post('http://localhost:3000/saveOrder/'+recentLoginBuyer, formData);
+    return this._http.post('http://localhost:3000/saveOrder/', data);
   }
 
   insertOrderDetails(orderDetail):Observable<any>
@@ -99,9 +99,12 @@ export class ProductApiService {
     return this._http.post('http://localhost:3000/saveOrderDetail/', orderDetail);
   }
   // This will add product stock
-  saveProductStock(formData, sId):Observable<any>
+  insertProductStock(userData:any, prdId): Observable<any> {
+    return this._http.post('http://localhost:3000/addProductStock/'+prdId, userData);
+  }
+  updateRecentAddedStock(userData:any):Observable<any>
   {
-    return this._http.post("http://localhost:3000/saveProductStock/"+sId, formData);
+    return this._http.post('http://localhost:3000/updateRecentaddStock', userData);
   }
   deleteSelectedProduct(data):Observable<any>
   {

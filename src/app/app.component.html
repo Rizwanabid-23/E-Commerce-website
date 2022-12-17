@@ -1,4 +1,4 @@
 
-<!-- <app-navbar *ngIf="!this.sellerLogin "  ></app-navbar> -->
+<app-navbar *ngIf="this.buyerLogin || this.appOpen"  ></app-navbar>
 <app-message-modal *ngIf="this.openMessageModal"></app-message-modal>
 <router-outlet></router-outlet>

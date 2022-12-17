@@ -27,18 +27,19 @@ export class SellerDashboardComponent implements OnInit {
   confirmationMessageModal:any;
   showMessage:any;
   selectedProductForDelete:any;
-
+  showMsg:any;
+  allEntriesRight:any;
 
   ngOnInit(): void {
     this.sellerName = this.ap.loginSellerName;
     this.getProductData();
     this.pushLocalDataInVariablesOnLoad();
-    this.getSaleData();
+    // this.getSaleData();
     this.getAnnualSale();
     this.getAnnualExpense();
-    this.getAnnualProfit();
-    this.getMonthlyProfit();
-    this.getBuyerData();
+    // this.getAnnualProfit();
+    // this.getMonthlyProfit();
+    // this.getBuyerData();
     this.addStockModal = new window.bootstrap.Modal(
       document.getElementById("addStockModal")
     );
@@ -64,7 +65,7 @@ export class SellerDashboardComponent implements OnInit {
     this.service.getSellerProductData(localStorage.getItem('sellerLoginId')).subscribe((res) =>{
       if(res.data == null)
       {
-        this.prdData = null;
+        this.prdData = 0;
       }
       else
       {
@@ -75,28 +76,46 @@ export class SellerDashboardComponent implements OnInit {
 
   getAnnualExpense()
   {
+    let expenseOfYear = null;
     this.service.annualExpense(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
-      if(res.data == null)
+      expenseOfYear = res.data;
+      if(expenseOfYear[0].ExenseOfYear == null)
       {
-        this.annualExpense = null;
+        this.annualExpense = 0;
       }
       else
       {
-        this.annualExpense = res.data;
+        this.annualExpense = expenseOfYear[0].ExenseOfYear;
       }
     })
   }
 
-  getAnnualProfit()
+  getAnnualSale()
   {
-    this.service.annualProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
-      if(res.data == null)
+    let salOfYear = null;
+    this.service.annualSale(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+      salOfYear = res.data;
+      if(salOfYear[0].SaleOfYear == null)
       {
-        this.annualProfit = null;
+        this.annualSale = 0;
       }
       else
       {
-        this.annualProfit = res.data;
+        this.annualSale = salOfYear[0].SaleOfYear;
+      }
+    })
+  }
+  getAnnualProfit()
+  {
+    this.service.annualProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+      this.annualProfit = res.data;
+      if(this.annualProfit[0].annualProfit == null)
+      {
+        this.annualProfit = 0;
+      }
+      else
+      {
+        this.annualProfit = this.annualProfit[0].annualProfit;
       }
     })
   }
@@ -106,7 +125,7 @@ export class SellerDashboardComponent implements OnInit {
     this.service.getBuyerData(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       if(res.data == null)
       {
-        this.annualProfit = null;
+        this.annualProfit = 0;
       }
       else
       {
@@ -118,32 +137,20 @@ export class SellerDashboardComponent implements OnInit {
   getMonthlyProfit()
   {
     this.service.monthlyProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
-      if(res.data == null)
+      this.monthlyProfit = res.data;
+      if(this.monthlyProfit[0].monthlyProfit == null)
       {
-        this.monthlyProfit = null;
+        this.monthlyProfit = 0;
       }
       else
       {
-        this.monthlyProfit = res.data;
+        this.monthlyProfit = this.monthlyProfit[0].monthlyProfit;
       }
     })
   }
 
-  getAnnualSale()
-  {
 
-    console.log('annual');
-    this.service.annualSale(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
-      if(res.data == null)
-      {
-        this.annualSale = null;
-      }
-      else
-      {
-        this.annualSale = res.data;
-      }
-    })
-  }
+
   getSaleData()
   {
     this.service.getAllSaleData(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
@@ -166,15 +173,61 @@ export class SellerDashboardComponent implements OnInit {
     this.ap.goAddStockPagePage();
   }
 
+  // For add Stock code Start from here 
+  ////////////////////////////////////
+  ////////////////////////////////////
   addStockForm = new FormGroup({
     'prdId': new FormControl('', Validators.required),
-    'prdQuantity': new FormControl('', Validators.required)
+    'prdQuantity': new FormControl('', Validators.required),
+    'prdBuyPrice': new FormControl('', Validators.required),
+    'prdSellPrice': new FormControl('', Validators.required),
+    'prdDiscount': new FormControl('', Validators.required)
   })
 
   async saveProductStock()
   {
+    this.allEntriesRight = true;
+    if(this.addStockForm.value.prdSellPrice < this.addStockForm.value.prdBuyPrice)
+    {
+      this.allEntriesRight = false;
+      this.showMsg = 'Sell Price Should be Greater than Buying Price';
+    }
+    else if((parseInt(this.addStockForm.value.prdDiscount) < 0) || (parseInt(this.addStockForm.value.prdDiscount) > 99))
+    {
+      this.allEntriesRight = false;
+      this.showMsg = 'Discount should between 1 and 99';
+    }
+    else if((parseInt(this.addStockForm.value.prdQuantity) <= 0) || (parseInt(this.addStockForm.value.prdQuantity) > 99))
+    {
+      this.allEntriesRight = false;
+      this.showMsg = 'Quantity should between 1 and 99';
+    }
+    if(this.allEntriesRight)
+    {
+      let data = {
+        "prdBuyPrice":this.addStockForm.value.prdBuyPrice,
+        "prdSellPrice":this.addStockForm.value.prdSellPrice,
+        "prdDiscountPercentage":this.addStockForm.value.prdDiscount,
+        "quantity":this.addStockForm.value.prdQuantity
+      }
+      let response = null;
+      await this.service.insertProductStock(data ,this.addStockForm.value.prdId).subscribe(res => {
+        response = res.data;
+        if(response != null)
+        {
+          this.updateRecent(response, this.addStockForm.value.prdId)
+        }
+      });
+    }
+  }
+
+  async updateRecent(insertStockId, insertedPrdId) {
     let response = null;
-    await this.service.saveProductStock(this.addStockForm.value ,localStorage.getItem('sellerLoginId')).subscribe(res => {
+    let data = {
+      "pId":insertedPrdId,
+      "pStockId": insertStockId
+    }
+    await this.service.updateRecentAddedStock(data).subscribe(res => {
       response = res.data;
       if(response != null)
       {
@@ -186,6 +239,9 @@ export class SellerDashboardComponent implements OnInit {
       }
     });
   }
+  // For add Stock codeEnds Start from here 
+  ////////////////////////////////////
+  ////////////////////////////////////
 
 
   // cliclOnCancelButtonInModal()
@@ -223,24 +279,22 @@ export class SellerDashboardComponent implements OnInit {
   //   this.confirmationMessageModal.hide();
   // }
 
-  deleteProduct(prdId, qty, prdName)
+  deleteProduct(prdId)
   {
-        console.log("clickOnOkButton");
-        let response = null;
-        let formData = new FormData()
-        formData.append('prdId', this.selectedProductForDelete);
-        formData.append('sellerId', localStorage.getItem('sellerLoginId'));
-        this.service.deleteSelectedProduct(formData).subscribe(res => {
-          response = res.data;
-          if(response != null)
-          {
-            this.ap.showTextInMessageModal = "Successfully Deleted";
-            this.ap.navigateOnNextPage = "SellerDashboard";
-            this.ap.goMessageModalPage();
-            this.addStockForm.reset();
-          }
-        });
-    console.log("selected ",prdId , localStorage.getItem('sellerLoginId'));
+    let response = null;
+    let data =
+    {
+      'prdId': prdId,
+    }
+    this.service.deleteSelectedProduct(data).subscribe(res => {
+      response = res.data;
+      if(response != null)
+      {
+        this.ap.showTextInMessageModal = "Successfully Deleted";
+        this.ap.navigateOnNextPage = "SellerDashboard";
+        this.ap.goMessageModalPage();
+      }
+    });
   }
 
   updateProduct(prdId)

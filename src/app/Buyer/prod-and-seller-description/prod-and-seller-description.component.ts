@@ -53,7 +53,6 @@ export class ProdAndSellerDescriptionComponent implements OnInit {
       this.sellerCity = this.readData[0].SellerCity;
       this.discountedPrice = this.calculatediscountedPrice(this.totalPrice, this.discount);
       this.prdImage = this.readData[0].Picture;
-
     })
   }
 
@@ -63,6 +62,8 @@ export class ProdAndSellerDescriptionComponent implements OnInit {
   addToCart()
   {
     this.ap.productCartPageOpenThroughAddToCartBtn = true;
+    this.ap.clickedProductPictureId = this.clickedProduct;
+    this.ap.saveClickPrdPictureIdForProductCart();
     this.ap.goProductCartPage();
   }
 
