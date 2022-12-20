@@ -170,7 +170,6 @@ app.post("/sendVerificationCode/:code", (req, res) => {
   try {
     let user = req.body;
     let verificationCode = req.params.code;
-    verificationCode = verificationCode.replaceAll('"', "");
     console.log("mamamam ", user);
     console.log("vfvfvvfvfvf ", verificationCode);
 

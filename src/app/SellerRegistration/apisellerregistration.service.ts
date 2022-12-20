@@ -32,7 +32,7 @@ export class ApisellerregistrationService {
   }
   // Send Verification code to email
   sendVerificationCode(userData: any, code:any): Observable<any> {
-    return this._http.post('http://localhost:3000/sendVerificationCode/"'+code+'"', userData);
+    return this._http.post('http://localhost:3000/sendVerificationCode/'+code, userData);
   }
 
 

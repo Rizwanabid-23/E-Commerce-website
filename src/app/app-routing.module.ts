@@ -20,18 +20,13 @@ import { TrackOrderComponent } from './track-order/track-order.component';
 import { MessageModalComponent } from './Shared/message-modal/message-modal.component';
 import { NavbarComponent } from './App/navbar/navbar.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
-
+import { AuthGuard } from './Shared/auth.guard';
 const routes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'SignIn', component: SignInComponent },
   { path: 'SignUp', component: SignUpComponent },
-  { path: 'SignInSeller', component: SignInSellerComponent },
-  { path: 'SignUpSeller', component: SignUpSellerComponent },
-  { path: 'SellerDashboard', component: SellerDashboardComponent },
-  { path: 'addStock', component: AddStockComponent },
   { path: 'productAndSellerDetails', component: ProdAndSellerDescriptionComponent, },
-  { path: 'productCart', component: ProductCartComponent },
-  { path: 'uploadFile', component: UploadFileService },
+  { path: 'productCart', canActivate:[AuthGuard], component: ProductCartComponent },
   { path: 'customerSupport', component: CustomerSupportComponent },
   { path: 'resetPassword', component: ResetPasswordComponent },
   { path: 'cancelOrder', component: CancelOrderComponent },
@@ -39,9 +34,14 @@ const routes: Routes = [
   { path: 'addressBook', component: AddressBookComponent },
   { path: 'myReturns', component: MyReturnsComponent },
   { path: 'trackOrder', component: TrackOrderComponent },
+  { path: 'SignInSeller', component: SignInSellerComponent },
+  { path: 'SignUpSeller', component: SignUpSellerComponent },
+  { path: 'SellerDashboard', component: SellerDashboardComponent },
+  { path: 'addStock', component: AddStockComponent },
+  {path: 'adminDashboard',component:DashboardComponent},
+  { path: 'uploadFile', component: UploadFileService },
   { path: 'ShowMessageModal', component: MessageModalComponent },
-  { path: 'navbar', component: NavbarComponent },
-  {path: 'adminDashboard',component:DashboardComponent}
+  { path: 'navbar', component: NavbarComponent }
 ];
 
 @NgModule({
