@@ -12,7 +12,19 @@ import { GlobalData } from '../App/navbar/GlobalData';
 })
 export class ResetPasswordComponent implements OnInit {
   readData: any;
-  showMsg: string;
+  showMsg: any;
+  verificationCodeButtonText: string;
+  getCodeButtonProperty: boolean;
+  verificationCodeGenerated: number;
+  accountCreated:Boolean = false;
+  verificationCodeSended = false;
+  // getCodeButtonProperty:Boolean = false;
+  uLogin:Boolean;
+  verificationCodeVaildTime:any;
+  // signUpButtonText = "Sign Up";
+  // verificationCodeButtonText = "Get Code";
+  verificationTime = 0;
+  intervalId:any;
 
   constructor(private service: APIService, private router:Router, private ap:AppComponent) { }
 
@@ -23,7 +35,7 @@ export class ResetPasswordComponent implements OnInit {
     // 'email': new FormControl('', Validators.required),
     'email': new FormControl('', Validators.required),
     'password': new FormControl('', Validators.required),
-    // 'fullname': new FormControl('', Validators.required)
+    'verificationCode': new FormControl('', Validators.required)
 
   })
 
@@ -52,5 +64,39 @@ export class ResetPasswordComponent implements OnInit {
         this.router.navigate(['/']);
         this.resetPasswordForm.reset();
     });
+  }
+
+  sendVerificationCode(){
+    let response = null;
+    this.verificationCodeButtonText = "Get Code ...";
+    this.getCodeButtonProperty = true;
+    this.verificationCodeGenerated = Math.floor(100000 + Math.random() * 900000);
+    this.service.sendVerificationCode(this.resetPasswordForm.value, this.verificationCodeGenerated).subscribe((res) => {
+      response = res.data;
+      if(response != null)
+      {
+        console.log(this.verificationCodeGenerated);
+        this.verificationCodeButtonText = "Resend It";
+        // this.setVerificationValidTime();
+        // this.verificationCodeGenerated = true;
+        // this.signUpButton = true;
+      }
+      else
+      {
+        this.showMsg = 'Enter Email in right format';
+        this.getCodeButtonProperty = false;
+      }
+    });
+  }
+
+  setVerificationValidTime()
+  {
+    let intervalId = setInterval (() => {
+      this.verificationCodeVaildTime = this.verificationCodeVaildTime-1;
+      if(this.verificationCodeVaildTime <=0)
+      {
+        clearInterval(intervalId);
+      }
+    }, 1000);
   }
 }

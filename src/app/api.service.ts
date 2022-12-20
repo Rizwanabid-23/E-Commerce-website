@@ -32,7 +32,7 @@ export class APIService {
 
   getBuyerUserReturnData(userData : any):Observable<any>
   {
-    console.log(userData);
+    // console.log(userData);
     return this._http.get('http://localhost:3000/myReturns/'+ userData);
   }
 
@@ -49,7 +49,7 @@ export class APIService {
   }
 
   deleteBuyerUserAddressDetails(userData: any): Observable<any> {
-    return this._http.delete('http://localhost:3000/deleteBuyerUserAddressData', {body:{userData},headers:{"Content-Type": "application/json"}});
+    return this._http.post('http://localhost:3000/deleteBuyerUserAddressData', userData);
   }
 
   // This will get single buyer user data from table

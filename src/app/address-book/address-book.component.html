@@ -8,7 +8,7 @@
             </div>
             <div class="row mt-4">
 
-                <table class="table table-bordered">
+                <table class="table table-bordered" *ngIf="AddressBook">
                     <thead>
                         <tr>
                             <th scope="col" style="display: none;">Id</th>
@@ -26,23 +26,78 @@
                     <tbody>
                         <tr *ngFor="let us of readData" id="details">
                             <th scope="row" style="display: none;">{{us.Id}}</th>
-                            <td contenteditable="true">{{us.FullName}}</td>
-                            <td contenteditable="true">{{us.PhoneNo}}</td>
-                            <td contenteditable="true">{{us.Buildin_House_Street_Floor}}</td>
-                            <td contenteditable="true">{{us.Colony_Submark_Locality_Landmark}}</td>
-                            <td contenteditable="true">{{us.Province}}</td>
-                            <td contenteditable="true">{{us.City}}</td>
-                            <td contenteditable="true">{{us.NickName}}</td>
+                            <td>{{us.FullName}}</td>
+                            <td>{{us.PhoneNo}}</td>
+                            <td>{{us.Buildin_House_Street_Floor}}</td>
+                            <td>{{us.Colony_Submark_Locality_Landmark}}</td>
+                            <td>{{us.Province}}</td>
+                            <td>{{us.City}}</td>
+                            <td>{{us.NickName}}</td>
                             <td style="display: none;">{{us.Buyer_User_Id}}</td>
-                            <td><button class="btn btn-dark ml-1" (click)="editAddressDetails()"><i
-                                class="bi bi-pencil-square"></i></button><button class="btn btn-dark ml-1" (click)="deleteAddressDetails()"><i class="bi bi-trash"></i></button></td>
+                            <td><button class="btn btn-dark" (click)="openEditAddressDetailModal()"><i
+                                        class="bi bi-pencil-square"></i></button><button class="btn btn-dark"
+                                    (click)="deleteAddressDetails()"><i class="bi bi-trash"></i></button></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <!-- <div *ngIf="showMsg" class="alert alert-success">
-                <strong>{{showMsg}}</strong>
-            </div> -->
         </div>
     </div>
 </div>
+<div class="modal fade" id="editAddressDetailModalId" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Address Details</h5>
+                <button type="button" class="close" (click)="closeEditAddressDetailModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="editAddress" (ngSubmit)="saveEditAddressDetails()" ngNativeValidate>
+                    <div class="row">
+                        <div class="col-lg-12 ">
+                            <div class="row mx-2 mt-2" style="background-color: whitesmoke;">
+                                <div class="mb-3">
+                                    <label for="formGroupExampleInput" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" formControlName="fullName"
+                                        id="formGroupExampleInput" placeholder="Edit Full Name" required>
+                                    <label for="formGroupExampleInput" class="form-label">Phone No</label>
+                                    <input type="text" class="form-control" formControlName="phoneNo"
+                                        id="formGroupExampleInput" placeholder="Edit Phone No" required>
+                                    <label for="formGroupExampleInput"
+                                        class="form-label">Building/House/Street/Floor</label>
+                                    <input type="text" class="form-control"
+                                        formControlName="Building_House_Street_Floor" id="formGroupExampleInput"
+                                        placeholder="Edit Buildin/House/Street/Floor" required>
+                                    <label for="formGroupExampleInput"
+                                        class="form-label">Colony/Submark/Locality/Landmark</label>
+                                    <input type="text" class="form-control"
+                                        formControlName="Colony_Submark_Locality_Landmark" id="formGroupExampleInput"
+                                        placeholder="Edit Colony/Submark/Locality/Landmark" required>
+                                    <label for="formGroupExampleInput" class="form-label">Province</label>
+                                    <input type="text" class="form-control" formControlName="Province"
+                                        id="formGroupExampleInput" placeholder="Edit Province" required>
+                                    <label for="formGroupExampleInput" class="form-label">City</label>
+                                    <input type="text" class="form-control" formControlName="City"
+                                        id="formGroupExampleInput" placeholder="Edit City" required>
+                                    <label for="formGroupExampleInput" class="form-label">NickName</label>
+                                    <input type="text" class="form-control" formControlName="NickName"
+                                        id="formGroupExampleInput" placeholder="Edit NickName" required>
+                                </div>
+                            </div>
+                            <div class="row mx-2 mb-3" style="background-color: whitesmoke;">
+                                <div class="col-lg-8"></div>
+                                <div class="col-lg-4">
+                                    <div class="d-grid m-4">
+                                        <button class="btn btn-primary" type="submit">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
