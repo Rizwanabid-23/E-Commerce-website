@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AbstractType, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppComponent } from '../app.component';
 import { ProductApiService } from '../Buyer/Services/product-api.service';
@@ -18,9 +18,7 @@ export class SellerDashboardComponent implements OnInit {
   sellerName:any;
   prdData:any;
   saleData:any
-  annualSale:any
-  annualExpense:any
-  annualProfit:any
+
   monthlyProfit:any
   addStockModal:any;
   buyerData:any
@@ -28,16 +26,38 @@ export class SellerDashboardComponent implements OnInit {
   showMessage:any;
   selectedProductForDelete:any;
   showMsg:any;
+  showMsgInDashboard:any;
   allEntriesRight:any;
+  startDate:any;
+  endDate:any;
+
+  expense:any
+  expenseBoxInHtml:any;
+  expenseBoxText:any;
+
+  sale:any
+  saleBoxInHtml:any;
+  saleBoxText:any;
+
+  profit:any
+  profitBoxInHtml:any;
+  profitBoxText:any;
+
+  soldProductQty:any;
+  soldProductQtyText:any;
+
+  remainingProductQty:any;
+  remainingProductQtyText:any;
 
   ngOnInit(): void {
-    this.sellerName = this.ap.loginSellerName;
-    this.getProductData();
+    this.onLoadHtmlPage()
     this.pushLocalDataInVariablesOnLoad();
-    // this.getSaleData();
-    this.getAnnualSale();
-    this.getAnnualExpense();
-    // this.getAnnualProfit();
+    this.getProductData();
+    this.getTotalExpense();
+    this.getTotalSale();
+    this.getTotalProfit();
+    this.getTotalProductSold();
+    this.getTotalProductRemaining();
     // this.getMonthlyProfit();
     // this.getBuyerData();
     this.addStockModal = new window.bootstrap.Modal(
@@ -58,7 +78,172 @@ export class SellerDashboardComponent implements OnInit {
       this.ap.sellerLogin = true;
     }
 
-  } 
+  }
+
+  onLoadHtmlPage() // This will load text on html page while uploading
+  {
+    let date = new Date();
+    // let year = date.getFullYear(); // current year
+    this.expenseBoxInHtml = true;
+    this.expenseBoxText = 'Total Expense Uptil now';
+    this.saleBoxInHtml = true;
+    this.saleBoxText = 'Total Sale Uptil now';
+    this.profitBoxInHtml = true;
+    this.profitBoxText = 'Total Profit Uptil now';
+    this.soldProductQtyText = 'Total Product Quantity Sold Uptil Now';
+    this.remainingProductQtyText  = 'Product Quantity Remaining in Stock';
+
+  }
+
+  //  Using with date calculating stastics start from here
+  // ----------------------------------------------------
+  // ----------------------------------------------------
+  dateForm = new FormGroup({
+    'startDate': new FormControl('', Validators.required),
+    'endDate': new FormControl('', Validators.required)
+  })
+
+  getSelectedDate()
+  {
+    this.showMsgInDashboard = '';
+    let currentDate = new Date()
+    let start = new Date(this.dateForm.value.startDate);
+    let end = new Date(this.dateForm.value.endDate);
+    let selectedDate = 
+    {
+      startDate:start,
+      endDate:end
+    }
+    if( (this.dateForm.value.startDate < this.dateForm.value.endDate) && ( end<=currentDate))
+    {
+      this.getExpenseByDate(selectedDate);
+      this.getSaleByDate(selectedDate);
+      this.getProductSoldByDate(selectedDate);
+    }
+    else{
+      this.showMsgInDashboard = 'Start date should be less than end date and end date should be less than or equal to current date';
+    }
+  }
+
+
+  async getExpenseByDate(dates)
+  {
+    let expenseOfYear = null;
+    this.expenseBoxInHtml = false;
+    await this.service.expenseByDate(dates, localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+      expenseOfYear = res.data;
+      this.expenseBoxInHtml = true;
+      if(expenseOfYear[0].ExenseOfYear == null)
+      {
+        this.expense = 0;
+      }
+      else
+      {
+        this.expense = expenseOfYear[0].ExenseOfYear;
+      }
+      let sdate = dates.startDate;
+      let date = ("0" + sdate.getDate()).slice(-2); // current date
+      let month = ("0" + (sdate.getMonth() + 1)).slice(-2); // current month
+      let year = sdate.getFullYear(); // current year
+      sdate = year + ":" + month + ":" + date;
+      let edate = dates.endDate;
+      date = ("0" + edate.getDate()).slice(-2); // current date
+      month = ("0" + (edate.getMonth() + 1)).slice(-2); // current month
+      year = edate.getFullYear(); // current year
+      edate = year + ":" + month + ":" + date;
+      this.expenseBoxText = 'Expense from '+sdate+' to '+edate;
+    })
+  }
+
+  async getSaleByDate(dates)
+  {
+    let salOfYear = null;
+    this.saleBoxInHtml = false;
+    await this.service.saleByDate(dates, localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+      salOfYear = res.data;
+      this.saleBoxInHtml = true;
+      if(salOfYear[0].SaleOfYear == null)
+      {
+        this.sale = 0;
+      }
+      else
+      {
+        this.sale = salOfYear[0].SaleOfYear;
+      }
+      let sdate = dates.startDate;
+      let date = ("0" + sdate.getDate()).slice(-2); // current date
+      let month = ("0" + (sdate.getMonth() + 1)).slice(-2); // current month
+      let year = sdate.getFullYear(); // current year
+      sdate = year + ":" + month + ":" + date;
+      let edate = dates.endDate;
+      date = ("0" + edate.getDate()).slice(-2); // current date
+      month = ("0" + (edate.getMonth() + 1)).slice(-2); // current month
+      year = edate.getFullYear(); // current year
+      edate = year + ":" + month + ":" + date;
+      this.saleBoxText = 'Sale from '+sdate+' to '+edate;
+      this.getProfitByDate(sdate, edate);
+    })
+  }
+
+  getProfitByDate(sDate, eDate)
+  {
+    this.profit = this.sale-this.expense;
+    this.profitBoxText = 'Profit from '+sDate+' to '+eDate;
+  }
+
+  getProductSoldByDate(dates)
+  {
+    let product = null;
+    this.service.productSoldByDate(dates, localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+      product = res.data;
+      console.log("sold datetete ", product);
+      if(product[0].SoldQuantity == null)
+      {
+        this.soldProductQty = 0;
+      }
+      else
+      {
+        this.soldProductQty = product[0].SoldQuantity;
+      }
+      let sdate = dates.startDate;
+      let date = ("0" + sdate.getDate()).slice(-2); // current date
+      let month = ("0" + (sdate.getMonth() + 1)).slice(-2); // current month
+      let year = sdate.getFullYear(); // current year
+      sdate = year + ":" + month + ":" + date;
+      let edate = dates.endDate;
+      date = ("0" + edate.getDate()).slice(-2); // current date
+      month = ("0" + (edate.getMonth() + 1)).slice(-2); // current month
+      year = edate.getFullYear(); // current year
+      edate = year + ":" + month + ":" + date;
+      this.soldProductQtyText = 'Sold Products from '+sdate+' to '+edate;
+      this.getProfitByDate(sdate, edate);
+      this.dateForm.reset();
+    })
+  }
+
+  // getProductRemainingByDate(dates)
+  // {
+  //   let product = null;
+  //   this.service.productRemainingByDate(dates, localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+  //     product = res.data;
+  //     console.log("remememem ", product);
+  //     if(product[0].ReamainingQuantity == null)
+  //     {
+  //       this.remainingProductQty = 0;
+  //     }
+  //     else
+  //     {
+  //       this.remainingProductQty = product[0].ReamainingQuantity;
+  //     }
+  //   })
+  // }
+
+
+
+  //  Using with date calculating stastics end  from here
+  // ----------------------------------------------------
+  // ----------------------------------------------------
+
 
   // This function will get all product categories data
   getProductData(){
@@ -74,90 +259,99 @@ export class SellerDashboardComponent implements OnInit {
     })
   }
 
-  getAnnualExpense()
+  getTotalExpense()
   {
     let expenseOfYear = null;
-    this.service.annualExpense(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+    this.service.totalExpense(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       expenseOfYear = res.data;
       if(expenseOfYear[0].ExenseOfYear == null)
       {
-        this.annualExpense = 0;
+        this.expense = 0;
       }
       else
       {
-        this.annualExpense = expenseOfYear[0].ExenseOfYear;
+        this.expense = expenseOfYear[0].ExenseOfYear;
       }
     })
   }
 
-  getAnnualSale()
+  getTotalSale()
   {
     let salOfYear = null;
-    this.service.annualSale(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+    this.service.totalSale(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       salOfYear = res.data;
       if(salOfYear[0].SaleOfYear == null)
       {
-        this.annualSale = 0;
+        this.sale = 0;
       }
       else
       {
-        this.annualSale = salOfYear[0].SaleOfYear;
+        this.sale = salOfYear[0].SaleOfYear;
       }
+      this.getTotalProfit();
     })
   }
-  getAnnualProfit()
+
+  getTotalProfit()
   {
-    this.service.annualProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
-      this.annualProfit = res.data;
-      if(this.annualProfit[0].annualProfit == null)
+    console.log("salalal ",this.sale);
+    this.profit = this.sale-this.expense;
+  }
+
+
+  getTotalProductSold()
+  {
+    let product = null;
+    this.service.totalProductSold(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+      product = res.data;
+      if(product[0].SoldQuantity == null)
       {
-        this.annualProfit = 0;
+        this.soldProductQty = 0;
       }
       else
       {
-        this.annualProfit = this.annualProfit[0].annualProfit;
+        this.soldProductQty = product[0].SoldQuantity;
       }
     })
   }
+
+  getTotalProductRemaining()
+  {
+    let product = null;
+    this.service.totalProductremaining(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+      product = res.data;
+      console.log("remememem ", product);
+      if(product[0].ReamainingQuantity == null)
+      {
+        this.remainingProductQty = 0;
+      }
+      else
+      {
+        this.remainingProductQty = product[0].ReamainingQuantity;
+      }
+    })
+  }
+
+
+
+
+  
 
   getBuyerData()
   {
     this.service.getBuyerData(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
       if(res.data == null)
       {
-        this.annualProfit = 0;
+        this.profit = 0;
       }
       else
       {
-        this.annualProfit = res.data;
-      }
-    })
-  }
-
-  getMonthlyProfit()
-  {
-    this.service.monthlyProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
-      this.monthlyProfit = res.data;
-      if(this.monthlyProfit[0].monthlyProfit == null)
-      {
-        this.monthlyProfit = 0;
-      }
-      else
-      {
-        this.monthlyProfit = this.monthlyProfit[0].monthlyProfit;
+        this.profit = res.data;
       }
     })
   }
 
 
-
-  getSaleData()
-  {
-    this.service.getAllSaleData(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
-      this.saleData=res.data;
-      console.log("sale data:",this.saleData);
-    })
-  }
 
   openAddStockModal()
   {
@@ -242,6 +436,37 @@ export class SellerDashboardComponent implements OnInit {
   // For add Stock codeEnds Start from here 
   ////////////////////////////////////
   ////////////////////////////////////
+
+
+
+
+  getMonthlyProfit()
+  {
+    this.service.monthlyProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+      this.monthlyProfit = res.data;
+      if(this.monthlyProfit[0].monthlyProfit == null)
+      {
+        this.monthlyProfit = 0;
+      }
+      else
+      {
+        this.monthlyProfit = this.monthlyProfit[0].monthlyProfit;
+      }
+    })
+  }
+
+
+
+  getSaleData()
+  {
+    this.service.getAllSaleData(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+      this.saleData=res.data;
+      console.log("sale data:",this.saleData);
+    })
+  }
+
+
+
 
 
   // cliclOnCancelButtonInModal()

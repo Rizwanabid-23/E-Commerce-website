@@ -99,34 +99,35 @@
             <div class="content-wrapper">
                 <div class="content">
                     <!-- Top Statistics -->
-                    <div class="row">
-                        <div class="col-xl-3 col-sm-6">
-                            <div class="card card-default card-mini">
-                                <div class="card-header">
-                                    <h2><b> Rs. {{annualSale | number:'1.0-0'}}</b></h2>
-
-                                    <div class="sub-title">
-                                        <span class="mr-1">Sales of this year</span>
-                                        <span class="mx-1"></span>
-                                        <i class="mdi mdi-arrow-up-bold text-success"></i>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-wrapper">
-                                        <div>
-                                            <div id="spline-area-1"></div>
-                                        </div>
-                                    </div>
-                                </div>
+                    <form (ngSubmit)=" getSelectedDate()" [formGroup]="dateForm" ngNativeValidate>
+                        <div class="row mb-3">
+                            <div class="col-xl-2 col-sm-6">
+                                <label class="label inputBoxHeadingColor"> From</label>
+                                <input type="date" formControlName="startDate" class="form-control" required>
+                            </div>
+                            <div class="col-xl-2 col-sm-6">
+                                <label class="label inputBoxHeadingColor"> To</label>
+                                <input type="date" formControlName="endDate" class="form-control" required>
+                            </div>
+                            <div class="col-xl-2 col-sm-6 mb-0" style="margin-top: 35px;">
+                                <button type="submit" class="btn btn-primary btn-pill"
+                                style="color: black;">Apply Date</button>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-sm-6">
+                    </form>
+
+                    <div class="row">
+                        <div *ngIf="showMsgInDashboard" class="alert alert-success">
+                            <strong>{{showMsgInDashboard}}</strong>
+                        </div>
+                       
+                        <div class="col-xl-4 col-sm-6">
                             <div class="card card-default card-mini">
-                                <div class="card-header">
+                                <div class="card-header"  *ngIf="expenseBoxInHtml">
                                     
-                                    <h2><b>RS. {{annualExpense | number:'1.0-0'}}</b></h2>
+                                    <h2><b>RS. {{expense | number:'1.0-0'}}</b></h2>
                                     <div class="sub-title">
-                                        <span class="mr-1">Expense of this year</span>
+                                        <span class="mr-1">{{expenseBoxText}}</span>
                                         <span class="mx-1"></span>
                                         <i class="mdi mdi-arrow-down-bold text-danger"></i>
                                     </div>
@@ -140,14 +141,35 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-sm-6">
+
+                        <div class="col-xl-4 col-sm-6">
                             <div class="card card-default card-mini">
-                                <div class="card-header">
-                                    <!-- {{annualProfit | number:'1.0-0'}} -->
-                                    <h2><b>Rs. 0</b></h2>
+                                <div class="card-header" *ngIf="saleBoxInHtml">
+                                    <h2><b> Rs. {{sale | number:'1.0-0'}}</b></h2>
 
                                     <div class="sub-title">
-                                        <span class="mr-1">Profit of this year</span>
+                                        <span class="mr-1">{{saleBoxText}}</span>
+                                        <span class="mx-1"></span>
+                                        <i class="mdi mdi-arrow-up-bold text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-wrapper">
+                                        <div>
+                                            <div id="spline-area-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-sm-6">
+                            <div class="card card-default card-mini">
+                                <div class="card-header"  *ngIf="profitBoxInHtml">
+                                    
+                                    <h2><b>RS. {{profit | number:'1.0-0'}}</b></h2>
+                                    <div class="sub-title">
+                                        <span class="mr-1">{{profitBoxText}}</span>
                                         <span class="mx-1"></span>
                                         <i class="mdi mdi-arrow-down-bold text-danger"></i>
                                     </div>
@@ -155,20 +177,37 @@
                                 <div class="card-body">
                                     <div class="chart-wrapper">
                                         <div>
-                                            <div id="spline-area-3"></div>
+                                            <div id="spline-area-2"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-sm-6">
+                        <div class="col-xl-4 col-sm-6">
                             <div class="card card-default card-mini">
                                 <div class="card-header">
-                                    <!-- {{monthlyProfit | number:'1.0-0'}} -->
-                                    <h2><b>Rs. 0</b></h2>
-
+                                    <h2><b>Qty. {{soldProductQty}} </b></h2>
                                     <div class="sub-title">
-                                        <span class="mr-1">Profit of this month</span>
+                                        <span class="mr-1">{{soldProductQtyText}}</span>
+                                        <span class="mx-1"></span>
+                                        <i class="mdi mdi-arrow-up-bold text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-wrapper">
+                                        <div>
+                                            <div id="spline-area-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-6">
+                            <div class="card card-default card-mini">
+                                <div class="card-header">
+                                    <h2><b>Qty. {{remainingProductQty}} </b></h2>
+                                    <div class="sub-title">
+                                        <span class="mr-1">{{remainingProductQtyText}}</span>
                                         <span class="mx-1"></span>
                                         <i class="mdi mdi-arrow-up-bold text-success"></i>
                                     </div>
@@ -192,7 +231,6 @@
                             overflow: auto;
                         }
                     </style>
-
                     <!-- Table Product -->
                     <div class="row">
                         <div class="col-12">
@@ -234,7 +272,6 @@
                                                         <th></th>
                                                     </tr>
                                                 </thead>
-
                                                 <tbody *ngFor="let prd of prdData">
                                                     <tr>
                                                         <td class="py-0">
@@ -445,15 +482,8 @@
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
-
             </div>
-
-
-
         </div>
     </div>
 

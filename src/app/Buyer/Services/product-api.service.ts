@@ -37,16 +37,41 @@ export class ProductApiService {
   {
     return this._http.get("http://localhost:3000/getSaleData/"+sid)
   }
-  annualSale(sid:any):Observable<any>
+  totalSale(sid:any):Observable<any>
   {
     // console.log("sssiiidddd:",sid);
-    return this._http.get("http://localhost:3000/getAnnualSale/"+sid)
+    return this._http.get("http://localhost:3000/getTotalSale/"+sid)
+  }
+  saleByDate(date:any, sid:any):Observable<any>
+  {
+    // console.log("idddd  ", date);
+    return this._http.post("http://localhost:3000/getSaleByDate/"+sid, date)
   }
 
-  annualExpense(sid:any):Observable<any>
+  totalExpense(sid:any):Observable<any>
   {
-    // console.log("idddd  ", sid);
-    return this._http.get("http://localhost:3000/getAnnualExpense/"+sid)
+    return this._http.get("http://localhost:3000/getTotalExpense/"+sid)
+  }
+  expenseByDate(date:any, sid:any):Observable<any>
+  {
+    return this._http.post("http://localhost:3000/getExpenseByDate/"+sid, date)
+  }
+  totalProductSold(sid:any):Observable<any>
+  {
+    return this._http.get("http://localhost:3000/getTotalProductSold/"+sid)
+  }
+  productSoldByDate(date:any, sid:any):Observable<any>
+  {
+    return this._http.post("http://localhost:3000/getProductSoldByDate/"+sid, date)
+  }
+
+  totalProductremaining(sid:any):Observable<any>
+  {
+    return this._http.get("http://localhost:3000/getTotalProductremaining/"+sid)
+  }
+  productRemainingByDate(date:any, sid:any):Observable<any>
+  {
+    return this._http.post("http://localhost:3000/getProductRemainingByDate/"+sid, date)
   }
 
   getBuyerData(sid:any):Observable<any>

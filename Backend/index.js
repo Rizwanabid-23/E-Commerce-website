@@ -478,27 +478,10 @@ app.get('/getBuyerData/:Id',(req,res)=>{
     })
 })
 
-app.get('/getAnnualProfit/:sellID',(req,res)=>{
-    let getQuery=`select SUM(B.d) as annualProfit from (SELECT A.productID,(A.quantity*P.SellPrice)-((P.SellPrice*P.Discount)/100)*A.quantity as d from (SELECT OD.Quantity as quantity,OD.Product_Id productID from ecommercedb.order O join orderdetail OD on O.Id=OD.Order_Id where year(O.ShippedDate)=year(CURRENT_DATE) ) as A join product P on A.productID=P.Id where P.Seller_Id='${req.params.sellID}') as B`
-    con.query(getQuery,(err,result)=>{
-        if(err)
-        {
-            console.log("error annual profit",result)
-            res.send({
-                data:null
-            })
-        }
-        else{
-            console.log("regular annual profit",result)
-            res.send({
-                message:'Data',data:result
-            })
-        }
-    })
-})
-app.get("/getAnnualExpense/:Id", (req, res) => {
+
+app.get("/getTotalExpense/:Id", (req, res) => {
   let sellerId = req.params.Id;
-  let getQuery ="SELECT SUM(ps.Difference + (ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE Year(ps.AddStock) = Year(CURRENT_DATE) AND p.Id = ps.Product_Id And   p.Seller_Id = '"+sellerId+"'";
+  let getQuery ="SELECT SUM(ps.Difference + (ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE p.Id = ps.Product_Id And   p.Seller_Id = '"+sellerId+"'";
   con.query(getQuery, (err, result) => {
     if(err) 
     {
@@ -518,52 +501,10 @@ app.get("/getAnnualExpense/:Id", (req, res) => {
   });
 });
 
-app.get("/getAnnualProfit/:sellID", (req, res) => {
-  // console.log(req.params.sellID)
-  let getQuery = `select SUM(B.d) as annualProfit from (SELECT A.productID,(A.quantity*P.SellPrice)-((P.SellPrice*P.Discount)/100)*A.quantity as d from (SELECT OD.Quantity as quantity,OD.Product_Id productID from ecommercedb.order O join orderdetail OD on O.Id=OD.Order_Id where year(O.ShippedDate)=year(CURRENT_DATE) ) as A join product P on A.productID=P.Id where P.Seller_Id='${req.params.sellID}') as B`;
-  con.query(getQuery, (err, result) => {
-    if(err)
-    {
-      console.log("error annual profit", result);
-      res.send({
-        data: null,
-      });
-    }else
-    {
-      console.log("regular annual profit", result);
-      res.send({
-        message: "Data",
-        data: result,
-      });
-    }
-  });
-});
-
-app.get("/getMonthlyProfit/:sellID", (req, res) => {
-  let getQuery = `select SUM(B.d) as monthlyProfit from (SELECT A.productID,(A.quantity*P.SellPrice)-((P.SellPrice*P.Discount)/100)*A.quantity as d from (SELECT OD.Quantity as quantity,OD.Product_Id productID from ecommercedb.order O join orderdetail OD on O.Id=OD.Order_Id where month(O.ShippedDate)=month(CURRENT_DATE) ) as A join product P on A.productID=P.Id where P.Seller_Id='${req.params.sellID}') as B`;
-  con.query(getQuery, (err, result) => {
-    if(err) 
-    {
-      res.send({
-        data: null,
-      });
-    } 
-    else
-    {
-      res.send({
-        message: "Data",
-        data: result,
-      });
-    }
-  });
-});
-
-app.get("/getAnnualSale/:sellerID", (req, res) => {
-  console.log("sellerr idd ", req.params.sellerID);
+app.get("/getTotalSale/:sellerID", (req, res) => {
   let sellerId = req.params.sellerID;
-  let getQuery = "SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON Year(o.Date) = Year(CURRENT_DATE) And o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
+  let getQuery = "SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
   con.query(getQuery, (err, result) => {
-    console.log("annualalal ", result);
     if(err) 
     {
       res.send({
@@ -571,7 +512,6 @@ app.get("/getAnnualSale/:sellerID", (req, res) => {
       });
     }else 
     {
-      console.log("lllll ", result)
       res.send({
         message: "Data",
         data: result
@@ -579,6 +519,227 @@ app.get("/getAnnualSale/:sellerID", (req, res) => {
     }
   });
 });
+
+app.get("/getTotalProductSold/:sellerID", (req, res) => {
+  let sellerId = req.params.sellerID;
+  let getQuery = "SELECT SUM(ps.AllTimeQuantity-ps.Quantity) As SoldQuantity FROM product p, product_stock ps WHERE p.Id = ps.Product_Id AND p.Seller_Id = '"+sellerId+"'";
+  con.query(getQuery, (err, result) => {
+    if(err) 
+    {
+      res.send({
+        data: null,
+      });
+    }else 
+    {
+      res.send({
+        message: "Data",
+        data: result
+      });
+    }
+  });
+});
+
+app.get("/getTotalProductremaining/:sellerID", (req, res) => {
+  let sellerId = req.params.sellerID;
+  let getQuery = "SELECT SUM(ps.Quantity) As ReamainingQuantity FROM product p, product_stock ps WHERE p.Id = ps.Product_Id AND p.Status = 1 And p.Seller_Id = '"+sellerId+"'";
+  con.query(getQuery, (err, result) => {
+    if(err) 
+    {
+      res.send({
+        data: null,
+      });
+    }else 
+    {
+      res.send({
+        message: "Data",
+        data: result
+      });
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+app.get('/getAnnualProfit/:sellID',(req,res)=>{
+  let getQuery=`select SUM(B.d) as annualProfit from (SELECT A.productID,(A.quantity*P.SellPrice)-((P.SellPrice*P.Discount)/100)*A.quantity as d from (SELECT OD.Quantity as quantity,OD.Product_Id productID from ecommercedb.order O join orderdetail OD on O.Id=OD.Order_Id where year(O.ShippedDate)=year(CURRENT_DATE) ) as A join product P on A.productID=P.Id where P.Seller_Id='${req.params.sellID}') as B`
+  con.query(getQuery,(err,result)=>{
+      if(err)
+      {
+          console.log("error annual profit",result)
+          res.send({
+              data:null
+          })
+      }
+      else{
+          console.log("regular annual profit",result)
+          res.send({
+              message:'Data',data:result
+          })
+      }
+  })
+})
+
+
+
+// For seller dashboard calculate stastics
+//  by input date start from here---------
+// ---------------------------------------
+app.post("/getExpenseByDate/:Id", (req, res) => {
+  let sellerId = req.params.Id;
+  let sDate = req.body.startDate;
+  let eDate = req.body.endDate;
+  sDate = new Date(sDate);
+  eDate = new Date(eDate);
+  let date = ("0" + sDate.getDate()).slice(-2); // current date
+  let month = ("0" + (sDate.getMonth() + 1)).slice(-2); // current month
+  let year = sDate.getFullYear(); // current year
+  stDate = year + ":" + month + ":" + date;
+
+
+  date = ("0" + eDate.getDate()).slice(-2); // current date
+  month = ("0" + (eDate.getMonth() + 1)).slice(-2); // current month
+  year = eDate.getFullYear(); // current year
+  enDate = year + ":" + month + ":" + date;
+  let getQuery ="SELECT SUM(ps.Difference + (ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE p.Id = ps.Product_Id And ps.AddStock >= '"+stDate+"'   AND  ps.AddStock <= '"+enDate+"' And p.Seller_Id = '"+sellerId+"'";
+  con.query(getQuery, (err, result) => {
+    if(err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else 
+    {
+      res.send({
+        message: "Data",
+        data: result,
+      });
+    }
+  });
+});
+
+app.post("/getSaleByDate/:Id", (req, res) => {
+  let sellerId = req.params.Id;
+  let sDate = req.body.startDate;
+  let eDate = req.body.endDate;
+  sDate = new Date(sDate);
+  eDate = new Date(eDate);
+  let date = ("0" + sDate.getDate()).slice(-2); // current date
+  let month = ("0" + (sDate.getMonth() + 1)).slice(-2); // current month
+  let year = sDate.getFullYear(); // current year
+  stDate = year + ":" + month + ":" + date;
+
+  date = ("0" + eDate.getDate()).slice(-2); // current date
+  month = ("0" + (eDate.getMonth() + 1)).slice(-2); // current month
+  year = eDate.getFullYear(); // current year
+  enDate = year + ":" + month + ":" + date;
+
+  let getQuery ="SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Date >= '"+stDate+"' And o.Date <= '"+enDate+"' And o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
+  con.query(getQuery, (err, result) => {
+    if(err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else 
+    {
+      res.send({
+        message: "Data",
+        data: result,
+      });
+    }
+  });
+});
+
+
+app.post("/getProductSoldByDate/:Id", (req, res) => {
+  let sellerId = req.params.Id;
+  let sDate = req.body.startDate;
+  let eDate = req.body.endDate;
+  sDate = new Date(sDate);
+  eDate = new Date(eDate);
+  let date = ("0" + sDate.getDate()).slice(-2); // current date
+  let month = ("0" + (sDate.getMonth() + 1)).slice(-2); // current month
+  let year = sDate.getFullYear(); // current year
+  stDate = year + ":" + month + ":" + date;
+
+  date = ("0" + eDate.getDate()).slice(-2); // current date
+  month = ("0" + (eDate.getMonth() + 1)).slice(-2); // current month
+  year = eDate.getFullYear(); // current year
+  enDate = year + ":" + month + ":" + date;
+
+  let getQuery ="SELECT SUM(od.Quantity) As SoldQuantity FROM orderdetail od Join product p ON od.Product_Id = p.Id AND p.Seller_Id = '"+sellerId+"' JOIN `order` o On o.Id = od.Order_Id AND o.Date >= '"+stDate+"' And o.Date <= '"+enDate+"'";
+  con.query(getQuery, (err, result) => {
+    if(err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else 
+    {
+      console.log("ssssssssssssssssssss ",result);
+      res.send({
+        message: "Data",
+        data: result,
+      });
+    }
+  });
+});
+
+app.post("/getProductRemainingByDate/:Id", (req, res) => {
+  let sellerId = req.params.Id;
+  let sDate = req.body.startDate;
+  let eDate = req.body.endDate;
+  sDate = new Date(sDate);
+  eDate = new Date(eDate);
+  let date = ("0" + sDate.getDate()).slice(-2); // current date
+  let month = ("0" + (sDate.getMonth() + 1)).slice(-2); // current month
+  let year = sDate.getFullYear(); // current year
+  stDate = year + ":" + month + ":" + date;
+
+  date = ("0" + eDate.getDate()).slice(-2); // current date
+  month = ("0" + (eDate.getMonth() + 1)).slice(-2); // current month
+  year = eDate.getFullYear(); // current year
+  enDate = year + ":" + month + ":" + date;
+
+  let getQuery ="SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Date >= '"+stDate+"' And o.Date <= '"+enDate+"' And o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
+  con.query(getQuery, (err, result) => {
+    if(err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else 
+    {
+      console.log("ssssssssssssssssssss ",result);
+      res.send({
+        message: "Data",
+        data: result,
+      });
+    }
+  });
+});
+
+
+// For seller dashboard calculate stastics
+//  by input date ends  from here---------
+// ---------------------------------------
+
 
 app.get("/getSelectedProduct/:Id", (req, res) => {
   let id = req.params.Id;
