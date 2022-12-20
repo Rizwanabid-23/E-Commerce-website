@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'SignUp', component: SignUpComponent },
   { path: 'productAndSellerDetails', component: ProdAndSellerDescriptionComponent, },
   { path: 'productCart', canActivate:[AuthGuard], component: ProductCartComponent },
-  { path: 'customerSupport', component: CustomerSupportComponent },
+  { path: 'customerSupport', canActivate:[AuthGuard], component: CustomerSupportComponent },
   { path: 'resetPassword', component: ResetPasswordComponent },
   { path: 'cancelOrder', component: CancelOrderComponent },
   { path: 'editAccountDetails', component: EditAccountDetailsComponent },
