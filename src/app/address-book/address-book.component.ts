@@ -29,7 +29,7 @@ export class AddressBookComponent implements OnInit {
 
   ngOnInit(): void {
     this.service
-      .getAddressBookData(sessionStorage.getItem('loginBuyerId'))
+      .getAddressBookData(sessionStorage.getItem('buyerLoginId'))
       .subscribe((res) => {
         this.readData = res.data;
         console.log(this.readData);

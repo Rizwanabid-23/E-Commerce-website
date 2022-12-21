@@ -16,7 +16,7 @@ export class MyReturnsComponent implements OnInit {
     private ap: AppComponent) { }
 
   ngOnInit(): void {
-    this.service.getBuyerUserReturnData(sessionStorage.getItem('loginBuyerId')).subscribe((res) => {
+    this.service.getBuyerUserReturnData(sessionStorage.getItem('buyerLoginId')).subscribe((res) => {
       this.readData = res.data;
       // console.log(this.readData,'hello');
     });
