@@ -32,7 +32,9 @@ export class AdminSignInComponent implements OnInit {
   // This function check email id from and password from server and check that user is right or not
   checkSignInFormData(){
     let rData = null;
+    console.log("iiiib");
     this.service.checkValidSignInUser(this.signInForm.value).subscribe(res =>{
+      console.log("reeeee");
       rData = res.data;
       if (rData == null){
         this.showMsg = 'Enter Right Email Id And Password';

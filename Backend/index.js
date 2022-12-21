@@ -1251,6 +1251,214 @@ app.post("/saveOrderDetail", (req, res) => {
 /*------------------------------------------ */
 /*------------------------------------------ */
 /*      For  Admin code  Start From here     */
+
+
+app.post("/adminSignInValid", (req, res) => {
+  let check_admin_email = req.body.email;
+  let check_admin_pin = req.body.password;
+  let getQuery = "SELECT * FROM `admin` WHERE Email = '"+check_admin_email+"' AND Password = '"+check_admin_pin+"'";
+  con.query(getQuery, (err, userResult) => {
+    if(err)
+    {
+      console.log("eeeerrrrr  ",err);
+    }
+    if(userResult.length == 0) 
+    {
+      res.send
+      ({
+        message: "Data",
+        data: null,
+      });
+    } 
+    else 
+    {
+      res.send
+      ({
+        message: "Data",
+        data: userResult,
+      });
+    }
+  });
+});
+
+
+app.get("/getTotalSeller", (req, res) => {
+  let getQuery = "SELECT Count(Id) As TotalSeller FROM `seller_user`";
+  con.query(getQuery, (err, result) => {
+    if (err) 
+    {
+      res.send({
+        data: null,
+      });
+    } 
+    else
+    {
+      res.send({
+        data: result,
+      });
+    }
+  });
+});
+
+app.post("/getSellerByDate", (req, res) => {
+  let sDate = req.body.startDate;
+  let eDate = req.body.endDate;
+  sDate = new Date(sDate);
+  eDate = new Date(eDate);
+  let date = ("0" + sDate.getDate()).slice(-2); // current date
+  let month = ("0" + (sDate.getMonth() + 1)).slice(-2); // current month
+  let year = sDate.getFullYear(); // current year
+  stDate = year + ":" + month + ":" + date;
+
+
+  date = ("0" + eDate.getDate()).slice(-2); // current date
+  month = ("0" + (eDate.getMonth() + 1)).slice(-2); // current month
+  year = eDate.getFullYear(); // current year
+  enDate = year + ":" + month + ":" + date;
+  let getQuery ="SELECT Count(Id) As TotalSeller FROM `seller_user` WHERE JoiningDate >= '"+stDate+"' AND JoiningDate <= '"+enDate+"'";
+  con.query(getQuery, (err, result) => {
+    if(err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else 
+    {
+      res.send({
+        message: "Data",
+        data: result,
+      });
+    }
+  });
+});
+
+
+app.get("/getTotalBuyer", (req, res) => {
+  let getQuery = "SELECT Count(Id) As TotalBuyer FROM `buyer_user`";
+  con.query(getQuery, (err, result) => {
+    if (err) 
+    {
+      res.send({
+        data: null,
+      });
+    } 
+    else
+    {
+      res.send({
+        data: result,
+      });
+    }
+  });
+});
+
+
+app.post("/getBuyerByDate", (req, res) => {
+  let sDate = req.body.startDate;
+  let eDate = req.body.endDate;
+  sDate = new Date(sDate);
+  eDate = new Date(eDate);
+  let date = ("0" + sDate.getDate()).slice(-2); // current date
+  let month = ("0" + (sDate.getMonth() + 1)).slice(-2); // current month
+  let year = sDate.getFullYear(); // current year
+  stDate = year + ":" + month + ":" + date;
+
+  date = ("0" + eDate.getDate()).slice(-2); // current date
+  month = ("0" + (eDate.getMonth() + 1)).slice(-2); // current month
+  year = eDate.getFullYear(); // current year
+  enDate = year + ":" + month + ":" + date;
+  let getQuery ="SELECT Count(Id) As TotalBuyer FROM `buyer_user` WHERE JoiningDate >= '"+stDate+"' AND JoiningDate <= '"+enDate+"'";
+  con.query(getQuery, (err, result) => {
+    if(err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else 
+    {
+      res.send({
+        message: "Data",
+        data: result,
+      });
+    }
+  });
+});
+
+app.get("/getSellerData", (req, res) => {
+  let getQuery = "SELECT `Id`, `FirstName`, `LastName`, `Email`, `PhoneNo`, `CnicNo`, `City`, `Address`, `Password`, `JoiningDate` FROM `seller_user`";
+  con.query(getQuery, (err, result) => {
+    if (err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else
+    {
+      res.send
+      ({
+        data: result,
+      });
+    }
+  });
+});
+
+app.get("/getBuyerData", (req, res) => {
+  let getQuery = "SELECT `Id`, `FullName`, `Email`, `Password`, `JoiningDate` FROM `buyer_user`";
+  con.query(getQuery, (err, result) => {
+    if (err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else
+    {
+      res.send
+      ({
+        data: result,
+      });
+    }
+  });
+});
+
+app.post('/checkValidCategory', (req, res) => {
+  let category = req.body.categoryName;
+  let postQuery = "SELECT Id FROM `lookup` Where Name = '"+category+"' And Category = 'ProductCategory'";
+  con.query(postQuery, (err, result) =>{
+    if (err)
+    {
+      res.send
+      ({
+          message:'Data Not Inserted',
+          data:null
+      })
+    }
+    if(result.length == 0)
+    {
+      res.send
+      ({
+        message:'Data Inserted',
+        data:null
+    })
+    }
+    else
+    {
+      res.send
+      ({
+          message:'Data Inserted',
+          data:result
+      })
+    }
+  })
+})
+
+
 app.post('/saveCategory', (req, res) => {
 
   let category = req.body.categoryName;
@@ -1273,7 +1481,38 @@ app.post('/saveCategory', (req, res) => {
   })
 })
 
-app.post("/saveSubCategory", (req, res) => {
+app.post('/checkValidSubCategory', (req, res) => {
+  let subCategory = req.body.subCategoryName;
+  let postQuery = "SELECT Id FROM `product_category` Where `Sub_Category` = '"+subCategory+"'";
+  con.query(postQuery, (err, result) =>{
+    if (err)
+    {
+      res.send
+      ({
+          message:'Data Not Inserted',
+          data:null
+      })
+    }
+    if(result.length == 0)
+    {
+      res.send
+      ({
+        message:'Data Inserted',
+        data:null
+    })
+    }
+    else
+    {
+      res.send
+      ({
+          message:'Data Inserted',
+          data:result
+      })
+    }
+  })
+})
+
+app.post('/saveSubCategory', (req, res) => {
   let subCategory = req.body.subCategoryName;
   let categoryId = req.body.categoryId;
   let postQuery = "INSERT INTO `product_category` (`Sub_Category`, `Categor_Id`) VALUES ('"+subCategory+"', '"+categoryId+"')";
@@ -1295,7 +1534,45 @@ app.post("/saveSubCategory", (req, res) => {
   })
 })
 
-app.post("/saveBrand", (req, res) => {
+
+
+
+
+app.post('/checkValidBrand', (req, res) => {
+  let brand = req.body.brandName;
+  let postQuery = "SELECT Id FROM `product_brand` Where `Brand` = '"+brand+"'";
+  con.query(postQuery, (err, result) =>{
+      if (err)
+      {
+        res.send
+        ({
+            message:'Data Not Inserted',
+            data:null
+        })
+      }
+      if(result.length == 0)
+      {
+        res.send
+        ({
+          message:'Data Inserted',
+          data:null
+      })
+      }
+      else
+      {
+        res.send
+        ({
+            message:'Data Inserted',
+            data:result
+        })
+      }
+  })
+})
+
+
+
+app.post('/saveBrand', (req, res) => {
+
   let brand = req.body.brandName;
   let postQuery = "INSERT INTO `product_brand` (`Brand`) VALUES ('"+brand+"')";
   con.query(postQuery, (err, result) =>{
