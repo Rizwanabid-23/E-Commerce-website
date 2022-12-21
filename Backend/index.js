@@ -496,9 +496,7 @@ app.get("/getTotalExpense/:Id", (req, res) => {
 app.get("/getTotalSale/:sellerID", (req, res) => {
   let sellerId = req.params.sellerID;
   let getQuery =
-    "SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '" +
-    sellerId +
-    "' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
+    "SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
