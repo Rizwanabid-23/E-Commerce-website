@@ -478,7 +478,7 @@ app.get("/getBuyerData/:Id", (req, res) => {
 
 app.get("/getTotalExpense/:Id", (req, res) => {
   let sellerId = req.params.Id;
-  let getQuery ="SELECT SUM(ps.Difference + (ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE p.Id = ps.Product_Id And   p.Seller_Id = '"+sellerId+"'";
+  let getQuery ="SELECT SUM((ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE p.Id = ps.Product_Id And   p.Seller_Id = '"+sellerId+"'";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
@@ -515,7 +515,7 @@ app.get("/getTotalSale/:sellerID", (req, res) => {
 
 app.get("/getTotalProductSold/:sellerID", (req, res) => {
   let sellerId = req.params.sellerID;
-  let getQuery = "SELECT SUM(ps.AllTimeQuantity-ps.Quantity) As SoldQuantity FROM product p, product_stock ps WHERE p.Id = ps.Product_Id AND p.Seller_Id = '"+sellerId+"'";
+  let getQuery = "SELECT SUM(ps.TotalQuantityForSale-ps.Quantity) As SoldQuantity FROM product p, product_stock ps WHERE p.Id = ps.Product_Id AND p.Seller_Id = '"+sellerId+"'";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
@@ -583,7 +583,7 @@ app.post("/getExpenseByDate/:Id", (req, res) => {
   month = ("0" + (eDate.getMonth() + 1)).slice(-2); // current month
   year = eDate.getFullYear(); // current year
   enDate = year + ":" + month + ":" + date;
-  let getQuery ="SELECT SUM(ps.Difference + (ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE p.Id = ps.Product_Id And ps.AddStock >= '"+stDate+"'   AND  ps.AddStock <= '"+enDate+"' And p.Seller_Id = '"+sellerId+"'";
+  let getQuery ="SELECT SUM((ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE p.Id = ps.Product_Id And ps.AddStock >= '"+stDate+"'   AND  ps.AddStock <= '"+enDate+"' And p.Seller_Id = '"+sellerId+"'";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
@@ -615,13 +615,7 @@ app.post("/getSaleByDate/:Id", (req, res) => {
   enDate = year + ":" + month + ":" + date;
 
   let getQuery =
-    "SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Date >= '" +
-    stDate +
-    "' And o.Date <= '" +
-    enDate +
-    "' And o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '" +
-    sellerId +
-    "' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
+    "SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Date >= '"+stDate +"'And o.Date <= '" +enDate +"' And o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
@@ -946,7 +940,7 @@ app.post("/addProductStock/:pId", (req, res) => {
   let p_SellPrice = req.body.prdSellPrice;
   let p_Discount = req.body.prdDiscountPercentage;
   let quantity = req.body.quantity;
-  let postQuery ="INSERT INTO `product_stock` (`BuyPrice`, `SellPrice`, `Discount`, `Quantity`, `AllTimeQuantity`, `AddStock`, `Product_Id`) VALUES ('"+p_BuyPrice+"', '"+p_SellPrice+"', '"+p_Discount+"','"+quantity+"', '"+quantity+"', CURRENT_DATE, '"+prd_Id+"')";
+  let postQuery ="INSERT INTO `product_stock` (`BuyPrice`, `SellPrice`, `Discount`, `Quantity`, `AllTimeQuantity`, `AddStock`, `TotalQuantityForSale`, `Product_Id`) VALUES ('"+p_BuyPrice+"', '"+p_SellPrice+"', '"+p_Discount+"','"+quantity+"', '"+quantity+"', CURRENT_DATE, '"+quantity+"', '"+prd_Id+"')";
   con.query(postQuery, (err, result) => {
     if (err) {
       console.log("ereeeee   ",err)
