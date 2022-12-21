@@ -64,7 +64,7 @@
                                     <input type="text" class="form-control" formControlName="fullName"
                                         id="formGroupExampleInput" placeholder="Edit Full Name" required>
                                     <label for="formGroupExampleInput" class="form-label">Phone No</label>
-                                    <input type="text" class="form-control" formControlName="phoneNo"
+                                    <input type="tel" maxlength="11" class="form-control" formControlName="phoneNo"
                                         id="formGroupExampleInput" placeholder="Edit Phone No" required>
                                     <label for="formGroupExampleInput"
                                         class="form-label">Building/House/Street/Floor</label>
@@ -77,11 +77,29 @@
                                         formControlName="Colony_Submark_Locality_Landmark" id="formGroupExampleInput"
                                         placeholder="Edit Colony/Submark/Locality/Landmark" required>
                                     <label for="formGroupExampleInput" class="form-label">Province</label>
-                                    <input type="text" class="form-control" formControlName="Province"
-                                        id="formGroupExampleInput" placeholder="Edit Province" required>
+                                    <!-- <input type="text" class="form-control" formControlName="Province"
+                                        id="formGroupExampleInput" placeholder="Edit Province" required> -->
+                                    <select class="form-select" formControlName="Province" id="validationProvince"
+                                        required>
+                                        <!-- <option selected>Please select province</option> -->
+                                        <option value="Balochistan">Balochistan</option>
+                                        <option value="KPK">KPK</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Sindh">Sindh</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Please select a valid state.
+                                    </div>
                                     <label for="formGroupExampleInput" class="form-label">City</label>
-                                    <input type="text" class="form-control" formControlName="City"
-                                        id="formGroupExampleInput" placeholder="Edit City" required>
+                                    <!-- <input type="text" class="form-control" formControlName="City"
+                                        id="formGroupExampleInput" placeholder="Edit City" required> -->
+                                    <select class="form-select" formControlName="City" id="validationCity" required>
+                                        <!-- <option selected>Select City</option> -->
+                                        <option [value]="city" *ngFor="let city of cities">{{city}}</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                    Please select a valid state.
+                                    </div>
                                     <label for="formGroupExampleInput" class="form-label">NickName</label>
                                     <input type="text" class="form-control" formControlName="NickName"
                                         id="formGroupExampleInput" placeholder="Edit NickName" required>
