@@ -861,7 +861,7 @@ app.post("/saveBuyerAddress/:buyerId", (req, res) => {
   let buyer_Address_Building = req.body.buiHouFloStr;
   let buyer_Id = req.params.buyerId;
 
-  let postQuery = `INSERT INTO buyer_address (FullName, PhoneNo, Buildin_House_Street_Floor, Colony_Submark_Locality_Landmark,Province,City,Buyer_User_Id,NickName) VALUES ('${buyer_Address_Name}','${buyer_Address_Phone}','${buyer_Address_Building}','${buyer_Address_Colony}','${buyer_Address_Province}','${buyer_Address_City}',${buyer_Id},'${buyer_Address_NickName}')`;
+  let postQuery = `INSERT INTO buyer_address (FullName, PhoneNo, Buildin_House_Street_Floor, Colony_Submark_Locality_Landmark,Province,City,Buyer_User_Id,NickName) VALUES ('Null','${buyer_Address_Phone}','${buyer_Address_Building}','${buyer_Address_Colony}','${buyer_Address_Province}','${buyer_Address_City}',${buyer_Id},'${buyer_Address_NickName}')`;
   con.query(postQuery, (err, result) => {
     if (err) {
       console.log(err);
@@ -1243,19 +1243,10 @@ app.post("/saveOrderDetail", (req, res) => {
     orderId = items["orderId"];
     prdId = items["selectedPrdId"];
     quantity = items["selectedPrdQuantity"];
-    // prdStockId = items["selectedPrdStockId"];
-    // console.log("arrr ", orderId, prdId, items["selectedPrdStockId"])
+    prdStockId = items["selectedPrdStockId"];
+    console.log("arrr ", orderId, prdStockId, items["selectedPrdStockId"])
 
-    postQuery =
-      "INSERT INTO `orderdetail` (`Quantity`, `Order_Id`, `Product_Id`, `ProductStock_Id`) VALUES ('" +
-      quantity +
-      "','" +
-      orderId +
-      "','" +
-      prdId +
-      "','" +
-      items["selectedPrdStockId"] +
-      "')";
+    postQuery ="INSERT INTO `orderdetail` (`Quantity`, `Order_Id`, `Product_Id`, `ProductStock_Id`) VALUES ('" +quantity+"','"+orderId+"','"+prdId+"','"+prdStockId+"')";
     con.query(postQuery, (err, result) => {
       if (err) {
         res.send({

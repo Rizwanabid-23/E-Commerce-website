@@ -457,6 +457,7 @@ export class ProductCartComponent implements OnInit {
 //  This will save buyer order
   saveBuyerOrder()
   {
+
     let orderData = 
     {
       'buyerId':this.recentLoginBuyerId,
@@ -480,7 +481,7 @@ export class ProductCartComponent implements OnInit {
 
       if(element.checked)
       {
-        console.log("Stockckck ",items['prdStockId'])
+        console.log("Stockckck ",items['prdStockId']  , "  ", items['prdId'])
         let orderedProduct = {
           'orderId':parseInt(orderId),
           'selectedPrdId':parseInt(items['prdId']),
