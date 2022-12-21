@@ -32,7 +32,7 @@ const routes: Routes = [
   { path: 'productAndSellerDetails', component: ProdAndSellerDescriptionComponent, },
   { path: 'productCart', canActivate:[AuthGuard], component: ProductCartComponent },
   { path: 'customerSupport', canActivate:[AuthGuard], component: CustomerSupportComponent },
-  { path: 'resetPassword', canActivate:[AuthGuard], component: ResetPasswordComponent },
+  { path: 'resetPassword',  component: ResetPasswordComponent },
   { path: 'cancelOrder', canActivate:[AuthGuard], component: CancelOrderComponent },
   { path: 'editAccountDetails', canActivate:[AuthGuard], component: EditAccountDetailsComponent },
   { path: 'addressBook', canActivate:[AuthGuard], component: AddressBookComponent },

@@ -38,6 +38,10 @@ export class AppComponent {
   // ----------------------------------------//
   // ----------------------------------------//
   // Routing For Page Start from here       //
+  public goAdminSignInPagePage()
+  {
+    this.router.navigate(['adminSignIn']);
+  }
   // This will open admin page
   public goAdminDashboardPage()
   {
@@ -194,7 +198,6 @@ export class AppComponent {
   // ----------------------------------------//
   // ----------------------------------------//
   //    Manage Local Storage ends  here     //
-
 
 }
 

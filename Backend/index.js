@@ -426,10 +426,7 @@ app.get("/getProductByCategory/:id", (req, res) => {
 
 app.get("/getSellerProduct/:Id", (req, res) => {
   let sId = req.params.Id;
-  let getQuery =
-    "Select product.Id, product.Name, product.Picture, product_stock.SellPrice, product_stock.BuyPrice, product_stock.Quantity, product_stock.AddStock As AddStockDate, product_stock.Discount, product.Description From product,product_stock Where product_stock.Product_Id = product.Id And product.Status = 1 And product_stock.Id = (SELECT MAX(product_stock.Id) As StockId FROM product_stock WHERE product_stock.Product_Id = product.Id ) And product.Seller_Id ='" +
-    sId +
-    "'";
+  let getQuery ="Select product.Id, product.Name, product.Picture, product_stock.SellPrice, product_stock.BuyPrice, product_stock.Quantity, product_stock.AddStock As AddStockDate, product_stock.Discount, product.Description, (SELECT SUM(((ps.SellPrice-(ps.SellPrice*ps.Discount/100))-(ps.BuyPrice))*(ps.TotalQuantityForSale-ps.Quantity)) From product_stock ps WHERE ps.Product_Id = product.Id) As Profit From product,product_stock Where product_stock.Product_Id = product.Id And product.Status = 1 And product_stock.Id = (SELECT MAX(product_stock.Id) As StockId FROM product_stock WHERE product_stock.Product_Id = product.Id ) And product.Seller_Id = '"+sId+"'";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
@@ -495,8 +492,24 @@ app.get("/getTotalExpense/:Id", (req, res) => {
 
 app.get("/getTotalSale/:sellerID", (req, res) => {
   let sellerId = req.params.sellerID;
-  let getQuery =
-    "SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
+  let getQuery ="SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
+  con.query(getQuery, (err, result) => {
+    if (err) {
+      res.send({
+        data: null,
+      });
+    } else {
+      res.send({
+        message: "Data",
+        data: result,
+      });
+    }
+  });
+});
+
+app.get("/getTotalProfit/:sellerID", (req, res) => {
+  let sellerId = req.params.sellerID;
+  let getQuery ="SELECT SUM( ((ps.SellPrice-(ps.SellPrice*ps.Discount/100))-(ps.BuyPrice))*od.Quantity ) As Profit FROM `order` o JOIN orderdetail od ON o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
@@ -612,8 +625,38 @@ app.post("/getSaleByDate/:Id", (req, res) => {
   year = eDate.getFullYear(); // current year
   enDate = year + ":" + month + ":" + date;
 
-  let getQuery =
-    "SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Date >= '"+stDate +"'And o.Date <= '" +enDate +"' And o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
+  let getQuery ="SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Date >= '"+stDate +"'And o.Date <= '" +enDate +"' And o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
+  con.query(getQuery, (err, result) => {
+    if (err) {
+      res.send({
+        data: null,
+      });
+    } else {
+      res.send({
+        message: "Data",
+        data: result,
+      });
+    }
+  });
+});
+
+app.post("/getProfitByDate/:Id", (req, res) => {
+  let sellerId = req.params.Id;
+  let sDate = req.body.startDate;
+  let eDate = req.body.endDate;
+  sDate = new Date(sDate);
+  eDate = new Date(eDate);
+  let date = ("0" + sDate.getDate()).slice(-2); // current date
+  let month = ("0" + (sDate.getMonth() + 1)).slice(-2); // current month
+  let year = sDate.getFullYear(); // current year
+  stDate = year + ":" + month + ":" + date;
+
+  date = ("0" + eDate.getDate()).slice(-2); // current date
+  month = ("0" + (eDate.getMonth() + 1)).slice(-2); // current month
+  year = eDate.getFullYear(); // current year
+  enDate = year + ":" + month + ":" + date;
+
+  let getQuery ="SELECT SUM( ((ps.SellPrice-(ps.SellPrice*ps.Discount/100))-(ps.BuyPrice))*od.Quantity ) As Profit FROM `order` o JOIN orderdetail od ON  o.Date >= '"+stDate +"'And o.Date <= '" +enDate +"' And o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
@@ -658,7 +701,6 @@ app.post("/getProductSoldByDate/:Id", (req, res) => {
         data: null,
       });
     } else {
-      console.log("ssssssssssssssssssss ", result);
       res.send({
         message: "Data",
         data: result,
@@ -958,7 +1000,7 @@ app.post("/addProductStock/:pId", (req, res) => {
 app.post("/updateRecentaddStock", (req, res) => {
   let newId = req.body.pStockId;
   let newPrdId = req.body.pId;
-  let postQuery ="UPDATE `product_stock`  JOIN  ( Select product_stock.Quantity As Qty, (((product_stock.BuyPrice)*product_stock.Quantity)*-1) As bPrice, '"+newId+"' As InsertNewId FROM product_stock Where product_stock.Id = ( SELECT MAX(Id) FROM product_stock WHERE product_stock.Product_Id = 	  '"+newPrdId+"' And product_stock.Id NOT IN(  SELECT MAX(Id) FROM product_stock WHERE product_stock.Product_Id = '"+newPrdId+"'  ) ) )  previous ON previous.InsertNewId = product_stock.Id SET Quantity = Quantity+(previous.Qty) , AllTimeQuantity = AllTimeQuantity+ (previous.Qty) , Difference = Difference + (previous.bPrice) WHERE product_stock.Id = '"+newId+"'";
+  let postQuery ="UPDATE `product_stock`  JOIN  ( Select product_stock.Quantity As Qty,  '"+newId+"' As InsertNewId FROM product_stock Where product_stock.Id = ( SELECT MAX(Id) FROM product_stock WHERE product_stock.Product_Id = '"+newPrdId+"' And product_stock.Id NOT IN(  SELECT MAX(Id) FROM product_stock WHERE product_stock.Product_Id = '"+newPrdId+"'  ) ) )  previous ON previous.InsertNewId = product_stock.Id SET Quantity = Quantity+(previous.Qty) , TotalQuantityForSale = TotalQuantityForSale+ (previous.Qty) WHERE product_stock.Id = '"+newId+"'";
   con.query(postQuery, (err, result) => {
     if (err) {
       res.send({

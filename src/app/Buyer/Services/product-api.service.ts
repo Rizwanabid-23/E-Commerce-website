@@ -56,6 +56,16 @@ export class ProductApiService {
   {
     return this._http.post("http://localhost:3000/getExpenseByDate/"+sid, date)
   }
+  totalProfit(sid:any):Observable<any>
+  {
+    // console.log("idddd  ", date);
+    return this._http.get("http://localhost:3000/getTotalProfit/"+sid)
+  }
+  profitByDate(date:any, sid:any):Observable<any>
+  {
+    // console.log("idddd  ", date);
+    return this._http.post("http://localhost:3000/getProfitByDate/"+sid, date)
+  }
   totalProductSold(sid:any):Observable<any>
   {
     return this._http.get("http://localhost:3000/getTotalProductSold/"+sid)

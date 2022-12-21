@@ -99,7 +99,6 @@ export class SellerDashboardComponent implements OnInit {
   {
     sessionStorage.removeItem('sellerLoginId');
     this.ap.goSellerSignInPage();
-    console.log("lllll");
   }
   //  Using with date calculating stastics start from here
   // ----------------------------------------------------
@@ -124,6 +123,7 @@ export class SellerDashboardComponent implements OnInit {
     {
       this.getExpenseByDate(selectedDate);
       this.getSaleByDate(selectedDate);
+      this.getProfitByDate(selectedDate);
       this.getProductSoldByDate(selectedDate);
     }
     else{
@@ -187,15 +187,48 @@ export class SellerDashboardComponent implements OnInit {
       year = edate.getFullYear(); // current year
       edate =date+"-"+year+"-"+month;
       this.saleBoxText = 'Sale from '+sdate+' to '+edate;
-      this.getProfitByDate(sdate, edate);
     })
   }
 
-  getProfitByDate(sDate, eDate)
+  async getProfitByDate(dates)
   {
-    this.profit = this.sale-this.expense;
-    this.profitBoxText = 'Profit from '+sDate+' to '+eDate;
+    let profit = null;
+    this.saleBoxInHtml = false;
+    await this.service.profitByDate(dates, sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
+      profit = res.data;
+      this.saleBoxInHtml = true;
+      if(profit[0].Profit == null)
+      {
+        this.profit = 0;
+      }
+      else
+      {
+        this.sale = profit[0].Profit;
+      }
+      let sdate = dates.startDate;
+      let date = ("0" + sdate.getDate()).slice(-2); // current date
+      let month = ("0" + (sdate.getMonth() + 1)).slice(-2); // current month
+      let year = sdate.getFullYear(); // current year
+      sdate =date+"-"+year+"-"+month;
+      let edate = dates.endDate;
+      date = ("0" + edate.getDate()).slice(-2); // current date
+      month = ("0" + (edate.getMonth() + 1)).slice(-2); // current month
+      year = edate.getFullYear(); // current year
+      edate =date+"-"+year+"-"+month;
+      this.saleBoxText = 'Profit from '+sdate+' to '+edate;
+    })
   }
+
+
+
+
+
+  
+  // getProfitByDate()
+  // {
+  //   this.profit = this.sale-this.expense;
+  //   this.profitBoxText = 'Profit from '+sDate+' to '+eDate;
+  // }
 
   getProductSoldByDate(dates)
   {
@@ -221,7 +254,6 @@ export class SellerDashboardComponent implements OnInit {
       year = edate.getFullYear(); // current year
       edate = date+"-"+year+"-"+month;
       this.soldProductQtyText = 'Sold Products from '+sdate+' to '+edate;
-      this.getProfitByDate(sdate, edate);
       this.dateForm.reset();
     })
   }
@@ -293,13 +325,24 @@ export class SellerDashboardComponent implements OnInit {
       {
         this.sale = salOfYear[0].SaleOfYear;
       }
-      this.getTotalProfit();
     })
   }
 
   getTotalProfit()
   {
-    this.profit = this.sale-this.expense;
+    let profit = null;
+    this.service.totalProfit(sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
+      profit = res.data;
+      console.log("profitt  ");
+      if(profit[0].Profit == null)
+      {
+        this.profit = 0;
+      }
+      else
+      {
+        this.profit = profit[0].Profit ;
+      }
+    })
   }
 
 
@@ -412,6 +455,7 @@ export class SellerDashboardComponent implements OnInit {
   }
 
   async updateRecent(insertStockId, insertedPrdId) {
+    console.log("updatetet");
     let response = null;
     let data = {
       "pId":insertedPrdId,

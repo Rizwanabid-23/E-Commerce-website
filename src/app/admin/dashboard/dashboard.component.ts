@@ -66,7 +66,11 @@ export class DashboardComponent implements OnInit {
     this.sellerBoxText = 'Total Registered Sellers'; 
     this.buyerBoxText = 'Total Registered Buyers';
   }
-
+  logOut()
+  {
+    sessionStorage.removeItem('adminLogin');
+    this.ap.goAdminSignInPagePage();
+  }
   getTotalSellers()
   {
     let seller = null;
