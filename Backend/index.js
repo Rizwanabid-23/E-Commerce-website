@@ -509,7 +509,7 @@ app.get("/getTotalSale/:sellerID", (req, res) => {
 
 app.get("/getTotalProfit/:sellerID", (req, res) => {
   let sellerId = req.params.sellerID;
-  let getQuery ="SELECT SUM( ((ps.SellPrice-(ps.SellPrice*ps.Discount/100))-(ps.BuyPrice))*od.Quantity ) As Profit FROM `order` o JOIN orderdetail od ON o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
+  let getQuery ="SELECT SUM(  (( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) -((( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity))*0.05) -((ps.BuyPrice)*od.Quantity)  )  As Profit FROM `order` o JOIN orderdetail od ON o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
@@ -656,7 +656,7 @@ app.post("/getProfitByDate/:Id", (req, res) => {
   year = eDate.getFullYear(); // current year
   enDate = year + ":" + month + ":" + date;
 
-  let getQuery ="SELECT SUM( ((ps.SellPrice-(ps.SellPrice*ps.Discount/100))-(ps.BuyPrice))*od.Quantity ) As Profit FROM `order` o JOIN orderdetail od ON  o.Date >= '"+stDate +"'And o.Date <= '" +enDate +"' And o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
+  let getQuery ="SELECT SUM(  (( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) -((( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity))*0.05) -((ps.BuyPrice)*od.Quantity)  )  As Profit FROM `order` o JOIN orderdetail od ON  o.Date >= '"+stDate +"'And o.Date <= '" +enDate +"' And o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
@@ -1408,8 +1408,62 @@ app.post("/getBuyerByDate", (req, res) => {
   });
 });
 
+app.get("/getAdminRevenue", (req, res) => {
+  let getQuery = "SELECT SUM(((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity)*0.05) As AdminRevenue FROM orderdetail od, product_stock ps WHERE ps.Id = od.ProductStock_Id";
+  con.query(getQuery, (err, result) => {
+    if (err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else
+    {
+      res.send
+      ({
+        data: result,
+      });
+    }
+  });
+});
+
+app.post("/getAdminRevenueByDate", (req, res) => {
+  let sDate = req.body.startDate;
+  let eDate = req.body.endDate;
+  sDate = new Date(sDate);
+  eDate = new Date(eDate);
+  let date = ("0" + sDate.getDate()).slice(-2); // current date
+  let month = ("0" + (sDate.getMonth() + 1)).slice(-2); // current month
+  let year = sDate.getFullYear(); // current year
+  stDate = year + ":" + month + ":" + date;
+
+  date = ("0" + eDate.getDate()).slice(-2); // current date
+  month = ("0" + (eDate.getMonth() + 1)).slice(-2); // current month
+  year = eDate.getFullYear(); // current year
+  enDate = year + ":" + month + ":" + date;
+  let getQuery ="SELECT SUM(((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity)*0.05) As AdminRevenue FROM orderdetail od, product_stock ps, `order` o WHERE ps.Id = od.ProductStock_Id AND o.Id = od.Order_Id AND o.Date >= '"+stDate+"' AND o.Date <= '"+enDate+"'";
+  con.query(getQuery, (err, result) => {
+    console.log("admi datw ",result);
+    if(err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else 
+    {
+      res.send({
+        message: "Data",
+        data: result,
+      });
+    }
+  });
+});
+
 app.get("/getSellerData", (req, res) => {
-  let getQuery = "SELECT `Id`, `FirstName`, `LastName`, `Email`, `PhoneNo`, `CnicNo`, `City`, `Address`, `Password`, `JoiningDate` FROM `seller_user`";
+  let getQuery = "SELECT su.FirstName, su.LastName, su.Email, SUM(od.Quantity) As TotalQuantitySale, SUM((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity) As SaleOfSeller, su.JoiningDate FROM seller_user su, product p, orderdetail od, product_stock ps WHERE su.Id = p.Seller_Id AND od.Product_Id = p.Id AND ps.Id = od.ProductStock_Id ORDER BY SUM((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity)";
   con.query(getQuery, (err, result) => {
     if (err) 
     {
@@ -1429,7 +1483,8 @@ app.get("/getSellerData", (req, res) => {
 });
 
 app.get("/getBuyerData", (req, res) => {
-  let getQuery = "SELECT `Id`, `FullName`, `Email`, `Password`, `JoiningDate` FROM `buyer_user`";
+  console.log("get buyeyeyey ");
+  let getQuery = "SELECT bu.FullName, bu.Email, SUM(od.Quantity) As TotalQuantityBuy, SUM((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity) As SaleOfBuyer, bu.JoiningDate FROM buyer_user bu, `order` o, orderdetail od, product_stock ps WHERE bu.Id = o.Buyer_Id AND o.Id = od.Order_Id AND ps.Id = od.ProductStock_Id ORDER By SUM((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity)";
   con.query(getQuery, (err, result) => {
     if (err) 
     {

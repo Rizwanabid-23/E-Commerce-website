@@ -203,7 +203,7 @@ export class SellerDashboardComponent implements OnInit {
       }
       else
       {
-        this.sale = profit[0].Profit;
+        this.profit = profit[0].Profit;
       }
       let sdate = dates.startDate;
       let date = ("0" + sdate.getDate()).slice(-2); // current date
@@ -215,20 +215,9 @@ export class SellerDashboardComponent implements OnInit {
       month = ("0" + (edate.getMonth() + 1)).slice(-2); // current month
       year = edate.getFullYear(); // current year
       edate =date+"-"+year+"-"+month;
-      this.saleBoxText = 'Profit from '+sdate+' to '+edate;
+      this.profitBoxText = 'Profit from '+sdate+' to '+edate;
     })
   }
-
-
-
-
-
-  
-  // getProfitByDate()
-  // {
-  //   this.profit = this.sale-this.expense;
-  //   this.profitBoxText = 'Profit from '+sDate+' to '+eDate;
-  // }
 
   getProductSoldByDate(dates)
   {

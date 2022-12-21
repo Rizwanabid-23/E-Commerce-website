@@ -12,6 +12,9 @@ declare var window:any;
 })
 export class DashboardComponent implements OnInit {
 
+  adminBoxText:any;
+  adminRevenue:any;
+
   sellerBoxText:any;
   seller:any;
 
@@ -43,6 +46,7 @@ export class DashboardComponent implements OnInit {
     this.ap.buyerLogin = false;
     this.ap.appOpen = false;
     this.onLoadInitiateVariable();
+    this.getAdminRevenue();
     this.getTotalSellers();
     this.getTotalBuyers();
     this.getSellerData();
@@ -63,6 +67,7 @@ export class DashboardComponent implements OnInit {
   onLoadInitiateVariable()
   {
     this.adminName = sessionStorage.getItem('adminLogin');
+    this.adminBoxText = 'Total Revenue';
     this.sellerBoxText = 'Total Registered Sellers'; 
     this.buyerBoxText = 'Total Registered Buyers';
   }
@@ -71,6 +76,22 @@ export class DashboardComponent implements OnInit {
     sessionStorage.removeItem('adminLogin');
     this.ap.goAdminSignInPagePage();
   }
+  getAdminRevenue()
+  {
+    let revenue = null;
+    this.service.adminRevenue().subscribe((res) =>{
+      revenue = res.data;
+      if(revenue[0].AdminRevenue == null)
+      {
+        this.adminRevenue = 0;
+      }
+      else
+      {
+        this.adminRevenue = revenue[0].AdminRevenue;
+      }
+    })
+  }
+
   getTotalSellers()
   {
     let seller = null;
@@ -142,14 +163,43 @@ export class DashboardComponent implements OnInit {
       startDate:start,
       endDate:end
     }
-    if( (this.dateForm.value.startDate < this.dateForm.value.endDate) && ( end<=currentDate))
+    if( (this.dateForm.value.startDate <= this.dateForm.value.endDate) && ( end <= currentDate))
     {
       this.getSellerByDate(selectedDate);
       this.getBuyerByDate(selectedDate);
+      this.getRevenueByDate(selectedDate);
+      
     }
     else{
       this.showMsgInDashboard = 'Start date should be less than end date and end date should be less than or equal to current date';
     }
+  }
+
+  getRevenueByDate(dates)
+  {
+    let revenue = null;
+    this.service.revenueByDate(dates).subscribe((res)=>{
+      revenue = res.data;
+      if(revenue[0].AdminRevenue  == null)
+      {
+        this.adminRevenue = 0;
+      }
+      else
+      {
+        this.adminRevenue = revenue[0].AdminRevenue ;
+      }
+      let sdate = dates.startDate;
+      let date = ("0" + sdate.getDate()).slice(-2); // current date
+      let month = ("0" + (sdate.getMonth() + 1)).slice(-2); // current month
+      let year = sdate.getFullYear(); // current year
+      sdate = date+ ":" + month + ":" +year;
+      let edate = dates.endDate;
+      date = ("0" + edate.getDate()).slice(-2); // current date
+      month = ("0" + (edate.getMonth() + 1)).slice(-2); // current month
+      year = edate.getFullYear(); // current year
+      edate =  date+ ":" + month + ":" +year;
+      this.adminBoxText = 'Revenue from '+sdate+' to '+edate;
+    })
   }
 
   getSellerByDate(dates)
@@ -264,7 +314,6 @@ export class DashboardComponent implements OnInit {
   // Add category code ends      here
   // ---------------------------------
   // ---------------------------------
-
 
   // Add SubCategory code start from here
   // ------------------------------------
@@ -385,6 +434,8 @@ export class DashboardComponent implements OnInit {
       this.buyerData = res.data;
     })
   }
+
+
 
 
 

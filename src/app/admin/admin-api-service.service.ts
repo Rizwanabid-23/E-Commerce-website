@@ -27,6 +27,14 @@ export class AdminApiServiceService {
   {
     return this._http.post('http://localhost:3000/getBuyerByDate', data);
   }
+  adminRevenue():Observable<any>
+  {
+    return this._http.get('http://localhost:3000/getAdminRevenue');
+  }
+  revenueByDate(data:any):Observable<any>
+  {
+    return this._http.post('http://localhost:3000/getAdminRevenueByDate', data);
+  }
   getSellerData():Observable<any>
   {
     return this._http.get('http://localhost:3000/getSellerData');
