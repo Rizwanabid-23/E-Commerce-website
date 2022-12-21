@@ -288,18 +288,11 @@
                                                         <td>{{prd.AddStockDate   | date:'dd-MM-yyyy'}}</td>
                                                         <td>
                                                             <div class="row">
-                                                                <div class="col">
-                                                                    <div ngbDropdown class="d-inline-block">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            id="dropdownBasic1" ngbDropdownToggle>
-
-                                                                        </button>
-                                                                        <div ngbDropdownMenu
-                                                                            aria-labelledby="dropdownBasic1">
-                                                                            <button (click)="updateProduct(prd.Id, prd.Quantity, prd.Name)" ngbDropdownItem>Update</button>
-                                                                            <button (click)="deleteProduct(prd.Id)" ngbDropdownItem>Delete</button>
-                                                                        </div>
+                                                                <div class="col-md-4">
+                                                                    <button class="bi bi-pencil-square" (click)="updateProduct(prd.Id, prd.Quantity, prd.Name)"></button>
                                                                     </div>
+                                                                <div class="col-md-4">
+                                                                    <button class="bi bi-trash" (click)="deleteProduct(prd.Id)"></button>
                                                                 </div>
                                                             </div>
                                                         </td>

@@ -151,7 +151,7 @@ app.post("/buyerUserSignInValid", (req, res) => {
   let check_buyer_email = req.body.email;
   let check_buyer_pin = req.body.password;
   let getQuery =
-    "Select Id From buyer_user WHERE Email = '" +
+    "Select Id,FullName From buyer_user WHERE Email = '" +
     check_buyer_email +
     "' And Password = '" +
     check_buyer_pin +
@@ -160,7 +160,7 @@ app.post("/buyerUserSignInValid", (req, res) => {
     if (userResult.length > 0) {
       res.send({
         message: "Data",
-        data: userResult[0].Id,
+        data: userResult,
       });
     } else {
       res.send({
@@ -1083,16 +1083,12 @@ app.post("/updateBuyerPassword", (req, res) => {
 });
 
 app.get("/getSingleUserData/:Id", (req, res) => {
-  // console.log(req.params.Id);
-  // console.log('hello');
   let id = req.params.Id;
   let getQuery = `Select * from buyer_user where Id = '${id}'`;
   con.query(getQuery, (err, result) => {
     if (err) {
-      // console.log("Error");
       res.send("Error");
     } else {
-      // console.log(result)
       res.send({
         data: result,
       });

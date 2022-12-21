@@ -1,4 +1,28 @@
+<style>
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
 
+#logout {
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    /* margin-left: 420px; */
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+</style>
 <div *ngIf="this.isAppOpen">
    <nav>
         <!-- <label routerLink="/" class="logo animate">Home</label> -->
@@ -21,7 +45,19 @@
              <li><button class="cartPic" (click)="openProductCartPage()"><img src="assets/cart.jpg" alt="" style="width: 40px;"></button></li>
              <li><a class="animate" routerLink="/customerSupport">Customer Support</a></li>
              <li><a class="animate" routerLink="/SignInSeller">Become Seller</a></li>
-             <li><a class="animate" style="cursor:pointer" >Logout</a></li>
+             <!-- <li><a class="animate" style="cursor:pointer" >Logout</a></li> -->
+             <li>
+                <div class="dropdown" id="logout">
+                    <a class="animate">
+                        <img src="assets/user-xs-01.jpg" class="user-image rounded-circle"
+                        alt="User Image" />
+                        <span class="d-none d-lg-inline-block">{{buyerName}}</span>
+                    </a>
+                    <div class="dropdown-content">
+                        <a (click)="logOut()">Log out</a>
+                    </div>
+                </div>
+             </li>
          </ul>
      </nav>
  </div>
