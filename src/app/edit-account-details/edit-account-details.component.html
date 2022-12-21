@@ -60,7 +60,7 @@
                                         id="formGroupExampleInput" placeholder="Edit Email" required disabled>
                                         <label for="formGroupExampleInput"
                                         class="form-label">Password</label>
-                                        <input type="text" class="form-control" formControlName="password"
+                                        <input type="text" class="form-control" formControlName="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$"
                                             id="formGroupExampleInput" placeholder="Edit Password" required>
                                 </div>
                             </div>
