@@ -1,20 +1,4 @@
 <div class="row container">
-    <!-- <div class="col-4">
-    </div>
-    <div class="col-7">
-        <div class="search-form">
-            <div class="container h-100">
-                <div class="d-flex justify-content-center h-20 ">
-                    <div class="searchbar">
-                        <input class="search_input" type="text" name="" placeholder="Search...">
-                        <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-2">
-    </div> -->
 </div>
 
 <div class="row" >
@@ -24,8 +8,7 @@
             <nav class="sidebar card py-2 mb-4">
                 <ul class="nav flex-column" id="nav_accordion">
                     <li  *ngFor="let cat of categories" class="nav-item" id ="#menu{{cat.Id}}">
-                        <a  class="nav-link" data-bs-toggle="collapse" [attr.data-bs-target]="'#menu' + cat.Id" href="#"> <img
-                                src="assets/electronics.png" style="width: 20px;" alt=""> {{cat.Name}}<i
+                        <a  class="nav-link" data-bs-toggle="collapse" [attr.data-bs-target]="'#menu' + cat.Id" href="#"> {{cat.Name}}<i
                                 class="bi small bi-caret-down-fill"></i> </a>
                         <ul id="menu{{cat.Id}}" class="submenu collapse" data-bs-parent="#nav_accordion">
                             <div  *ngFor="let sub_cat of subCategories">
@@ -71,25 +54,9 @@
     <div class="col-md-8" style="margin-top: 0px;">
         <div class="container mt-3">
             <ngb-carousel #carousel>
-                <ng-template ngbSlide>
+                <ng-template *ngFor="let prdPic of prdData" ngbSlide>
                     <div class="img-block">
-                        <img src="assets/img1.jpg" width="100%" alt="Img 1">
-                    </div>
-                    <div class="carousel-caption">
-
-                    </div>
-                </ng-template>
-                <ng-template ngbSlide>
-                    <div class="img-block">
-                        <img src="assets/img2.jpg" width="100%" alt="Img 2">
-                    </div>
-                    <div class="carousel-caption">
-
-                    </div>
-                </ng-template>
-                <ng-template ngbSlide>
-                    <div class="img-block">
-                        <img src="assets/img3.jpg" width="100%" alt="Img 3">
+                        <img src="http://localhost:3000/{{prdPic.Picture}}" width="100%" style="height: 350px;" alt="Img 1">
                     </div>
                     <div class="carousel-caption">
 
@@ -97,11 +64,11 @@
                 </ng-template>
             </ngb-carousel>
 
-            <!-- <div class="text-center">
+            <div class="text-center">
                 <button class="btn btn-outline-secondary" (click)="prevSlide()">Prev</button>
                 <button class="btn btn-outline-secondary" (click)="nextSlide()">Next</button>
                 <button class="btn btn-outline-secondary" (click)="stopSlider()">Stop</button>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>

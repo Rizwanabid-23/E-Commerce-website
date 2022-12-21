@@ -52,6 +52,7 @@ export class NavbarComponent implements OnInit {
 
   logOut()
   {
-
+    sessionStorage.removeItem('buyerLoginId');
+    this.ap.goBuyerSignInPage();
   }
 }
