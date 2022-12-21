@@ -28,7 +28,6 @@ export class NavbarComponent implements OnInit {
   { // This will load state of buyer login in variables from localstorage
     if(sessionStorage.getItem('buyerLoginId') == null)
     {
-      console.log("Null");
       this.ap.buyerLogin = false;
       this.ap.appOpen = true;
       this.isAppOpen = this.ap.appOpen;
@@ -36,7 +35,6 @@ export class NavbarComponent implements OnInit {
       this.adminSignIn = false;
     }
     else{
-      console.log("Yes");
       this.ap.buyerLogin = true;
       this.ap.appOpen = false;
       this.isAppOpen = this.ap.appOpen;

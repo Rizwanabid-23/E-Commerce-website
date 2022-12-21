@@ -478,7 +478,7 @@ app.get("/getBuyerData/:Id", (req, res) => {
 
 app.get("/getTotalExpense/:Id", (req, res) => {
   let sellerId = req.params.Id;
-  let getQuery ="SELECT SUM(ps.Difference + (ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE p.Id = ps.Product_Id And   p.Seller_Id = '"+sellerId+"'";
+  let getQuery ="SELECT SUM((ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE p.Id = ps.Product_Id And   p.Seller_Id = '"+sellerId+"'";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
@@ -496,9 +496,7 @@ app.get("/getTotalExpense/:Id", (req, res) => {
 app.get("/getTotalSale/:sellerID", (req, res) => {
   let sellerId = req.params.sellerID;
   let getQuery =
-    "SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '" +
-    sellerId +
-    "' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
+    "SELECT SUM(( ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(od.Quantity)) As SaleOfYear FROM `order` o JOIN orderdetail od ON o.Id = od.Order_Id JOIN product p ON p.Seller_Id = '"+sellerId+"' AND p.Id = od.Product_Id JOIN product_stock ps ON ps.Id = od.ProductStock_Id";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
