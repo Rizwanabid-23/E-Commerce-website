@@ -1,74 +1,62 @@
 <div class="marginFromNavbar"></div>
 <div class="container-fluid">
     <div class="row d-flex justify-content-center">
-
-        <div class="col-lg-8">
-            <div class="row"> 
-                <h3 class="col-md-6 pageMainHeading">Create Your E-Commerce Account</h3>
-                <div class="float-right col-md-6">
-                    <div class="float-right simpleText">Already Member? <button (click)="openSignInPage()" class="Links">Login</button> here.</div>
-                </div>
-            </div>
-            <br>
+        
+        <div class="row d-flex justify-content-center">
+            <div *ngIf="showMsg" class="alert alert-danger">
+              <strong>{{showMsg}}</strong>
+            </div> 
             <form [formGroup]="signUpForm" (ngSubmit)="checkDetailValidSignUpForm()" ngNativeValidate >
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="label inputBoxHeadingColor" for="exampleInputEmail1">Email*</label>
-                            <input type="email" class="form-control w-100" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="Please enter your phone number or email" formControlName="email"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label class="label inputBoxHeadingColor" for="exampleInputPassword1">Password*</label>
-                            <input type="password" class="form-control w-100" id="exampleInputPassword1" formControlName="password"
-                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$"
-                                placeholder="Please enter your password" 
-                                title="Password Must contain Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character" required>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="label inputBoxHeadingColor" for="forFName">FullName*</label>
-                            <input type="text" class="form-control w-100" id="forFName" formControlName="fullname"
-                                placeholder="Please enter your name" pattern="^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$" minlength="3" maxlength="20"
-                                title="Enter Name in Right Format" required>
-                        </div>
+                <section class="vh-100 gradient-custom">
+                    <div class="row d-flex justify-content-center align-items-center h-100"  style="height: 1000px">
+                        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                            <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                                <div class="card-body p-5 text-center">
+                                    <div class="mb-md-5 mt-md-4 pb-5">
+                                        <h2 class="fw-bold mb-4 text-uppercase">Create Account</h2>
 
+                                        <div class="form-outline form-white mb-4">
+                                        <input type="email" id="emailId" formControlName="email" class="form-control form-control-lg" required/>
+                                        <label class="form-label" for="emailId">Email</label>
+                                        </div>
+                                        
+                                        <div class="form-outline form-white mb-4">
+                                            <input type="text" id="nameId" pattern="^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$" minlength="3" maxlength="20"
+                                            title="Enter Name in Right Format" formControlName="fullname" class="form-control form-control-lg" required/>
+                                            <label class="form-label" for="nameId">Full Name</label>
+                                        </div>
 
-                       <div class="row">
-                            <div *ngIf="verificationCodeSended" class="col-md-7">
-                                <div class="form-group">
-                                    <label class="label inputBoxHeadingColor" for="exampleInputPassword1">Verification Code*</label>
-                                    <input type="number"   class="form-control w-100" maxlength="6" minlength="6"
-                                    id="exampleInputVerification" formControlName="verificationCode" title="Length should be 6"
-                                    placeholder="Enter Verification Code" required>
+                                        <div class="form-outline form-white mb-4">
+                                        <input type="password" id="passwordId" formControlName="password"  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$"
+                                        title="Password Must contain Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character" class="form-control form-control-lg" required/>
+                                        <label class="form-label" for="passwordId">Password</label>
+                                        </div> 
+
+                                        <div *ngIf="verificationCodeSended" class="form-outline form-white mb-4">
+                                            <input type="number" title="Length should be 6" id="verificationId" formControlName="verificationCode"  maxlength="6" minlength="6" class="form-control form-control-lg" required/>
+                                            <label class="form-label" for="verificationId">Verification Code*</label>
+                                        </div>
+
+                                        <div *ngIf="verificationCodeSended">
+                                            <button type="button" class="btn btn-outline-light btn-lg px-5"
+                                            (click)="sendVerificationCode()" >{{verificationCodeButtonText}}</button>
+                                            <p>{{verificationCodeVaildTime}}</p>
+                                        </div>
+
+                                        <div  *ngIf="!verificationCodeSended" >
+                                            <button type="button" [disabled]="getCodeButtonProperty" class="btn btn-outline-light btn-lg px-5" (click)="sendVerificationCode()"
+                                            >{{verificationCodeButtonText}}</button>
+                                        </div>
+                                        <div>
+                                            <button *ngIf="signUpButton" class="btn btn-outline-light btn-lg px-5" type="submit">Sign Up</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <div *ngIf="verificationCodeSended" class="col-md-5 mt-4">
-                                <button type="button" class="btn btn-danger w-100 my-2" 
-                                (click)="sendVerificationCode()" style="height: 40px;">{{verificationCodeButtonText}}</button>
-                                <p>{{verificationCodeVaildTime}}</p>
-                            </div>
-                            <div  *ngIf="!verificationCodeSended" class="col-md-12 mt-4">
-                                <button type="button" [disabled]="getCodeButtonProperty" class="btn btn-danger w-100 my-2 me-5" (click)="sendVerificationCode()"
-                                style="height: 40px;">{{verificationCodeButtonText}}</button>
-                            </div>
-                       </div>
-                       
+                        </div>
                     </div>
-                    <button *ngIf="signUpButton" type="submit" class="btn btn-danger w-100 my-2 ms-2 me-5"
-                    style="height: 40px;">{{signUpButtonText}}</button>
-
-                </div>
+                </section>
             </form>
-            <div *ngIf="showMsg" class="alert alert-success">
-                <strong>{{showMsg}}</strong>
-            </div>
-
-
         </div>
     </div>
 </div>

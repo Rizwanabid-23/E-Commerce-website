@@ -20,28 +20,33 @@ import { TrackOrderComponent } from './track-order/track-order.component';
 import { MessageModalComponent } from './Shared/message-modal/message-modal.component';
 import { NavbarComponent } from './App/navbar/navbar.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { AuthGuard } from './Shared/auth.guard';
+import { SellerAuthGuard } from './SellerRegistration/seller-auth.guard';
+import { AdminAuthGuard } from './admin/admin-auth.guard';
+import { AdminSignInComponent } from './admin/admin-sign-in/admin-sign-in.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'SignIn', component: SignInComponent },
   { path: 'SignUp', component: SignUpComponent },
+  { path: 'productAndSellerDetails', component: ProdAndSellerDescriptionComponent, },
+  { path: 'productCart', canActivate:[AuthGuard], component: ProductCartComponent },
+  { path: 'customerSupport', canActivate:[AuthGuard], component: CustomerSupportComponent },
+  { path: 'resetPassword', canActivate:[AuthGuard], component: ResetPasswordComponent },
+  { path: 'cancelOrder', canActivate:[AuthGuard], component: CancelOrderComponent },
+  { path: 'editAccountDetails', canActivate:[AuthGuard], component: EditAccountDetailsComponent },
+  { path: 'addressBook', canActivate:[AuthGuard], component: AddressBookComponent },
+  { path: 'myReturns', canActivate:[AuthGuard], component: MyReturnsComponent },
+  { path: 'trackOrder', canActivate:[AuthGuard], component: TrackOrderComponent },
   { path: 'SignInSeller', component: SignInSellerComponent },
   { path: 'SignUpSeller', component: SignUpSellerComponent },
-  { path: 'SellerDashboard', component: SellerDashboardComponent },
-  { path: 'addStock', component: AddStockComponent },
-  { path: 'productAndSellerDetails', component: ProdAndSellerDescriptionComponent, },
-  { path: 'productCart', component: ProductCartComponent },
+  { path: 'SellerDashboard', canActivate:[SellerAuthGuard], component: SellerDashboardComponent },
+  { path: 'addStock', canActivate:[SellerAuthGuard], component: AddStockComponent },
+  { path: 'adminSignIn',  component:AdminSignInComponent},
+  { path: 'adminDashboard', canActivate:[AdminAuthGuard], component:DashboardComponent},
   { path: 'uploadFile', component: UploadFileService },
-  { path: 'customerSupport', component: CustomerSupportComponent },
-  { path: 'resetPassword', component: ResetPasswordComponent },
-  { path: 'cancelOrder', component: CancelOrderComponent },
-  { path: 'editAccountDetails', component: EditAccountDetailsComponent },
-  { path: 'addressBook', component: AddressBookComponent },
-  { path: 'myReturns', component: MyReturnsComponent },
-  { path: 'trackOrder', component: TrackOrderComponent },
   { path: 'ShowMessageModal', component: MessageModalComponent },
-  { path: 'navbar', component: NavbarComponent },
-  {path: 'adminDashboard',component:DashboardComponent}
+  { path: 'navbar', component: NavbarComponent }
 ];
 
 @NgModule({

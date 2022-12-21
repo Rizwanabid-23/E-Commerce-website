@@ -85,7 +85,7 @@
                                 <button class="dropdown-toggle nav-link" data-toggle="dropdown">
                                     <img src="assets/user-xs-01.jpg" class="user-image rounded-circle"
                                         alt="User Image" />
-                                    <span class="d-none d-lg-inline-block">Admin</span>
+                                    <span class="d-none d-lg-inline-block">{{adminName}}</span>
                                 </button>
                                 <div class="dropdown-content">
                                     <button>Log out</button>
@@ -112,12 +112,15 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form [formGroup]="addCategoryForm" (ngSubmit)="saveCategory()" ngNativeValidate>
+                            <form [formGroup]="addCategoryForm" (ngSubmit)="checkValidCategory()" ngNativeValidate>
                                 <div class="row">
                                     <div class="col-lg-12 ">
                                         <div class="row mx-2 mt-2"
                                             style="background-color: whitesmoke;">
                                             <div class="mb-3">
+                                                <div *ngIf="showMsgInCategoryModal" class="alert alert-danger">
+                                                    <strong>{{showMsgInCategoryModal}}</strong>
+                                                </div>
                                                 <label for="formGroupExampleInput"
                                                     class="form-label">Category Name</label>
                                                 <input type="text" class="form-control"
@@ -157,11 +160,14 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form [formGroup]="addSubCategoryForm" (ngSubmit)="saveSubCategory()" ngNativeValidate>
+                            <form [formGroup]="addSubCategoryForm" (ngSubmit)="checkValidSubCategory()" ngNativeValidate>
                                 <div class="row">
                                     <div class="col-lg-12 ">
                                         <div class="row mx-2 mt-2"
                                             style="background-color: whitesmoke;">
+                                            <div *ngIf="showMsgInSubCategoryModal" class="alert alert-danger">
+                                                <strong>{{showMsgInSubCategoryModal}}</strong>
+                                            </div>
                                             <div class="mb-3">
                                                 <label for="validationCity"
                                                     class="form-label">Select Category</label>
@@ -214,12 +220,15 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form [formGroup]="addBrandForm" (ngSubmit)="saveBrand()" ngNativeValidate>
+                            <form [formGroup]="addBrandForm" (ngSubmit)="checkValidBrand()" ngNativeValidate>
                                 <div class="row">
                                     <div class="col-lg-12 ">
                                         <div class="row mx-2 mt-2"
                                             style="background-color: whitesmoke;">
                                             <div class="mb-3">
+                                                <div *ngIf="showMsgInBrandModal" class="alert alert-danger">
+                                                    <strong>{{showMsgInBrandModal}}</strong>
+                                                </div>
                                                 <label for="formGroupExampleInput"
                                                     class="form-label">Brand Name</label>
                                                 <input type="text" class="form-control"
@@ -253,41 +262,35 @@
             <!--Modals ends here-------->
             <!-------------------------->
             <!-------------------------->
-
-
-
-
             <div class="content-wrapper">
                 <div class="content">
                     <!-- Top Statistics -->
-                    <div class="row">
-                        <div class="col-xl-3 col-sm-6">
-                            <div class="card card-default card-mini">
-                                <div class="card-header">
-                                    <h2><b> Rs. 0{{registeredSellers}}</b></h2>
-
-                                    <div class="sub-title">
-                                        <span class="mr-1">Number of sellers registered</span>
-                                        <span class="mx-1"></span>
-                                        <i class="mdi mdi-arrow-up-bold text-success"></i>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-wrapper">
-                                        <div>
-                                            <div id="spline-area-1"></div>
-                                        </div>
-                                    </div>
-                                </div>
+                    <form (ngSubmit)=" getSelectedDate()" [formGroup]="dateForm" ngNativeValidate>
+                        <div class="row mb-3">
+                            <div class="col-xl-2 col-sm-6">
+                                <label class="label inputBoxHeadingColor"> From</label>
+                                <input type="date" formControlName="startDate" class="form-control" required>
+                            </div>
+                            <div class="col-xl-2 col-sm-6">
+                                <label class="label inputBoxHeadingColor"> To</label>
+                                <input type="date" formControlName="endDate" class="form-control" required>
+                            </div>
+                            <div class="col-xl-2 col-sm-6 mb-0" style="margin-top: 35px;">
+                                <button type="submit" class="btn btn-primary btn-pill"
+                                style="color: black;">Apply Date</button>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-sm-6">
+                        <div *ngIf="showMsgInDashboard" class="alert alert-danger">
+                            <strong>{{showMsgInDashboard}}</strong>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-xl-4 col-sm-6">
                             <div class="card card-default card-mini">
-                                <div class="card-header">
-                                    <h2><b>RS. 0{{registeredBuyers}}</b></h2>
-
+                                <div class="card-header" >
+                                    <h2><b>Qty. {{seller}}</b></h2>
                                     <div class="sub-title">
-                                        <span class="mr-1">Number of registered buyers</span>
+                                        <span class="mr-1">{{sellerBoxText}}</span>
                                         <span class="mx-1"></span>
                                         <i class="mdi mdi-arrow-down-bold text-danger"></i>
                                     </div>
@@ -301,13 +304,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-sm-6">
+                        <div class="col-xl-4 col-sm-6">
                             <div class="card card-default card-mini">
-                                <div class="card-header">
-                                    <h2><b>Rs. 0{{monthlyRevenue}}</b></h2>
-
+                                <div class="card-header" >
+                                    <h2><b>Qty. {{buyer}}</b></h2>
                                     <div class="sub-title">
-                                        <span class="mr-1">Revenue of this month</span>
+                                        <span class="mr-1">{{buyerBoxText}}</span>
                                         <span class="mx-1"></span>
                                         <i class="mdi mdi-arrow-down-bold text-danger"></i>
                                     </div>
@@ -315,27 +317,7 @@
                                 <div class="card-body">
                                     <div class="chart-wrapper">
                                         <div>
-                                            <div id="spline-area-3"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-sm-6">
-                            <div class="card card-default card-mini">
-                                <div class="card-header">
-                                    <h2><b>Rs. 0{{annualRevenue}}</b></h2>
-
-                                    <div class="sub-title">
-                                        <span class="mr-1">Revenue of this year</span>
-                                        <span class="mx-1"></span>
-                                        <i class="mdi mdi-arrow-up-bold text-success"></i>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-wrapper">
-                                        <div>
-                                            <div id="spline-area-4"></div>
+                                            <div id="spline-area-2"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -357,37 +339,47 @@
                         <div class="col-12">
                             <div class="card card-default">
                                 <div class="card-header">
-                                    <h2>Top Products</h2>
+                                    <h2>Top Sellers</h2>
                                     <div class="dropdown">
-
-                                        <a class="btn btn-primary btn-pill" (click)="openAddCategoryModal()"
+                                        <a class="btn btn-primary btn-pill mx-1" (click)="openAddCategoryModal()"
                                         style="color: black;">Add Category </a>
-
-                                        <a class="btn btn-primary btn-pill" (click)="openAddSubCategoryModal()"
+                                        <a class="btn btn-primary btn-pill mx-1" (click)="openAddSubCategoryModal()"
                                         style="color: black;">Add Sub Category </a>
-
-                                        <a class="btn btn-primary btn-pill" (click)="openAddBrandModal()"
+                                        <a class="btn btn-primary btn-pill mx-1" (click)="openAddBrandModal()"
                                         style="color: black;">Add Brand </a>
-
-                                        <div class="dropdown-menu dropdown-menu-right"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="card-body">
-                                    <div class="container ex3">
-                                        <!-- <ng-container *ngIf="this.prdData"> -->
-                                        <!-- </ng-container> -->
-                                    </div>
+                                    <!-- <ng-container *ngIf="this.saleData"> -->
+                                        <table class="table table-borderless table-thead-border">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Phone No.</th>
+                                                    <th>City</th>
+                                                    <th>Joining Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngFor="let seler of sellerData">
+                                                <tr>
+            
+                                                    <td>{{seler.FirstName+' '+seler.LastName}}</td>
+                                                    <td>{{seler.Email}}</td>
+                                                    <td>{{seler.PhoneNo}}</td>
+                                                    <td>{{seler.City}}</td>
+                                                    <td>{{seler.JoiningDate  | date:'dd-MM-yyyy'}}</td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    <!-- </ng-container> -->
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <br>
                     <br>
                     <div class="row">
@@ -395,7 +387,7 @@
                             <!-- Top Customers -->
                             <div class="card card-default">
                                 <div class="card-header">
-                                    <h2>Top Customers</h2>
+                                    <h2>Top Buyers</h2>
                                 </div>
                                 <div class="card-body">
                                     <!-- <ng-container *ngIf="this.saleData"> -->
@@ -403,28 +395,30 @@
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
-                                                    <th >ID</th>
-                                                    <th>Products bought</th>
+                                                    <th >Email</th>
+                                                    <th>Joining Date</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                
-                                            </tbody>
-                                            <tfoot class="border-top">
+                                            <tbody *ngFor="let ber of buyerData">
                                                 <tr>
-                                                    <td><a href="#" class="text-uppercase">See All</a></td>
+                                                    <td>{{ber.FullName}}</td>
+                                                    <td>{{ber.Email}}</td>
+                                                    <td>{{ber.JoiningDate  | date:'dd-MM-yyyy'}}</td>
+                                                    <td>
+                                                    </td>
                                                 </tr>
-                                            </tfoot>
+                                            </tbody>
                                         </table>
                                     <!-- </ng-container> -->
                                 </div>
                             </div>
 
                         </div>
+
                         <div class="col-xl-8">
                             <div class="card card-default">
                                 <div class="card-header align-items-center">
-                                    <h2 class="">Top Sellers</h2>
+                                    <h2 class="">Top Customers</h2>
                                     <!-- <a class="btn btn-primary  btn-pill" style="color: black;">Add Stock</a> -->
                                 </div>
                                 <div class="card-body">
@@ -435,37 +429,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xl-8">
-
-                            <!-- Sales by Product -->
-
-
-                        </div>
-
-                    </div>
-
-                    <!-- Stock Modal -->
-                    <div class="modal fade modal-stock" id="modal-stock" aria-labelledby="modal-stock"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-                            <form action="/src/app/SellerRegistration/add-stock/add-stock.component.html">
-                                <div class="modal-content">
-                                    <div class="modal-header align-items-center p3 p-md-5">
-                                        <h2 class="modal-title" id="exampleModalGridTitle">Add Stock</h2>
-                                        <div>
-                                            <button type="button" class="btn btn-light btn-pill mr-1 mr-md-2"
-                                                data-dismiss="modal"> cancel </button>
-                                            <button type="submit" class="btn btn-primary  btn-pill"
-                                                data-dismiss="modal"> save </button>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
