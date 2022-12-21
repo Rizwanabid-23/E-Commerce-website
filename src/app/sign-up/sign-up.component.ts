@@ -108,6 +108,7 @@ export class SignUpComponent implements OnInit {
         this.ap.buyerLogin = true;
         this.ap.loginBuyerId = this.readData;
         sessionStorage.setItem('buyerLoginId',this.ap.loginBuyerId.toString());
+        // this.ap.loginBuyerName = this.signUpForm.value.fullname;
         this.ap.goHomePage();
         this.signUpForm.reset();
     });

@@ -15,7 +15,6 @@ export class SignInComponent implements OnInit {
 
   constructor(private service:APIService, private router:Router, private ap:AppComponent) { }
 
-
   showMsg:any;
   locaId:any;
   readData:any;
@@ -41,8 +40,11 @@ export class SignInComponent implements OnInit {
       }
       else
       {
-        console.log("dlddldkld ");
-        this.ap.loginBuyerId = this.readData;
+        // console.log(this.readData,'hello');
+        this.ap.loginBuyerId = this.readData[0].Id;
+        this.ap.loginBuyerName = this.readData[0].FullName;
+        // console.log(this.ap.loginBuyerName);
+        sessionStorage.setItem('buyerLoginName',this.ap.loginBuyerName);
         this.ap.saveRecentLoginBuyerId();
         this.ap.appOpen = false;
         this.ap.sellerLogin = false;

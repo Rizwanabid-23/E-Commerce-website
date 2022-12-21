@@ -13,7 +13,7 @@ export class NavbarComponent implements OnInit {
   constructor( private router:Router, private ap:AppComponent) {
 
    }
-
+  buyerName:any;
   isAppOpen:any;
   isBuyerLogin:any;
   adminSignIn:any;
@@ -21,7 +21,6 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe((val:any)=>{
       this.pushLocalDataInVariablesOnLoad();
     })
-
   }
 
   pushLocalDataInVariablesOnLoad()
@@ -33,8 +32,11 @@ export class NavbarComponent implements OnInit {
       this.isAppOpen = this.ap.appOpen;
       this.isBuyerLogin = this.ap.buyerLogin;
       this.adminSignIn = false;
+      // console.log(this.ap.loginBuyerName);
     }
     else{
+      this.buyerName = sessionStorage.getItem('buyerLoginName');
+      // console.log(this.buyerName);
       this.ap.buyerLogin = true;
       this.ap.appOpen = false;
       this.isAppOpen = this.ap.appOpen;
@@ -48,5 +50,8 @@ export class NavbarComponent implements OnInit {
     this.ap.goProductCartPage();
   }
 
+  logOut()
+  {
 
+  }
 }
