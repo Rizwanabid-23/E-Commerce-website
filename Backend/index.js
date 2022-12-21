@@ -245,14 +245,7 @@ app.post("/buyerUser", (req, res) => {
   let buyer_email = req.body.email;
   let buyer_pin = req.body.password;
   let buyer_fName = req.body.fullname;
-  let postQuery =
-    "INSERT INTO buyer_user (Email, Password, FullName) VALUES ('" +
-    buyer_email +
-    "', '" +
-    buyer_pin +
-    "', '" +
-    buyer_fName +
-    "')";
+  let postQuery ="INSERT INTO buyer_user (`FullName`, `Email`, `Password`, `JoiningDate`) VALUES ('"+buyer_fName+"', '"+buyer_email+"', '"+buyer_pin +"', CURRENT_DATE() )";
   con.query(postQuery, (err, result) => {
     if (err) {
       res.send({
@@ -480,7 +473,7 @@ app.get('/getBuyerData/:Id',(req,res)=>{
 
 app.get("/getTotalExpense/:Id", (req, res) => {
   let sellerId = req.params.Id;
-  let getQuery ="SELECT SUM(ps.Difference + (ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE p.Id = ps.Product_Id And   p.Seller_Id = '"+sellerId+"'";
+  let getQuery ="SELECT SUM((ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE p.Id = ps.Product_Id And   p.Seller_Id = '"+sellerId+"'";
   con.query(getQuery, (err, result) => {
     if(err) 
     {
@@ -521,7 +514,7 @@ app.get("/getTotalSale/:sellerID", (req, res) => {
 
 app.get("/getTotalProductSold/:sellerID", (req, res) => {
   let sellerId = req.params.sellerID;
-  let getQuery = "SELECT SUM(ps.AllTimeQuantity-ps.Quantity) As SoldQuantity FROM product p, product_stock ps WHERE p.Id = ps.Product_Id AND p.Seller_Id = '"+sellerId+"'";
+  let getQuery = "SELECT SUM(ps.TotalQuantityForSale-ps.Quantity) As SoldQuantity FROM product p, product_stock ps WHERE p.Id = ps.Product_Id AND p.Seller_Id = '"+sellerId+"'";
   con.query(getQuery, (err, result) => {
     if(err) 
     {
@@ -540,7 +533,7 @@ app.get("/getTotalProductSold/:sellerID", (req, res) => {
 
 app.get("/getTotalProductremaining/:sellerID", (req, res) => {
   let sellerId = req.params.sellerID;
-  let getQuery = "SELECT SUM(ps.Quantity) As ReamainingQuantity FROM product p, product_stock ps WHERE p.Id = ps.Product_Id AND p.Status = 1 And p.Seller_Id = '"+sellerId+"'";
+  let getQuery = "SELECT SUM(ps.Quantity) As ReamainingQuantity FROM product p, product_stock ps WHERE ps.Id =  (SELECT MAX(Id) FROM product_stock WHERE product_stock.Product_Id = p.Id) AND p.Id = ps.Product_Id AND p.Status = 1 And p.Seller_Id = '"+sellerId+"'";
   con.query(getQuery, (err, result) => {
     if(err) 
     {
@@ -607,7 +600,7 @@ app.post("/getExpenseByDate/:Id", (req, res) => {
   month = ("0" + (eDate.getMonth() + 1)).slice(-2); // current month
   year = eDate.getFullYear(); // current year
   enDate = year + ":" + month + ":" + date;
-  let getQuery ="SELECT SUM(ps.Difference + (ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE p.Id = ps.Product_Id And ps.AddStock >= '"+stDate+"'   AND  ps.AddStock <= '"+enDate+"' And p.Seller_Id = '"+sellerId+"'";
+  let getQuery ="SELECT SUM((ps.BuyPrice*ps.AllTimeQuantity)) As ExenseOfYear FROM product p, product_stock ps WHERE p.Id = ps.Product_Id And ps.AddStock >= '"+stDate+"'   AND  ps.AddStock <= '"+enDate+"' And p.Seller_Id = '"+sellerId+"'";
   con.query(getQuery, (err, result) => {
     if(err) 
     {
@@ -947,9 +940,10 @@ app.post("/addProductStock/:pId", (req, res) => {
   let p_SellPrice = req.body.prdSellPrice;
   let p_Discount = req.body.prdDiscountPercentage;
   let quantity = req.body.quantity;
-  let postQuery ="INSERT INTO `product_stock` (`BuyPrice`, `SellPrice`, `Discount`, `Quantity`, `AllTimeQuantity`, `AddStock`, `Product_Id`) VALUES ('"+p_BuyPrice+"', '"+p_SellPrice+"', '"+p_Discount+"','"+quantity+"', '"+quantity+"', CURRENT_DATE, '"+prd_Id+"')";
+  let postQuery ="INSERT INTO `product_stock` (`BuyPrice`, `SellPrice`, `Discount`, `Quantity`, `AllTimeQuantity`, `AddStock`, `TotalQuantityForSale`, `Product_Id`) VALUES ('"+p_BuyPrice+"', '"+p_SellPrice+"', '"+p_Discount+"','"+quantity+"', '"+quantity+"', CURRENT_DATE , '"+quantity+"' , '"+prd_Id+"')";
   con.query(postQuery, (err, result) => {
     if (err) {
+      console.log("ereeeee   ",err)
       res.send({
         message: "Data Not Inserted",
         data: null,
@@ -966,7 +960,7 @@ app.post("/addProductStock/:pId", (req, res) => {
 app.post("/updateRecentaddStock",  (req, res) => {
   let newId = req.body.pStockId;
   let newPrdId = req.body.pId;
-  let postQuery ="UPDATE `product_stock`  JOIN  ( Select product_stock.Quantity As Qty, (((product_stock.BuyPrice)*product_stock.Quantity)*-1) As bPrice, '"+newId+"' As InsertNewId FROM product_stock Where product_stock.Id = ( SELECT MAX(Id) FROM product_stock WHERE product_stock.Product_Id = 	  '"+newPrdId+"' And product_stock.Id NOT IN(  SELECT MAX(Id) FROM product_stock WHERE product_stock.Product_Id = '"+newPrdId+"'  ) ) )  previous ON previous.InsertNewId = product_stock.Id SET Quantity = Quantity+(previous.Qty) , AllTimeQuantity = AllTimeQuantity+ (previous.Qty) , Difference = Difference + (previous.bPrice) WHERE product_stock.Id = '"+newId+"'";
+  let postQuery ="UPDATE `product_stock`  JOIN  ( Select product_stock.Quantity As Qty, '"+newId+"' As InsertNewId FROM product_stock Where product_stock.Id = ( SELECT MAX(Id) FROM product_stock WHERE product_stock.Product_Id = 	  '"+newPrdId+"' And product_stock.Id NOT IN(  SELECT MAX(Id) FROM product_stock WHERE product_stock.Product_Id = '"+newPrdId+"'  ) ) )  previous ON previous.InsertNewId = product_stock.Id SET Quantity = Quantity+(previous.Qty) , TotalQuantityForSale = TotalQuantityForSale+ (previous.Qty) WHERE product_stock.Id = '"+newId+"'";
   con.query(postQuery, (err, result) => {
     if (err) {
       res.send({
@@ -1253,6 +1247,214 @@ app.post("/saveOrderDetail", (req, res) => {
 /*------------------------------------------ */
 /*------------------------------------------ */
 /*      For  Admin code  Start From here     */
+
+
+app.post("/adminSignInValid", (req, res) => {
+  let check_admin_email = req.body.email;
+  let check_admin_pin = req.body.password;
+  let getQuery = "SELECT * FROM `admin` WHERE Email = '"+check_admin_email+"' AND Password = '"+check_admin_pin+"'";
+  con.query(getQuery, (err, userResult) => {
+    if(err)
+    {
+      console.log("eeeerrrrr  ",err);
+    }
+    if(userResult.length == 0) 
+    {
+      res.send
+      ({
+        message: "Data",
+        data: null,
+      });
+    } 
+    else 
+    {
+      res.send
+      ({
+        message: "Data",
+        data: userResult,
+      });
+    }
+  });
+});
+
+
+app.get("/getTotalSeller", (req, res) => {
+  let getQuery = "SELECT Count(Id) As TotalSeller FROM `seller_user`";
+  con.query(getQuery, (err, result) => {
+    if (err) 
+    {
+      res.send({
+        data: null,
+      });
+    } 
+    else
+    {
+      res.send({
+        data: result,
+      });
+    }
+  });
+});
+
+app.post("/getSellerByDate", (req, res) => {
+  let sDate = req.body.startDate;
+  let eDate = req.body.endDate;
+  sDate = new Date(sDate);
+  eDate = new Date(eDate);
+  let date = ("0" + sDate.getDate()).slice(-2); // current date
+  let month = ("0" + (sDate.getMonth() + 1)).slice(-2); // current month
+  let year = sDate.getFullYear(); // current year
+  stDate = year + ":" + month + ":" + date;
+
+
+  date = ("0" + eDate.getDate()).slice(-2); // current date
+  month = ("0" + (eDate.getMonth() + 1)).slice(-2); // current month
+  year = eDate.getFullYear(); // current year
+  enDate = year + ":" + month + ":" + date;
+  let getQuery ="SELECT Count(Id) As TotalSeller FROM `seller_user` WHERE JoiningDate >= '"+stDate+"' AND JoiningDate <= '"+enDate+"'";
+  con.query(getQuery, (err, result) => {
+    if(err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else 
+    {
+      res.send({
+        message: "Data",
+        data: result,
+      });
+    }
+  });
+});
+
+
+app.get("/getTotalBuyer", (req, res) => {
+  let getQuery = "SELECT Count(Id) As TotalBuyer FROM `buyer_user`";
+  con.query(getQuery, (err, result) => {
+    if (err) 
+    {
+      res.send({
+        data: null,
+      });
+    } 
+    else
+    {
+      res.send({
+        data: result,
+      });
+    }
+  });
+});
+
+
+app.post("/getBuyerByDate", (req, res) => {
+  let sDate = req.body.startDate;
+  let eDate = req.body.endDate;
+  sDate = new Date(sDate);
+  eDate = new Date(eDate);
+  let date = ("0" + sDate.getDate()).slice(-2); // current date
+  let month = ("0" + (sDate.getMonth() + 1)).slice(-2); // current month
+  let year = sDate.getFullYear(); // current year
+  stDate = year + ":" + month + ":" + date;
+
+  date = ("0" + eDate.getDate()).slice(-2); // current date
+  month = ("0" + (eDate.getMonth() + 1)).slice(-2); // current month
+  year = eDate.getFullYear(); // current year
+  enDate = year + ":" + month + ":" + date;
+  let getQuery ="SELECT Count(Id) As TotalBuyer FROM `buyer_user` WHERE JoiningDate >= '"+stDate+"' AND JoiningDate <= '"+enDate+"'";
+  con.query(getQuery, (err, result) => {
+    if(err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else 
+    {
+      res.send({
+        message: "Data",
+        data: result,
+      });
+    }
+  });
+});
+
+app.get("/getSellerData", (req, res) => {
+  let getQuery = "SELECT `Id`, `FirstName`, `LastName`, `Email`, `PhoneNo`, `CnicNo`, `City`, `Address`, `Password`, `JoiningDate` FROM `seller_user`";
+  con.query(getQuery, (err, result) => {
+    if (err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else
+    {
+      res.send
+      ({
+        data: result,
+      });
+    }
+  });
+});
+
+app.get("/getBuyerData", (req, res) => {
+  let getQuery = "SELECT `Id`, `FullName`, `Email`, `Password`, `JoiningDate` FROM `buyer_user`";
+  con.query(getQuery, (err, result) => {
+    if (err) 
+    {
+      res.send
+      ({
+        data: null,
+      });
+    } 
+    else
+    {
+      res.send
+      ({
+        data: result,
+      });
+    }
+  });
+});
+
+app.post('/checkValidCategory', (req, res) => {
+  let category = req.body.categoryName;
+  let postQuery = "SELECT Id FROM `lookup` Where Name = '"+category+"' And Category = 'ProductCategory'";
+  con.query(postQuery, (err, result) =>{
+    if (err)
+    {
+      res.send
+      ({
+          message:'Data Not Inserted',
+          data:null
+      })
+    }
+    if(result.length == 0)
+    {
+      res.send
+      ({
+        message:'Data Inserted',
+        data:null
+    })
+    }
+    else
+    {
+      res.send
+      ({
+          message:'Data Inserted',
+          data:result
+      })
+    }
+  })
+})
+
+
 app.post('/saveCategory', (req, res) => {
 
   let category = req.body.categoryName;
@@ -1272,6 +1474,37 @@ app.post('/saveCategory', (req, res) => {
               data:result.insertId
           })
       }
+  })
+})
+
+app.post('/checkValidSubCategory', (req, res) => {
+  let subCategory = req.body.subCategoryName;
+  let postQuery = "SELECT Id FROM `product_category` Where `Sub_Category` = '"+subCategory+"'";
+  con.query(postQuery, (err, result) =>{
+    if (err)
+    {
+      res.send
+      ({
+          message:'Data Not Inserted',
+          data:null
+      })
+    }
+    if(result.length == 0)
+    {
+      res.send
+      ({
+        message:'Data Inserted',
+        data:null
+    })
+    }
+    else
+    {
+      res.send
+      ({
+          message:'Data Inserted',
+          data:result
+      })
+    }
   })
 })
 
@@ -1297,6 +1530,43 @@ app.post('/saveSubCategory', (req, res) => {
   })
 })
 
+
+
+
+
+app.post('/checkValidBrand', (req, res) => {
+  let brand = req.body.brandName;
+  let postQuery = "SELECT Id FROM `product_brand` Where `Brand` = '"+brand+"'";
+  con.query(postQuery, (err, result) =>{
+      if (err)
+      {
+        res.send
+        ({
+            message:'Data Not Inserted',
+            data:null
+        })
+      }
+      if(result.length == 0)
+      {
+        res.send
+        ({
+          message:'Data Inserted',
+          data:null
+      })
+      }
+      else
+      {
+        res.send
+        ({
+            message:'Data Inserted',
+            data:result
+        })
+      }
+  })
+})
+
+
+
 app.post('/saveBrand', (req, res) => {
 
   let brand = req.body.brandName;
@@ -1318,6 +1588,9 @@ app.post('/saveBrand', (req, res) => {
       }
   })
 })
+
+
+
 
 /*------------------------------------------ */
 /*------------------------------------------ */

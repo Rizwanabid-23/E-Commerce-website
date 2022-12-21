@@ -75,7 +75,6 @@ export class MainPageComponent implements OnInit {
   getProductData(){
     this.service.getAllProductData().subscribe((res) =>{
       this.prdData = res.data;
-      console.log(" ghsjdsah ", this.prdData);
     })
   }
   getCategoryProducts(subCatId)

@@ -15,7 +15,8 @@ export class NavbarComponent implements OnInit {
    }
 
   isAppOpen:any;
-  isBuyerLogin;
+  isBuyerLogin:any;
+  adminSignIn:any;
   ngOnInit(): void {
     this.router.events.subscribe((val:any)=>{
       this.pushLocalDataInVariablesOnLoad();
@@ -30,15 +31,17 @@ export class NavbarComponent implements OnInit {
       console.log("Null");
       this.ap.buyerLogin = false;
       this.ap.appOpen = true;
-      this.isAppOpen = true;
-      this.isBuyerLogin = false;
+      this.isAppOpen = this.ap.appOpen;
+      this.isBuyerLogin = this.ap.buyerLogin;
+      this.adminSignIn = false;
     }
     else{
       console.log("Yes");
       this.ap.buyerLogin = true;
       this.ap.appOpen = false;
-      this.isAppOpen = false;
-      this.isBuyerLogin = true;
+      this.isAppOpen = this.ap.appOpen;
+      this.isBuyerLogin = this.ap.buyerLogin;
+      this.adminSignIn = false;
     }
     this.ap. goNavbar();
   }

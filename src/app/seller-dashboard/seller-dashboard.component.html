@@ -85,9 +85,9 @@
                                     <img src="assets/user-xs-01.jpg" class="user-image rounded-circle"
                                         alt="User Image" />
                                     <span class="d-none d-lg-inline-block">{{sellerName}}</span>
-                                </button>
+                                </button >
                                 <div class="dropdown-content">
-                                    <button>Log out</button>
+                                    <button  (click)="logOut()" >Log out</button>
                                 </div>
                             </li>
                         </ul>
@@ -285,7 +285,7 @@
                                                         <td>{{prd.BuyPrice}}</td>
                                                         <td>{{prd.SellPrice}}</td>
                                                         <td>{{prd.Description}}</td>
-                                                        <td>{{prd.AddStockDate}}</td>
+                                                        <td>{{prd.AddStockDate   | date:'dd-MM-yyyy'}}</td>
                                                         <td>
                                                             <div class="row">
                                                                 <div class="col">

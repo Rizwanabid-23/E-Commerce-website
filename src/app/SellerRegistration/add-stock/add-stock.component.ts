@@ -4,8 +4,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AppComponent } from 'src/app/app.component';
 import { UploadFileService } from '../upload-file.service';
 
-
-
 @Component({
   selector: 'app-add-stock',
   templateUrl: './add-stock.component.html',
@@ -25,7 +23,7 @@ export class AddStockComponent implements OnInit {
   submitProductButtonProperty:any;
   constructor(private service: APIService, private ap:AppComponent, private uploadService:UploadFileService) { }
   ngOnInit(): void {
-    this.ap.loginSellerId = parseInt(localStorage.getItem('sellerLoginId'));
+    this.ap.loginSellerId = parseInt(sessionStorage.getItem('sellerLoginId'));
     this.submitProductButton = 'Save';
     this.submitProductButtonProperty = true;
     this.getSubCategories();

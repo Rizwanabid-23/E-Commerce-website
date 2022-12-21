@@ -67,9 +67,10 @@ export class SellerDashboardComponent implements OnInit {
       document.getElementById("showMessageModal")
     );
   }
-  pushLocalDataInVariablesOnLoad(){ // This will load items in array from localstorage that are already selected by user
-    this.ap.loginSellerId = parseInt(localStorage.getItem('sellerLoginId'));
-    this.ap.loginSellerName = localStorage.getItem('sellerLoginName');
+
+  pushLocalDataInVariablesOnLoad(){ // This will load items in array from sessionStorage that are already selected by user
+    this.ap.loginSellerId = parseInt(sessionStorage.getItem('sellerLoginId'));
+    this.ap.loginSellerName = sessionStorage.getItem('sellerLoginName');
     this.sellerName = this.ap.loginSellerName;
     if(this.ap.loginSellerId > 0)
     {
@@ -94,7 +95,12 @@ export class SellerDashboardComponent implements OnInit {
     this.remainingProductQtyText  = 'Product Quantity Remaining in Stock';
 
   }
-
+  logOut()
+  {
+    sessionStorage.removeItem('sellerLoginId');
+    this.ap.goSellerSignInPage();
+    console.log("lllll");
+  }
   //  Using with date calculating stastics start from here
   // ----------------------------------------------------
   // ----------------------------------------------------
@@ -130,7 +136,7 @@ export class SellerDashboardComponent implements OnInit {
   {
     let expenseOfYear = null;
     this.expenseBoxInHtml = false;
-    await this.service.expenseByDate(dates, localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+    await this.service.expenseByDate(dates, sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
       expenseOfYear = res.data;
       this.expenseBoxInHtml = true;
       if(expenseOfYear[0].ExenseOfYear == null)
@@ -145,12 +151,12 @@ export class SellerDashboardComponent implements OnInit {
       let date = ("0" + sdate.getDate()).slice(-2); // current date
       let month = ("0" + (sdate.getMonth() + 1)).slice(-2); // current month
       let year = sdate.getFullYear(); // current year
-      sdate = year + ":" + month + ":" + date;
+      sdate =date+"-"+year+"-"+month;
       let edate = dates.endDate;
       date = ("0" + edate.getDate()).slice(-2); // current date
       month = ("0" + (edate.getMonth() + 1)).slice(-2); // current month
       year = edate.getFullYear(); // current year
-      edate = year + ":" + month + ":" + date;
+      edate =date+"-"+year+"-"+month;
       this.expenseBoxText = 'Expense from '+sdate+' to '+edate;
     })
   }
@@ -159,7 +165,7 @@ export class SellerDashboardComponent implements OnInit {
   {
     let salOfYear = null;
     this.saleBoxInHtml = false;
-    await this.service.saleByDate(dates, localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+    await this.service.saleByDate(dates, sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
       salOfYear = res.data;
       this.saleBoxInHtml = true;
       if(salOfYear[0].SaleOfYear == null)
@@ -174,12 +180,12 @@ export class SellerDashboardComponent implements OnInit {
       let date = ("0" + sdate.getDate()).slice(-2); // current date
       let month = ("0" + (sdate.getMonth() + 1)).slice(-2); // current month
       let year = sdate.getFullYear(); // current year
-      sdate = year + ":" + month + ":" + date;
+      sdate =date+"-"+year+"-"+month;
       let edate = dates.endDate;
       date = ("0" + edate.getDate()).slice(-2); // current date
       month = ("0" + (edate.getMonth() + 1)).slice(-2); // current month
       year = edate.getFullYear(); // current year
-      edate = year + ":" + month + ":" + date;
+      edate =date+"-"+year+"-"+month;
       this.saleBoxText = 'Sale from '+sdate+' to '+edate;
       this.getProfitByDate(sdate, edate);
     })
@@ -194,9 +200,8 @@ export class SellerDashboardComponent implements OnInit {
   getProductSoldByDate(dates)
   {
     let product = null;
-    this.service.productSoldByDate(dates, localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+    this.service.productSoldByDate(dates, sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
       product = res.data;
-      console.log("sold datetete ", product);
       if(product[0].SoldQuantity == null)
       {
         this.soldProductQty = 0;
@@ -209,12 +214,12 @@ export class SellerDashboardComponent implements OnInit {
       let date = ("0" + sdate.getDate()).slice(-2); // current date
       let month = ("0" + (sdate.getMonth() + 1)).slice(-2); // current month
       let year = sdate.getFullYear(); // current year
-      sdate = year + ":" + month + ":" + date;
+      sdate = date+"-"+year+"-"+month;
       let edate = dates.endDate;
       date = ("0" + edate.getDate()).slice(-2); // current date
       month = ("0" + (edate.getMonth() + 1)).slice(-2); // current month
       year = edate.getFullYear(); // current year
-      edate = year + ":" + month + ":" + date;
+      edate = date+"-"+year+"-"+month;
       this.soldProductQtyText = 'Sold Products from '+sdate+' to '+edate;
       this.getProfitByDate(sdate, edate);
       this.dateForm.reset();
@@ -224,7 +229,7 @@ export class SellerDashboardComponent implements OnInit {
   // getProductRemainingByDate(dates)
   // {
   //   let product = null;
-  //   this.service.productRemainingByDate(dates, localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+  //   this.service.productRemainingByDate(dates, sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
   //     product = res.data;
   //     console.log("remememem ", product);
   //     if(product[0].ReamainingQuantity == null)
@@ -247,7 +252,7 @@ export class SellerDashboardComponent implements OnInit {
 
   // This function will get all product categories data
   getProductData(){
-    this.service.getSellerProductData(localStorage.getItem('sellerLoginId')).subscribe((res) =>{
+    this.service.getSellerProductData(sessionStorage.getItem('sellerLoginId')).subscribe((res) =>{
       if(res.data == null)
       {
         this.prdData = 0;
@@ -262,7 +267,7 @@ export class SellerDashboardComponent implements OnInit {
   getTotalExpense()
   {
     let expenseOfYear = null;
-    this.service.totalExpense(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+    this.service.totalExpense(sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
       expenseOfYear = res.data;
       if(expenseOfYear[0].ExenseOfYear == null)
       {
@@ -278,7 +283,7 @@ export class SellerDashboardComponent implements OnInit {
   getTotalSale()
   {
     let salOfYear = null;
-    this.service.totalSale(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+    this.service.totalSale(sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
       salOfYear = res.data;
       if(salOfYear[0].SaleOfYear == null)
       {
@@ -294,7 +299,6 @@ export class SellerDashboardComponent implements OnInit {
 
   getTotalProfit()
   {
-    console.log("salalal ",this.sale);
     this.profit = this.sale-this.expense;
   }
 
@@ -302,7 +306,7 @@ export class SellerDashboardComponent implements OnInit {
   getTotalProductSold()
   {
     let product = null;
-    this.service.totalProductSold(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+    this.service.totalProductSold(sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
       product = res.data;
       if(product[0].SoldQuantity == null)
       {
@@ -318,9 +322,8 @@ export class SellerDashboardComponent implements OnInit {
   getTotalProductRemaining()
   {
     let product = null;
-    this.service.totalProductremaining(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+    this.service.totalProductremaining(sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
       product = res.data;
-      console.log("remememem ", product);
       if(product[0].ReamainingQuantity == null)
       {
         this.remainingProductQty = 0;
@@ -332,14 +335,9 @@ export class SellerDashboardComponent implements OnInit {
     })
   }
 
-
-
-
-  
-
   getBuyerData()
   {
-    this.service.getBuyerData(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+    this.service.getBuyerData(sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
       if(res.data == null)
       {
         this.profit = 0;
@@ -350,8 +348,6 @@ export class SellerDashboardComponent implements OnInit {
       }
     })
   }
-
-
 
   openAddStockModal()
   {
@@ -436,13 +432,9 @@ export class SellerDashboardComponent implements OnInit {
   // For add Stock codeEnds Start from here 
   ////////////////////////////////////
   ////////////////////////////////////
-
-
-
-
   getMonthlyProfit()
   {
-    this.service.monthlyProfit(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+    this.service.monthlyProfit(sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.monthlyProfit = res.data;
       if(this.monthlyProfit[0].monthlyProfit == null)
       {
@@ -455,13 +447,10 @@ export class SellerDashboardComponent implements OnInit {
     })
   }
 
-
-
   getSaleData()
   {
-    this.service.getAllSaleData(localStorage.getItem('sellerLoginId')).subscribe((res)=>{
+    this.service.getAllSaleData(sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
       this.saleData=res.data;
-      console.log("sale data:",this.saleData);
     })
   }
 
@@ -481,7 +470,7 @@ export class SellerDashboardComponent implements OnInit {
   //   let response = null;
   //   let formData = new FormData()
   //   formData.append('prdId', this.selectedProductForDelete);
-  //   formData.append('sellerId', localStorage.getItem('sellerLoginId'));
+  //   formData.append('sellerId', sessionStorage.getItem('sellerLoginId'));
   //   this.service.deleteSelectedProduct(formData).subscribe(res => {
   //     response = res.data;
   //     if(response != null)
@@ -525,7 +514,6 @@ export class SellerDashboardComponent implements OnInit {
   updateProduct(prdId)
   {
     this.ap.navigateOnNextPage = "SellerDashboard";
-    console.log("selected ",prdId , localStorage.getItem('sellerLoginId'));
   }
 
 }

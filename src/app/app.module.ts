@@ -32,6 +32,7 @@ import { NavbarComponent } from './App/navbar/navbar.component';
 import { MessageModalComponent } from './Shared/message-modal/message-modal.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { AdminApiServiceService } from './admin/admin-api-service.service';
+import { AdminSignInComponent } from './admin/admin-sign-in/admin-sign-in.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { AdminApiServiceService } from './admin/admin-api-service.service';
     NavbarComponent,
     MessageModalComponent,
     DashboardComponent,
+    AdminSignInComponent,
 
   ],
   imports: [ 

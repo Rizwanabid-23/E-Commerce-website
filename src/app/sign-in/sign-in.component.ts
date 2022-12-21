@@ -32,6 +32,8 @@ export class SignInComponent implements OnInit {
 
   // This function check email id from and password from server and check that user is right or not
   checkSignInFormData(){
+    console.log(" mmmm",this.signInForm.value.email);
+    console.log(" pppp",this.signInForm.value.password);
     this.service.checkValidSignInUser(this.signInForm.value).subscribe(res =>{
       this.readData = res.data;
       if (this.readData == null){
@@ -39,9 +41,9 @@ export class SignInComponent implements OnInit {
       }
       else
       {
+        console.log("dlddldkld ");
         this.ap.loginBuyerId = this.readData;
         this.ap.saveRecentLoginBuyerId();
-  
         this.ap.appOpen = false;
         this.ap.sellerLogin = false;
         this.ap.buyerLogin = true;

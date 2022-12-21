@@ -12,11 +12,7 @@ export class AddressBookComponent implements OnInit {
 
   readData: any;
 
-  constructor(
-    private service: APIService,
-    private router: Router,
-    private ap: AppComponent
-  ) {}
+  constructor(private service: APIService, private router: Router, private ap: AppComponent) {}
 
 
   ngOnInit(): void {

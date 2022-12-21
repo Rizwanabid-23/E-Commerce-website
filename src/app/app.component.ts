@@ -16,12 +16,14 @@ export class AppComponent {
   // // globalVariables
   public appOpen = true; // This will true when app will open
   public buyerLogin = false; // This will true when buyer will login
+  public adminSignInOpen = false;
   public sellerLogin = false; // This will true when seller will login
   public adminLogin=false;
   public buyerLoginThroughAddToCart = false;
   public loginBuyerId = -10; // This will store login buyer Id
   public loginSellerId = -10; // This will store login seller Id
-  public loginSellerName = "Any"; 
+  public loginSellerName = "Any";
+  public adminName = "Any";
   public clickedProductPictureId = -10;
   public productCartPageOpenThroughAddToCartBtn = false;
   public showTextInMessageModal = '';
@@ -166,12 +168,12 @@ export class AppComponent {
   // This will save recentLoginSellerid
   public saveRecentLoginSellerId()
   {
-    localStorage.setItem('sellerLoginId',this.loginSellerId.toString());
+    sessionStorage.setItem('sellerLoginId',this.loginSellerId.toString());
   }  
     // This will save recentLoginSellerid
   public saveRecentLoginSellerName()
   {
-    localStorage.setItem('sellerLoginName', this.loginSellerName.toString());
+    sessionStorage.setItem('sellerLoginName', this.loginSellerName.toString());
   }
 
   public saveClickPrdPictureIdForAddToCart()
@@ -181,6 +183,12 @@ export class AppComponent {
   public saveClickPrdPictureIdForProductCart()
   {
     sessionStorage.setItem('clickedPrdInPrdCart',this.clickedProductPictureId.toString());
+  }
+
+  // This will save admin in sessionStorage
+  public saveAdmin()
+  {
+    sessionStorage.setItem('adminLogin',this.adminName.toString());
   }
 
   // ----------------------------------------//
