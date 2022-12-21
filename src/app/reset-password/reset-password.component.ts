@@ -25,6 +25,7 @@ export class ResetPasswordComponent implements OnInit {
   // verificationCodeButtonText = "Get Code";
   verificationTime = 0;
   intervalId:any;
+  // verificationCodeSent = false;
 
   constructor(private service: APIService, private router:Router, private ap:AppComponent) { }
 
@@ -39,17 +40,24 @@ export class ResetPasswordComponent implements OnInit {
 
   })
 
-  async resetPassword(){
+  resetPassword(){
     // console.log("hello hi!")
-    await this.service.checkbuyerUserData(this.resetPasswordForm.value).subscribe(res => {
+    this.service.checkbuyerUserData(this.resetPasswordForm.value).subscribe(res => {
       this.readData = res.data;
       console.log(this.readData);
-      if (this.readData == null){
+      if (this.readData == null) {
         this.showMsg = 'No user with this email address does not exist!';
       }
-      else{
+      else {
         // this.showMsg = 'Account With This Email Id Already Exist';
-        this.UpdatePassword();
+        // console.log(this.readData.verificationCodeGenerated,this.verificationCodeGenerated)
+        if(this.verificationCodeGenerated.toString() == this.resetPasswordForm.value.verificationCode){
+          // console.log('Verification Code is correct!')
+          this.UpdatePassword();
+        }
+        else{
+          this.showMsg = 'Verification Code is not correct!';
+        }
       }
     });
   }
@@ -75,10 +83,10 @@ export class ResetPasswordComponent implements OnInit {
       response = res.data;
       if(response != null)
       {
-        console.log(this.verificationCodeGenerated);
+        // console.log(this.verificationCodeGenerated);
         this.verificationCodeButtonText = "Resend It";
         // this.setVerificationValidTime();
-        // this.verificationCodeGenerated = true;
+        this.verificationCodeSended = true;
         // this.signUpButton = true;
       }
       else

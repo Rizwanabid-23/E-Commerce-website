@@ -27,8 +27,8 @@ export class EditAccountDetailsComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    // console.log(sessionStorage.getItem('loginBuyerId'));
-    this.service.getSingleBuyerUserData(sessionStorage.getItem('loginBuyerId')).subscribe((res) => {
+    // console.log(sessionStorage.getItem('buyerLoginId'));
+    this.service.getSingleBuyerUserData(sessionStorage.getItem('buyerLoginId')).subscribe((res) => {
       this.readData = res.data;
       console.log(this.readData);
       this.AccountDetail =true;
