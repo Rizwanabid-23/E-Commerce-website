@@ -103,7 +103,6 @@ app.get("/buyerUser", (req, res) => {
   let getQuery = "Select * From buyer_user";
   con.query(getQuery, (err, result) => {
     if (err) {
-      console.log("Error");
       res.send("Error");
     } else {
       res.send({
@@ -119,7 +118,6 @@ app.get("/buyerUserOrders/:Id", (req, res) => {
   let getQuery = `Select * From buyer_user_orders where buyer_user_id = ${req.params.Id}`;
   con.query(getQuery, (err, result) => {
     if (err) {
-      console.log("Error");
       res.send("Error");
     } else {
       res.send({
@@ -175,10 +173,7 @@ app.post("/sendVerificationCode/:code", (req, res) => {
   try {
     let user = req.body;
     let verificationCode = req.params.code;
-    console.log("mamamam ", user);
-    console.log("vfvfvvfvfvf ", verificationCode);
 
-    // let verificationCode = Math.floor(100000 + Math.random() * 900000);
     sendMail(user, verificationCode, (info) => {
       if (mailsend) {
         res.send({ data: "sended" });
@@ -229,14 +224,12 @@ app.post("/buyerUserSignUpValid", (req, res) => {
   let getQuery =
     "Select Id From buyer_user WHERE Email = '" + check_buyer_email + "'";
   con.query(getQuery, (err, userResult) => {
-    // console.log("userresult", userResult);
     if (userResult.length == 0) {
       res.send({
         message: "Null",
         data: null,
       });
 
-      console.log("null");
     } else {
       res.send({
         message: "Data",
@@ -268,12 +261,9 @@ app.post("/buyerUser", (req, res) => {
 
 app.get("/getLoginSellerName/:Id", (req, res) => {
   let id = req.params.Id;
-  // id = id.replaceAll('"', '');
-  console.log("id", id);
   let getQuery = `Select * From seller_user WHERE Id = ${req.params.Id}`;
   con.query(getQuery, (err, result) => {
     if (err) {
-      console.log("Error");
       res.send("Error");
     } else {
       res.send({
@@ -308,12 +298,6 @@ app.post("/sellerSignUpUserValid", (req, res) => {
 
 // This function will insert data into seller_user table
 app.post("/insertSellerUser", (req, res) => {
-  const dateObj = new Date();
-  console.log("ddd ", dateObj);
-  // let date = ("0" + dateObj.getDate()).slice(-2); // current date
-  // let month = ("0" + (dateObj.getMonth() + 1)).slice(-2); // current month
-  // let year = dateObj.getFullYear(); // current year
-  // currentDate = year + ":" + month + ":" + date;
 
   let fName = req.body.fName;
   let lName = req.body.lName;
@@ -347,7 +331,6 @@ app.post("/insertSellerUser", (req, res) => {
       message: "Data Inserted",
       data: result.insertId,
     });
-    console.log(result.insertId);
   });
 });
 
@@ -355,7 +338,6 @@ app.post("/insertSellerUser", (req, res) => {
 app.post("/sellerSignInUserValid", (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
-  console.log("dsdss dds ", email);
   let getQuery =
     "Select Id From seller_user WHERE Email = '" +
     email +
@@ -388,8 +370,6 @@ app.get("/getProduct", (req, res) => {
     "Select product.Id, product.Name, product.Picture, product_stock.SellPrice, product_stock.Discount,  product.Description From product,product_stock Where product_stock.Product_Id = product.Id And product_stock.Quantity >=1 And product.Status = 1 AND product_stock.Id = (SELECT MAX(product_stock.Id) As StockId FROM product_stock WHERE product_stock.Product_Id = product.Id )";
   con.query(getQuery, (err, result) => {
     if (err) {
-      console.log("Error");
-
       res.send({
         data: null,
       });
@@ -411,7 +391,6 @@ app.get("/getProductByCategory/:id", (req, res) => {
     "'";
   con.query(getQuery, (err, result) => {
     if (err) {
-      console.log("Error");
       res.send({
         data: null,
       });
@@ -426,7 +405,7 @@ app.get("/getProductByCategory/:id", (req, res) => {
 
 app.get("/getSellerProduct/:Id", (req, res) => {
   let sId = req.params.Id;
-  let getQuery ="Select product.Id, product.Name, product.Picture, product_stock.SellPrice, product_stock.BuyPrice, product_stock.Quantity, product_stock.AddStock As AddStockDate, product_stock.Discount, product.Description, (SELECT SUM(((ps.SellPrice-(ps.SellPrice*ps.Discount/100))-(ps.BuyPrice))*(ps.TotalQuantityForSale-ps.Quantity)) From product_stock ps WHERE ps.Product_Id = product.Id) As Profit,(SELECT SUM(ps.TotalQuantityForSale-ps.Quantity) From product_stock ps WHERE ps.Product_Id = product.Id) As SaleQuantity  From product,product_stock Where product_stock.Product_Id = product.Id And product.Status = 1 And product_stock.Id = (SELECT MAX(product_stock.Id) As StockId FROM product_stock WHERE product_stock.Product_Id = product.Id ) And product.Seller_Id = '"+sId+"'";
+  let getQuery ="Select product.Id, product.Name, product.Picture, product_stock.SellPrice, product_stock.BuyPrice, product_stock.Quantity, product_stock.AddStock As AddStockDate, product_stock.Discount, product.Description, (SELECT SUM(((ps.SellPrice-(ps.SellPrice*ps.Discount/100))-(ps.BuyPrice))*(ps.TotalQuantityForSale-ps.Quantity)) From product_stock ps WHERE ps.Product_Id = product.Id) As Profit,(SELECT SUM(ps.TotalQuantityForSale-ps.Quantity) From product_stock ps WHERE ps.Product_Id = product.Id) As SaleQuantity  From product,product_stock Where product_stock.Product_Id = product.Id And product.Status = 1 And product_stock.Id = (SELECT MAX(product_stock.Id) As StockId FROM product_stock WHERE product_stock.Product_Id = product.Id ) And product.Seller_Id = '"+sId+"' Order By Profit DESC";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
@@ -562,12 +541,10 @@ app.get("/getAnnualProfit/:sellID", (req, res) => {
   let getQuery = `select SUM(B.d) as annualProfit from (SELECT A.productID,(A.quantity*P.SellPrice)-((P.SellPrice*P.Discount)/100)*A.quantity as d from (SELECT OD.Quantity as quantity,OD.Product_Id productID from ecommercedb.order O join orderdetail OD on O.Id=OD.Order_Id where year(O.ShippedDate)=year(CURRENT_DATE) ) as A join product P on A.productID=P.Id where P.Seller_Id='${req.params.sellID}') as B`;
   con.query(getQuery, (err, result) => {
     if (err) {
-      console.log("error annual profit", result);
       res.send({
         data: null,
       });
     } else {
-      console.log("regular annual profit", result);
       res.send({
         message: "Data",
         data: result,
@@ -739,7 +716,6 @@ app.post("/getProductRemainingByDate/:Id", (req, res) => {
         data: null,
       });
     } else {
-      console.log("ssssssssssssssssssss ", result);
       res.send({
         message: "Data",
         data: result,
@@ -781,7 +757,6 @@ app.get("/getProductQuantity/:Id", (req, res) => {
     "')";
   con.query(getQuery, (err, result) => {
     if (err) {
-      console.log("Error");
       res.send("Error");
     } else {
       res.send({
@@ -798,7 +773,6 @@ app.get("/getProductName/:Id", (req, res) => {
   let getQuery = "SELECT Name FROM `product` WHERE Id = '" + id + "'";
   con.query(getQuery, (err, result) => {
     if (err) {
-      console.log("Error");
       res.send("Error");
     } else {
       res.send({
@@ -818,7 +792,6 @@ app.get("/getProductBrandName/:Id", (req, res) => {
     "' AND product_brand.Id = product.Brand_Id";
   con.query(getQuery, (err, result) => {
     if (err) {
-      console.log("Error");
       res.send("Error");
     } else {
       res.send({
@@ -864,7 +837,6 @@ app.post("/saveBuyerAddress/:buyerId", (req, res) => {
   let postQuery = `INSERT INTO buyer_address (FullName, PhoneNo, Buildin_House_Street_Floor, Colony_Submark_Locality_Landmark,Province,City,Buyer_User_Id,NickName) VALUES ('Null','${buyer_Address_Phone}','${buyer_Address_Building}','${buyer_Address_Colony}','${buyer_Address_Province}','${buyer_Address_City}',${buyer_Id},'${buyer_Address_NickName}')`;
   con.query(postQuery, (err, result) => {
     if (err) {
-      console.log(err);
     } else {
       res.send({
         message: "Data Inserted",
@@ -916,14 +888,12 @@ app.post("/addProductValid", (req, res) => {
       });
     } else {
       if (result.length == 0) {
-        console.log("null ", result);
         res.send({
           message: "Not Found Same Name Product",
           data: null,
         });
       } else 
       {
-        console.log("not null ", result);
         res.send({
           message: "Duplicate Name",
           data: result,
@@ -934,11 +904,7 @@ app.post("/addProductValid", (req, res) => {
 });
 
 app.post("/addProduct", fileUpload.single("image"), (req, res) => {
-  // let dateObj = new Date();
-  // let date = ("0" + dateObj.getDate()).slice(-2); // current date
-  // let month = ("0" + (dateObj.getMonth() + 1)).slice(-2); // current month
-  // let year = dateObj.getFullYear(); // current year
-  // currentDate = year + ":" + month + ":" + date;
+
   let picture_Path = req.file.path;
   picture_Path = escape(picture_Path);
   picture_Path = picture_Path.replace("%5C", "\\\\");
@@ -963,6 +929,7 @@ app.post("/addProduct", fileUpload.single("image"), (req, res) => {
     brand_Id +
     "')";
   con.query(postQuery, (err, result) => {
+    
     if (err) {
       res.send({
         message: "Data Not Inserted",
@@ -986,7 +953,6 @@ app.post("/addProductStock/:pId", (req, res) => {
   let postQuery ="INSERT INTO `product_stock` (`BuyPrice`, `SellPrice`, `Discount`, `Quantity`, `AllTimeQuantity`, `AddStock`, `TotalQuantityForSale`, `Product_Id`) VALUES ('"+p_BuyPrice+"', '"+p_SellPrice+"', '"+p_Discount+"','"+quantity+"', '"+quantity+"', CURRENT_DATE, '"+quantity+"', '"+prd_Id+"')";
   con.query(postQuery, (err, result) => {
     if (err) {
-      console.log("ereeeee   ",err)
       res.send({
         message: "Data Not Inserted",
         data: null,
@@ -1049,14 +1015,12 @@ app.post("/addUpdateProductValid", (req, res) => {
       });
     } else {
       if (result.length == 0) {
-        console.log("null ", result);
         res.send({
           message: "Not Found Same Name Product",
           data: null,
         });
       } else 
       {
-        console.log("not null ", result);
         res.send({
           message: "Duplicate Name",
           data: result,
@@ -1071,11 +1035,9 @@ app.post("/updateSelectedProduct/:selectedId", (req, res) => {
   let selectedPrdId = req.params.selectedId;
   let newName = req.body.prdUpdatedName;
   let newDescription = req.body.updatedDdescription;
-  console.log("prr r  r ", selectedPrdId);
   let postQuery ="UPDATE `product` SET Name = '"+newName+"', Description = '"+newDescription+"' WHERE Id = '"+selectedPrdId+"'";
   con.query(postQuery, (err, result) => {
     if (err) {
-      console.log(err);
       res.send({
         message: "Data Not updated",
         data: null,
@@ -1123,10 +1085,8 @@ app.post("/updateBuyerPassword", (req, res) => {
     //     })
     // }
     if (err) {
-      // console.log("Error");
       res.send("Error");
     } else {
-      // console.log(result)
       res.send({
         message: "Password Updated",
         // data:result
@@ -1151,14 +1111,11 @@ app.get("/getSingleUserData/:Id", (req, res) => {
 
 app.get("/addressBook/:Id", (req, res) => {
   let id = req.params.Id;
-  // console.log(id)
   let getQuery = `Select * from buyer_address where Buyer_User_Id = ${id} AND Status = 1`;
   con.query(getQuery, (err, result) => {
     if (err) {
-      // console.log("Error");
       res.send("Error");
     } else {
-      // console.log(result)
       res.send({
         data: result,
       });
@@ -1197,10 +1154,8 @@ app.post("/editBuyerUserAddressData", (req, res) => {
   let getQuery = `Update buyer_address SET FullName = '${fullName}', PhoneNo = '${phoneNo}', Buildin_House_Street_Floor = '${building_house_street_floor}', Colony_Submark_Locality_Landmark = '${colony_submark_locality_landmark}' , Province = '${province}', City = '${city}',Buyer_User_Id = ${buyer_user_id}, NickName = '${nickName}' where Id = ${id}`;
   con.query(getQuery, (err, result) => {
     if (err) {
-      // console.log("Error");
       res.send("Error");
     } else {
-      // console.log(result)
       res.send({
         message: "Address Details Updated",
         // data: result,
@@ -1215,7 +1170,6 @@ app.post("/deleteBuyerUserAddressData", (req, res) => {
   let getQuery = `Update buyer_address SET Status = ${0} where Id = ${buyer_address_id} AND Buyer_User_Id = ${buyer_user_id}`;
   con.query(getQuery, (err, result) => {
     if (err) {
-      console.log(err);
     } else {
       res.send({
         message: "Address Details Deleted",
@@ -1239,15 +1193,11 @@ app.get("/myReturns/:Id", (req, res) => {
 
 app.get("/trackOrder/:Id", (req, res) => {
   let id = req.params.Id;
-  // console.log('hello')
-  // console.log(id)
   let getQuery = `Select * from buyer_user_orders where Buyer_User_Id = ${id}`;
   con.query(getQuery, (err, result) => {
     if (err) {
-      // console.log("Error");
       res.send("Error");
     } else {
-      // console.log(result)
       res.send({
         data: result,
       });
@@ -1297,7 +1247,6 @@ app.post("/saveOrderDetail", (req, res) => {
     prdId = items["selectedPrdId"];
     quantity = items["selectedPrdQuantity"];
     prdStockId = items["selectedPrdStockId"];
-    console.log("arrr ", orderId, prdStockId, items["selectedPrdStockId"])
 
     postQuery ="INSERT INTO `orderdetail` (`Quantity`, `Order_Id`, `Product_Id`, `ProductStock_Id`) VALUES ('" +quantity+"','"+orderId+"','"+prdId+"','"+prdStockId+"')";
     con.query(postQuery, (err, result) => {
@@ -1334,7 +1283,6 @@ app.post("/adminSignInValid", (req, res) => {
   con.query(getQuery, (err, userResult) => {
     if(err)
     {
-      console.log("eeeerrrrr  ",err);
     }
     if(userResult.length == 0) 
     {
@@ -1497,7 +1445,6 @@ app.post("/getAdminRevenueByDate", (req, res) => {
   enDate = year + ":" + month + ":" + date;
   let getQuery ="SELECT SUM(((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity)*0.05) As AdminRevenue FROM orderdetail od, product_stock ps, `order` o WHERE ps.Id = od.ProductStock_Id AND o.Id = od.Order_Id AND o.Date >= '"+stDate+"' AND o.Date <= '"+enDate+"'";
   con.query(getQuery, (err, result) => {
-    console.log("admi datw ",result);
     if(err) 
     {
       res.send
@@ -1516,7 +1463,7 @@ app.post("/getAdminRevenueByDate", (req, res) => {
 });
 
 app.get("/getSellerData", (req, res) => {
-  let getQuery = "SELECT su.FirstName, su.LastName, su.Email, SUM(od.Quantity) As TotalQuantitySale, SUM((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity) As SaleOfSeller, su.JoiningDate FROM seller_user su, product p, orderdetail od, product_stock ps WHERE su.Id = p.Seller_Id AND od.Product_Id = p.Id AND ps.Id = od.ProductStock_Id ORDER BY SUM((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity)";
+  let getQuery = "SELECT su.FirstName, su.LastName, su.Email, su.JoiningDate, SUM(ps.TotalQuantityForSale-ps.Quantity) As TotalQuantitySale, SUM((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(ps.TotalQuantityForSale-ps.Quantity)) As SaleOfSeller, SUM(((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*(ps.TotalQuantityForSale-ps.Quantity))*0.05) As GenerateRevenue  FROM seller_user su, product p, product_stock ps WHERE su.Id = p.Seller_Id AND p.Id = ps.Product_Id GROUP BY su.FirstName, su.LastName, su.Email, su.JoiningDate ORDER BY SaleOfSeller DESC";
   con.query(getQuery, (err, result) => {
     if (err) 
     {
@@ -1536,8 +1483,7 @@ app.get("/getSellerData", (req, res) => {
 });
 
 app.get("/getBuyerData", (req, res) => {
-  console.log("get buyeyeyey ");
-  let getQuery = "SELECT bu.FullName, bu.Email, SUM(od.Quantity) As TotalQuantityBuy, SUM((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity) As SaleOfBuyer, bu.JoiningDate FROM buyer_user bu, `order` o, orderdetail od, product_stock ps WHERE bu.Id = o.Buyer_Id AND o.Id = od.Order_Id AND ps.Id = od.ProductStock_Id ORDER By SUM((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity)";
+  let getQuery = "SELECT bu.FullName, bu.Email, bu.JoiningDate, SUM(od.Quantity) As TotalQuantityBuy, SUM((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity) As ExpenditureOfBuyer FROM buyer_user bu, `order` o, orderdetail od, product_stock ps WHERE bu.Id = o.Buyer_Id AND o.Id = od.Order_Id AND ps.Id = od.ProductStock_Id GROUP BY  bu.FullName, bu.Email, bu.JoiningDate ORDER By SUM((ps.SellPrice-(ps.SellPrice*ps.Discount/100))*od.Quantity) DESC";
   con.query(getQuery, (err, result) => {
     if (err) 
     {

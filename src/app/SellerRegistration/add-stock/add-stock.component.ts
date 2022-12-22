@@ -96,11 +96,10 @@ export class AddStockComponent implements OnInit {
 
   async addProduct() {
     let fname = this.selectedFile.name;
-    console.log("dddd ",fname.split(".").pop())
     if(fname.split(".").pop() == "jpeg" || fname.split(".").pop() == "png" || fname.split(".").pop() == "jpg")
     {
-      this.submitProductButton = 'Saving...';
-      this.submitProductButtonProperty = false;
+      // this.submitProductButton = 'Saving...';
+      // this.submitProductButtonProperty = false;
       let response;
       let prdName = this.pstockForm.value.pname;
       let prdDescription = this.pstockForm.value.description;

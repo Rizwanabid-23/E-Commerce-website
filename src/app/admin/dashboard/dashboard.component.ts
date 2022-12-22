@@ -334,7 +334,6 @@ export class DashboardComponent implements OnInit {
 
   checkValidSubCategory()
   {
-    console.log("inn    ");
     this.showMsgInSubCategoryModal = '';
     let response = null;
     this.service.checkValidSubCategory(this.addSubCategoryForm.value).subscribe(res => {

@@ -370,31 +370,31 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <!-- <ng-container *ngIf="this.saleData"> -->
-                                        <table class="table table-borderless table-thead-border">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Total Sale(Rs)</th>
-                                                    <th>Sale Quantity</th>
-                                                    <th>Joining Date</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody *ngFor="let seler of sellerData">
-                                                <tr>
-            
-                                                    <td>{{seler.FirstName+' '+seler.LastName}}</td>
-                                                    <td>{{seler.Email}}</td>
-                                                    <td>{{seler.SaleOfSeller}}</td>
-                                                    <td>{{seler.TotalQuantitySale}}</td>
-                                                    <td>{{seler.JoiningDate  | date:'dd-MM-yyyy'}}</td>
-                                                    <td>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    <!-- </ng-container> -->
+                                    <table class="table table-borderless table-thead-border">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Total Sale(Rs)</th>
+                                                <th>Generate Revenue</th>
+                                                <th>Sale Quantity</th>
+                                                <th>Joining Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let seler of sellerData">
+                                            <tr>
+        
+                                                <td>{{seler.FirstName+' '+seler.LastName}}</td>
+                                                <td>{{seler.Email}}</td>
+                                                <td>{{seler.SaleOfSeller    | number:'1.0-0'}}</td>
+                                                <td>{{seler.GenerateRevenue   | number:'1.0-0'}}</td>
+                                                <td>{{seler.TotalQuantitySale}}</td>
+                                                <td>{{seler.JoiningDate  | date:'dd-MM-yyyy'}}</td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -424,7 +424,7 @@
                                                 <tr>
                                                     <td>{{ber.FullName}}</td>
                                                     <td>{{ber.Email}}</td>
-                                                    <td>{{ber.SaleOfBuyer}}</td>
+                                                    <td>{{ber.ExpenditureOfBuyer}}</td>
                                                     <td>{{ber.TotalQuantityBuy}}</td>
                                                     <td>{{ber.JoiningDate  | date:'dd-MM-yyyy'}}</td>
                                                     <td>

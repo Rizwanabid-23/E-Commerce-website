@@ -258,7 +258,6 @@ export class SellerDashboardComponent implements OnInit {
   //   let product = null;
   //   this.service.productRemainingByDate(dates, sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
   //     product = res.data;
-  //     console.log("remememem ", product);
   //     if(product[0].ReamainingQuantity == null)
   //     {
   //       this.remainingProductQty = 0;
@@ -449,7 +448,6 @@ export class SellerDashboardComponent implements OnInit {
   }
 
   async updateRecent(insertStockId, insertedPrdId) {
-    console.log("updatetet");
     let response = null;
     let data = {
       "pId":insertedPrdId,
@@ -498,13 +496,11 @@ export class SellerDashboardComponent implements OnInit {
 
   // cliclOnCancelButtonInModal()
   // {
-  //   console.log("cliclOnCancelButton");
   //   this.closeConfimationMessageModal();
   // }
 
   // clickOnOkButtonInModal()
   // {
-  //   console.log("clickOnOkButton");
   //   let response = null;
   //   let formData = new FormData()
   //   formData.append('prdId', this.selectedProductForDelete);
@@ -576,7 +572,6 @@ export class SellerDashboardComponent implements OnInit {
     this.allEntriesRight = true;
     await this.service.checkProductStock(this.addUpdateProductForm.value).subscribe(res => {
       this.readData = res.data;
-      console.log("response  ", this.readData);
       if (this.readData == null) {
         this.updateProduct();
       }
