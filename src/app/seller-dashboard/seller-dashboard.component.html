@@ -237,22 +237,8 @@
                             <div class="card card-default">
                                 <div class="card-header">
                                     <h2>Products Inventory</h2>
-                                    <div class="dropdown">
-
                                         <a (click)="openAddStockPage()" class="btn btn-primary btn-pill"
                                             style="color: black;">Add Product</a>
-                                        <!-- <a class="dropdown-toggle" href="" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Yearly
-                                            Chart
-                                        </a> -->
-
-                                        <div class="dropdown-menu dropdown-menu-right"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div style="height: 295px; overflow: auto">
@@ -263,35 +249,31 @@
                                                     <tr>
                                                         <th></th>
                                                         <th>Product Name</th>
-                                                        <!-- <th>ID</th> -->
-                                                        <th>Qty</th>
+                                                        <th>Qty In Stock</th>
                                                         <th>Buy Price</th>
                                                         <th>Sell Price</th>
-                                                        <th>Profit</th>
                                                         <th>Description</th>
                                                         <th>Adding Date</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody *ngFor="let prd of prdData">
-                                                    <tr>
+                                                    <tr >
                                                         <td class="py-0">
                                                             <img src="http://localhost:3000/{{prd.Picture}}"
                                                                 style="height: 60px;width: 50px;margin-top: 8px;"
                                                                 alt="Image">
                                                         </td>
                                                         <td>{{prd.Name}}</td>
-                                                        <!-- <td>{{prd.Id}}</td> -->
                                                         <td>{{prd.Quantity}}</td>
                                                         <td>{{prd.BuyPrice}}</td>
                                                         <td>{{prd.SellPrice}}</td>
-                                                        <td>{{prd.Profit}}</td>
                                                         <td>{{prd.Description}}</td>
                                                         <td>{{prd.AddStockDate   | date:'dd-MM-yyyy'}}</td>
                                                         <td>
                                                             <div class="row">
                                                                 <div class="col-md-4">
-                                                                    <button class="bi bi-pencil-square" (click)="updateProduct(prd.Id, prd.Quantity, prd.Name)"></button>
+                                                                    <button class="bi bi-pencil-square" (click)="openUpdateProductModal(prd.Id)"></button>
                                                                     </div>
                                                                 <div class="col-md-4">
                                                                     <button class="bi bi-trash" (click)="deleteProduct(prd.Id)"></button>
@@ -310,114 +292,85 @@
                     <br>
                     <br>
                     <div class="row">
-                        <div class="col-xl-4">
-                            <!-- Top Customers -->
-                            <div class="card card-default">
-                                <div class="card-header">
-                                    <h2>Top Customers</h2>
-                                </div>
-                                <div class="card-body">
-                                    <!-- <ng-container *ngIf="this.saleData"> -->
-                                        <table class="table table-borderless table-thead-border">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>ID</th>
-                                                    <th>Products Bought</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody *ngFor="let buyer of buyerData">
-                                                <td></td>
-
-                                            </tbody>
-                                            <!-- <tfoot class="border-top">
-                                                <tr>
-                                                    <td><a href="#" class="text-uppercase">See All</a></td>
-                                                </tr>
-                                            </tfoot> -->
-                                        </table>
-                                    <!-- </ng-container> -->
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-xl-8">
+                        <div class="col-xl-12">
                             <div class="card card-default">
                                 <div class="card-header align-items-center">
                                     <h2 class="">Sales by Product</h2>
                                     <a class="btn btn-primary btn-pill" (click)="openAddStockModal()"
                                         style="color: black;">Add Stock</a>
                                 </div>
-                                <!-- Add Stock Modal -->
-                                <div class="modal fade" id="addStockModal" tabindex="-1" role="dialog"
+                                <div class="card-body">
+                                    <ng-container *ngIf="this.prdData">
+                                        <table class="table table-borderless table-thead-border">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Name</th>
+                                                    <th>Quantity Sale</th>
+                                                    <th>Profit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngFor="let prd of prdData">
+                                                <tr>
+                                                    <td class="py-0">
+                                                        <img src="http://localhost:3000/{{prd.Picture}}"
+                                                            style="height: 60px;width: 50px;margin-top: 8px;"
+                                                            alt="Image">
+                                                    </td>
+                                                    <td>{{prd.Name}}</td>
+                                                    <td>{{prd.SaleQuantity}}</td>
+                                                    <td>{{prd.Profit}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </ng-container>
+                                </div>
+
+
+
+
+
+
+
+                                <!-- Update Product Modal -->
+                                <div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle">Add Stock</h5>
-                                                <button type="button" class="close" (click)="closeAddStockModal()"
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Update Product</h5>
+                                                <button type="button" class="close" (click)="closeUpdateProductModal()"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form [formGroup]="addStockForm" (ngSubmit)="saveProductStock()"
+                                                <form [formGroup]="addUpdateProductForm" (ngSubmit)="checkProduct()"
                                                     ngNativeValidate>
                                                     <div class="row">
                                                         <div class="col-lg-12 ">
                                                             <div class="row mx-2 mt-2"
                                                                 style="background-color: whitesmoke;">
                                                                 <div class="mb-3">
-                                                                    <div *ngIf="showMsg" class="alert alert-success">
-                                                                        <strong>{{showMsg}}</strong>
+                                                                    <div *ngIf="showMsgInUpdateProductModal" class="alert alert-danger">
+                                                                        <strong>{{showMsgInUpdateProductModal}}</strong>
                                                                     </div>
                                                                 </div>
+            
                                                                 <div class="mb-3">
-                                                                    <label for="validationCity"
-                                                                        class="form-label">Select Product</label>
-                                                                    <select class="form-select" formControlName="prdId"
-                                                                        id="validationCity" required>
-                                                                        <!-- <option selected>Select City</option> -->
-                                                                        <option [value]="prd.Id"
-                                                                            *ngFor="let prd of prdData">{{prd.Name}}
-                                                                        </option>
-                                                                    </select>
-                                                                    <div class="invalid-feedback">
-                                                                        Please select a valid state.
-                                                                    </div>
+                                                                    <label for="formGroupExampleInputup"
+                                                                        class="form-label">Updated Name</label>
+                                                                    <input type="text" class="form-control"
+                                                                        formControlName="prdUpdatedName"
+                                                                        id="formGroupExampleInputup" required>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="formGroupExampleInputBp"
-                                                                        class="form-label">Buy Price</label>
-                                                                    <input type="number" class="form-control"
-                                                                        formControlName="prdBuyPrice"
-                                                                        id="formGroupExampleInputBp"
-                                                                        placeholder="Enter Product Quantity" required>
+                                                                    <label class="label inputBoxHeadingColor" for="exampleInputDescription">Updated Description</label>
+                                                                    <textarea type="description" class="form-control w-100" id="exampleInputDescription" row="2" formControlName="updatedDdescription" maxlength="300"
+                                                                        required></textarea>
                                                                 </div>
-                                                                <div class="mb-3">
-                                                                    <label for="formGroupExampleInputSp"
-                                                                        class="form-label">Sell Price</label>
-                                                                    <input type="number" class="form-control"
-                                                                        formControlName="prdSellPrice"
-                                                                        id="formGroupExampleInputSp"
-                                                                        placeholder="Enter Product Quantity" required>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="formGroupExampleInputQt"
-                                                                        class="form-label">Quantity</label>
-                                                                    <input type="number" class="form-control"
-                                                                        formControlName="prdQuantity"
-                                                                        id="formGroupExampleInputQt"
-                                                                        placeholder="Enter Product Quantity" required>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="formGroupExampleInputD"
-                                                                        class="form-label">Discount</label>
-                                                                    <input type="number" class="form-control"
-                                                                        formControlName="prdDiscount"
-                                                                        id="formGroupExampleInputD"
-                                                                        placeholder="Enter Product Quantity" required>
-                                                                </div>
+
                                                             </div>
                                                             <div class="row mx-2 mb-3"
                                                                 style="background-color: whitesmoke;">
@@ -436,44 +389,7 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="card-body">
-                                    <div class="tab-content">
-                                        <ng-container *ngIf="this.saleData">
-                                            <table id="product-sale" class="table table-product " style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Product Name</th>
-                                                        <th>Product ID</th>
-                                                        <th>Quantity</th>
-                                                        <th>%sold</th>
-                                                        <th class="th-width-250"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody *ngFor="let sale of saleData">
-
-                                                    <tr>
-                                                        <td>{{sale.productName}}</td>
-                                                        <!-- <td>{{sale.sellerID}}</td> -->
-                                                        <td>{{sale.productID}}</td>
-                                                        <td>{{sale.quantity}}</td>
-                                                        <td>{{sale.percentage}}</td>
-                                                        <td>
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-success progress-bar-striped"
-                                                                    role="progressbar" [ariaValueNow]="sale.percentage"
-                                                                    aria-valuemin="0" aria-valuemax="100"
-                                                                    [style.width.%]="sale.percentage">
-                                                                    {{sale.percentage}}%
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </ng-container>
-                                    </div>
-                                </div>
+                                <!-- Update product Modal ends  -->
                             </div>
                         </div>
                     </div>

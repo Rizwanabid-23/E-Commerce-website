@@ -426,7 +426,7 @@ app.get("/getProductByCategory/:id", (req, res) => {
 
 app.get("/getSellerProduct/:Id", (req, res) => {
   let sId = req.params.Id;
-  let getQuery ="Select product.Id, product.Name, product.Picture, product_stock.SellPrice, product_stock.BuyPrice, product_stock.Quantity, product_stock.AddStock As AddStockDate, product_stock.Discount, product.Description, (SELECT SUM(((ps.SellPrice-(ps.SellPrice*ps.Discount/100))-(ps.BuyPrice))*(ps.TotalQuantityForSale-ps.Quantity)) From product_stock ps WHERE ps.Product_Id = product.Id) As Profit From product,product_stock Where product_stock.Product_Id = product.Id And product.Status = 1 And product_stock.Id = (SELECT MAX(product_stock.Id) As StockId FROM product_stock WHERE product_stock.Product_Id = product.Id ) And product.Seller_Id = '"+sId+"'";
+  let getQuery ="Select product.Id, product.Name, product.Picture, product_stock.SellPrice, product_stock.BuyPrice, product_stock.Quantity, product_stock.AddStock As AddStockDate, product_stock.Discount, product.Description, (SELECT SUM(((ps.SellPrice-(ps.SellPrice*ps.Discount/100))-(ps.BuyPrice))*(ps.TotalQuantityForSale-ps.Quantity)) From product_stock ps WHERE ps.Product_Id = product.Id) As Profit,(SELECT SUM(ps.TotalQuantityForSale-ps.Quantity) From product_stock ps WHERE ps.Product_Id = product.Id) As SaleQuantity  From product,product_stock Where product_stock.Product_Id = product.Id And product.Status = 1 And product_stock.Id = (SELECT MAX(product_stock.Id) As StockId FROM product_stock WHERE product_stock.Product_Id = product.Id ) And product.Seller_Id = '"+sId+"'";
   con.query(getQuery, (err, result) => {
     if (err) {
       res.send({
@@ -907,7 +907,7 @@ app.get("/getBuyerAddress/:buyerId", (req, res) => {
 
 app.post("/addProductValid", (req, res) => {
   let pname = req.body.pname;
-  let postQuery = "SELECT Name from product WHERE Name='" + pname + "' ";
+  let postQuery = "SELECT Name from product WHERE Name='" + pname + "' And Status = 1 ";
   con.query(postQuery, (err, result) => {
     if (err) {
       res.send({
@@ -915,15 +915,18 @@ app.post("/addProductValid", (req, res) => {
         data: null,
       });
     } else {
-      if (result.length != 0) {
-        res.send({
-          message: "Duplicate Name",
-          data: result,
-        });
-      } else {
+      if (result.length == 0) {
+        console.log("null ", result);
         res.send({
           message: "Not Found Same Name Product",
           data: null,
+        });
+      } else 
+      {
+        console.log("not null ", result);
+        res.send({
+          message: "Duplicate Name",
+          data: result,
         });
       }
     }
@@ -1018,11 +1021,61 @@ app.post("/updateRecentaddStock", (req, res) => {
 
 app.post("/deleteSelectedProduct", (req, res) => {
   let deletePrdId = req.body.prdId;
-  console.log("del id ", deletePrdId);
   let postQuery =
     "UPDATE `product` SET Status = 0 WHERE Id = '" + deletePrdId + "'";
   con.query(postQuery, (err, result) => {
     if (err) {
+      res.send({
+        message: "Data Not updated",
+        data: null,
+      });
+    } else {
+      res.send({
+        message: "Data Updated",
+        data: result,
+      });
+    }
+  });
+});
+
+app.post("/addUpdateProductValid", (req, res) => {
+  let pname = req.body.prdUpdatedName;
+  let postQuery = "SELECT Name from product WHERE Name='" + pname + "' And Status = 1 ";
+  con.query(postQuery, (err, result) => {
+    if (err) {
+      res.send({
+        message: "Erro Found",
+        data: null,
+      });
+    } else {
+      if (result.length == 0) {
+        console.log("null ", result);
+        res.send({
+          message: "Not Found Same Name Product",
+          data: null,
+        });
+      } else 
+      {
+        console.log("not null ", result);
+        res.send({
+          message: "Duplicate Name",
+          data: result,
+        });
+      }
+    }
+  });
+});
+
+
+app.post("/updateSelectedProduct/:selectedId", (req, res) => {
+  let selectedPrdId = req.params.selectedId;
+  let newName = req.body.prdUpdatedName;
+  let newDescription = req.body.updatedDdescription;
+  console.log("prr r  r ", selectedPrdId);
+  let postQuery ="UPDATE `product` SET Name = '"+newName+"', Description = '"+newDescription+"' WHERE Id = '"+selectedPrdId+"'";
+  con.query(postQuery, (err, result) => {
+    if (err) {
+      console.log(err);
       res.send({
         message: "Data Not updated",
         data: null,

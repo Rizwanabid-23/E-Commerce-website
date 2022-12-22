@@ -17,16 +17,19 @@ export class SellerDashboardComponent implements OnInit {
 
   sellerName:any;
   prdData:any;
-  saleData:any
-
+  saleData:any;
+  selectedPrdInUpdatedModal:any;
+  readData:any;
   monthlyProfit:any
   addStockModal:any;
   buyerData:any
   confirmationMessageModal:any;
+  updateProductModal:any;
   showMessage:any;
   selectedProductForDelete:any;
   showMsg:any;
   showMsgInDashboard:any;
+  showMsgInUpdateProductModal:any;
   allEntriesRight:any;
   startDate:any;
   endDate:any;
@@ -65,6 +68,9 @@ export class SellerDashboardComponent implements OnInit {
     );
     this.confirmationMessageModal = new window.bootstrap.Modal(
       document.getElementById("showMessageModal")
+    );
+    this.updateProductModal = new window.bootstrap.Modal(
+      document.getElementById("updateProductModal")
     );
   }
 
@@ -322,7 +328,6 @@ export class SellerDashboardComponent implements OnInit {
     let profit = null;
     this.service.totalProfit(sessionStorage.getItem('sellerLoginId')).subscribe((res)=>{
       profit = res.data;
-      console.log("profitt  ");
       if(profit[0].Profit == null)
       {
         this.profit = 0;
@@ -544,9 +549,58 @@ export class SellerDashboardComponent implements OnInit {
     });
   }
 
-  updateProduct(prdId)
+
+// For update product start from here
+  ////////////////////////////////////
+  ////////////////////////////////////
+  openUpdateProductModal(selectedPrdId)
   {
-    this.ap.navigateOnNextPage = "SellerDashboard";
+    this.selectedPrdInUpdatedModal = selectedPrdId;
+    this.updateProductModal.show();
+  }
+  closeUpdateProductModal()
+  {
+    this.updateProductModal.hide();
+  }
+
+  addUpdateProductForm = new FormGroup({
+    'prdUpdatedName': new FormControl('', Validators.required),
+    'updatedDdescription': new FormControl('', Validators.required),
+  })
+
+  // For add Stock codeEnds Start from here 
+  ////////////////////////////////////
+  ////////////////////////////////////
+  async checkProduct(){
+    this.showMsgInUpdateProductModal = '';
+    this.allEntriesRight = true;
+    await this.service.checkProductStock(this.addUpdateProductForm.value).subscribe(res => {
+      this.readData = res.data;
+      console.log("response  ", this.readData);
+      if (this.readData == null) {
+        this.updateProduct();
+      }
+      else {
+        this.showMsgInUpdateProductModal = 'Same name Product Already Exist in Stock';
+      }
+
+    });
+
+  }
+  async updateProduct()
+  {
+    let response = null;
+    await this.service.updateSelectedProduct(this.selectedPrdInUpdatedModal, this.addUpdateProductForm.value).subscribe(res => {
+      response = res.data;
+      if(response != null)
+      {
+        this.closeUpdateProductModal();
+        this.ap.showTextInMessageModal = "Product Successfully Update";
+        this.ap.navigateOnNextPage = "SellerDashboard";
+        this.ap.goMessageModalPage();
+        this.addUpdateProductForm.reset();
+      }
+    });
   }
 
 }

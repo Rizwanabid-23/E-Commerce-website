@@ -145,4 +145,12 @@ export class ProductApiService {
   {
     return this._http.post("http://localhost:3000/deleteSelectedProduct/",data)
   }
+  checkProductStock(userData: any): Observable<any>
+  {
+    return this._http.post('http://localhost:3000/addUpdateProductValid', userData);
+  }
+  updateSelectedProduct(selectedId, data):Observable<any>
+  {
+    return this._http.post("http://localhost:3000/updateSelectedProduct/"+selectedId,data)
+  }
 }
